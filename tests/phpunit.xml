@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit>
+	<testsuites>
+		<testsuite name="InputStreamTest">
+			<file>stream-tests/FileInputStreamTest.php</file>
+			<file>stream-tests/FileOutputStreamTest.php</file>
+			<file>stream-tests/MemoryStreamTest.php</file>
+		</testsuite>
+	</testsuites>
+</phpunit>

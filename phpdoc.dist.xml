@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpdocumentor>
+	<title><![CDATA[PHP Generics API Documentation]]></title>
+    <transformations>
+        <template name="responsive-twig"/>
+		<target>docs</target>
+    </transformations>
+    <files>
+    	<directory>Generics</directory>
+    </files>
+</phpdocumentor>
