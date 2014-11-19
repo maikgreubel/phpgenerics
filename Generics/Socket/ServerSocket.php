@@ -10,7 +10,17 @@ namespace Generics\Socket;
 /**
  * Import dependencies
  */
+require_once 'Generics/Socket/Endpoint.php';
 require_once 'Generics/Socket/Socket.php';
+require_once 'Generics/Socket/ClientSocket.php';
+require_once 'Generics/Socket/ServiceCallback.php';
+require_once 'Generics/Socket/SocketException.php';
+
+use Generics\Socket\Endpoint;
+use Generics\Socket\Socket;
+use Generics\Socket\ClientSocket;
+use Generics\Socket\ServiceCallback;
+use Generics\Socket\SocketException;
 
 /**
  * This class provides a basic client socket implementation
@@ -42,13 +52,15 @@ class ServerSocket extends Socket
    *
    * @throws SocketException in case of it is not possible to serve due to binding or listening error
    */
-  public function serve()
+  public function serve(ServiceCallback $callback)
   {
     $this->bind ();
     
     $this->listen ();
     
-    while ( true )
+    $runOn = true;
+    
+    while ( $runOn )
     {
       $clientHandle = @socket_accept ( $this->handle );
       
@@ -64,7 +76,9 @@ class ServerSocket extends Socket
         throw new SocketException ( socket_strerror ( $code ), $code );
       }
       
-      $client = ClientSocket ( new Endpoint ( $address, $port ), $clientHandle );
+      $client = new ClientSocket( new Endpoint ( $address, $port ), $clientHandle );
+      
+      $runOn = boolval( $callback->callback( $client ) );
     }
   }
   

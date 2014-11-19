@@ -44,7 +44,13 @@ abstract class Socket implements SocketStream
   public function __construct(Endpoint $endpoint)
   {
     $this->endpoint = $endpoint;
-    $this->handle = socket_create ( AF_INET, SOCK_STREAM, SOL_TCP );
+    $this->handle = @socket_create ( AF_INET, SOCK_STREAM, SOL_TCP );
+    
+    if (! is_resource ( $this->handle ))
+    {
+      $code = socket_last_error ();
+      throw new SocketException ( socket_strerror ( $code ), $code );
+    }
   }
   
   /**
@@ -56,7 +62,7 @@ abstract class Socket implements SocketStream
   {
     if (is_resource ( $this->handle ))
     {
-      socket_close ( $this->handle );
+      @socket_close ( $this->handle );
       $this->handle = null;
     }
   }
@@ -88,11 +94,23 @@ abstract class Socket implements SocketStream
    */
   public function read($length = 1)
   {
-    if (($buf = socket_read ( $this->handle, $length )) === false)
+    $buf = null;
+    
+    if (($buf = @socket_read ( $this->handle, $length )) === false)
     {
+      $buf = null;
       $code = socket_last_error ();
-      throw new SocketException ( socket_strerror ( $code ), $code );
+      if ($code != 10053)
+      {
+        throw new SocketException ( socket_strerror ( $code ), $code );
+      }
+      else
+      {
+        $this->handle = null;
+      }
     }
+    
+    return $buf;
   }
   
   /**
@@ -102,15 +120,25 @@ abstract class Socket implements SocketStream
    */
   public function write($buffer)
   {
-    if (($written = socket_write ( $this->handle, $buffer )) === false)
+    if (($written = @socket_write ( $this->handle, "{$buffer}\0" )) === false)
     {
       $code = socket_last_error ();
       throw new SocketException ( socket_strerror ( $code ), $code );
     }
     
-    if ($written != strlen ( $buffer ))
+    if ($written != strlen ( $buffer ) + 1)
     {
-      throw new SocketException ( "Could not write all bytes to socket" );
+      throw new SocketException ( sprintf ( "Could not write all %d bytes to socket (%d written)", strlen ( $buffer ), $written ) );
     }
+  }
+  
+  /**
+   * Get the socket endpoint
+   *
+   * @return \Generics\Socket\Endpoint
+   */
+  public function getEndpoint()
+  {
+    return $this->endpoint;
   }
 }
