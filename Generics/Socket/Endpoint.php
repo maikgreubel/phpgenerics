@@ -33,13 +33,13 @@ class Endpoint
    */
   public function __construct($address, $port)
   {
-    $this->address = strval($address);
-    $this->port = intval($port);
+    $this->address = strval ( $address );
+    $this->port = intval ( $port );
   }
   
   /**
    * Retrieve the address of the endpoint
-   * 
+   *
    * @return string The address
    */
   public function getAddress()
@@ -49,7 +49,7 @@ class Endpoint
   
   /**
    * Retrieve the port of the endpoint
-   * 
+   *
    * @return int The port
    */
   public function getPort()

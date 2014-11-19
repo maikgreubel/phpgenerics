@@ -71,7 +71,7 @@ class FileOutputStream implements OutputStream
   
   /**
    * (non-PHPdoc)
-   * 
+   *
    * @see \Generics\Streams\Stream::ready()
    */
   public function ready()
@@ -81,7 +81,7 @@ class FileOutputStream implements OutputStream
   
   /**
    * (non-PHPdoc)
-   * 
+   *
    * @see \Generics\Streams\OutputStream::write()
    */
   public function write($buffer)
@@ -113,7 +113,7 @@ class FileOutputStream implements OutputStream
   
   /**
    * (non-PHPdoc)
-   * 
+   *
    * @see \Generics\Streams\Stream::close()
    */
   public function close()
@@ -127,7 +127,7 @@ class FileOutputStream implements OutputStream
   
   /**
    * (non-PHPdoc)
-   * 
+   *
    * @see \Countable::count()
    */
   public function count()

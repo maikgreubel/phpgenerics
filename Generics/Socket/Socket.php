@@ -30,14 +30,14 @@ abstract class Socket implements SocketStream
   
   /**
    * The socket endpoint
-   * 
+   *
    * @var Endpoint
    */
   protected $endpoint;
   
   /**
    * Create a new socket
-   * 
+   *
    * @param Endpoint $endpoint
    *          The endpoint for the socket
    */
@@ -73,7 +73,7 @@ abstract class Socket implements SocketStream
   
   /**
    * (non-PHPdoc)
-   * 
+   *
    * @see \Countable::count()
    */
   public function count()
@@ -83,7 +83,7 @@ abstract class Socket implements SocketStream
   
   /**
    * (non-PHPdoc)
-   * 
+   *
    * @see \Generics\Streams\InputStream::read()
    */
   public function read($length = 1)
@@ -97,7 +97,7 @@ abstract class Socket implements SocketStream
   
   /**
    * (non-PHPdoc)
-   * 
+   *
    * @see \Generics\Streams\OutputStream::write()
    */
   public function write($buffer)

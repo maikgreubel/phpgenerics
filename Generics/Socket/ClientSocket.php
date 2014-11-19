@@ -20,17 +20,37 @@ require_once 'Generics/Socket/Socket.php';
 class ClientSocket extends Socket
 {
   /**
+   * Create a new client socket
+   *
+   * @param Endpoint $endpoint
+   *          The endpoint to use
+   * @param resource $clientHandle
+   *          optional existing client handle
+   */
+  public function __construct(Endpoint $endpoint, $clientHandle = null)
+  {
+    if (! is_resource ( $clientHandle ))
+    {
+      parent::__construct ( $endpoint );
+    }
+    else
+    {
+      $this->endpoint = $endpoint;
+      $this->handle = $clientHandle;
+    }
+  }
+  
+  /**
    * Connect to remote endpoint
    *
    * @throws SocketException
    */
   public function connect()
   {
-    if (! @socket_connect ( $this->handle, $this->endpoint->getAddress(), $this->endpoint->getPort() ))
+    if (! @socket_connect ( $this->handle, $this->endpoint->getAddress (), $this->endpoint->getPort () ))
     {
       $code = socket_last_error ( $this->handle );
-      throw new SocketException ( socket_strerror($code), $code );
+      throw new SocketException ( socket_strerror ( $code ), $code );
     }
   }
-  
 }

@@ -21,7 +21,8 @@ class SocketException extends \Exception
    *
    * @param string $message
    *          The message to throw
-   * @param int code
+   * @param
+   *          int code
    *          The code
    */
   public function __construct($message, $code = 0)

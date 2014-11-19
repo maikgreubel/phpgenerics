@@ -24,7 +24,7 @@ interface Stream extends Countable
   
   /**
    * Checks whether stream is ready for action.
-   * 
+   *
    * @return boolean
    */
   public function ready();
