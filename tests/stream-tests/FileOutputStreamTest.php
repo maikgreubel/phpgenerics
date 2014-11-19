@@ -5,6 +5,7 @@ require_once 'Generics/FileExistsException.php';
 
 use Generics\Streams\FileOutputStream;
 use Generics\Streams\FileInputStream;
+use Generics\Streams\MemoryStream;
 
 class FileOutputStreamTest extends PHPUnit_Framework_TestCase
 {
@@ -73,5 +74,29 @@ class FileOutputStreamTest extends PHPUnit_Framework_TestCase
     $fis->close();
     $fos->close();
     
+  }
+  
+  public function testWriteFromInputStream()
+  {
+    $ms = new MemoryStream();
+    $ms->write($this->testData);
+    
+    unlink($this->testFile);
+    
+    $fos = new FileOutputStream($this->testFile, false);
+    $fos->write($ms);
+    
+    $fos->close();
+    
+    $fis = new FileInputStream($this->testFile);
+    $this->assertEquals($ms->count(), $fis->count());
+    
+    $in = "";
+    while($fis->ready())
+    {
+      $in = $fis->read(1024);
+    }
+    
+    $this->assertEquals($this->testData, $in);
   }
 }

@@ -1,10 +1,10 @@
 <?php
+
 /**
  * This file is part of the PHP Generics package.
  *
  * @package Generics
  */
-
 namespace Generics;
 
 /**
@@ -19,7 +19,8 @@ class FileNotFoundException extends \Exception
   /**
    * Create a new FileNotFoundException
    *
-   * @param string $message The message to throw
+   * @param string $message
+   *          The message to throw
    */
   public function __construct($message)
   {

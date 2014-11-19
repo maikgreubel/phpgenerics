@@ -1,10 +1,10 @@
 <?php
+
 /**
  * This file is part of the PHP Generics package.
  *
  * @package Generics
  */
-
 namespace Generics\Streams;
 
 /**
@@ -18,8 +18,9 @@ class StreamException extends \Exception
 {
   /**
    * Create a new StreamException
-   * 
-   * @param string $message The message to throw
+   *
+   * @param string $message
+   *          The message to throw
    */
   public function __construct($message)
   {

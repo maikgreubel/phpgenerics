@@ -11,7 +11,7 @@ class FileInputStreamTest extends PHPUnit_Framework_TestCase
   {
     $fis = new FileInputStream('tests/sample.dat');
 
-    $this->assertEquals(strlen($this->testData), $fis->size());
+    $this->assertEquals(strlen($this->testData), $fis->count());
     
     $in = "";
     

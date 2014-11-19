@@ -1,10 +1,10 @@
 <?php
+
 /**
  * This file is part of the PHP Generics package.
  * 
  * @package Generics
  */
-
 namespace Generics\Streams;
 
 /**
@@ -19,23 +19,25 @@ use Generics\NoAccessException;
 
 /**
  * This class provides a file output stream.
- * 
+ *
  * @author Maik
  */
 class FileOutputStream implements OutputStream
 {
   /**
    * The file handle
-   * 
+   *
    * @var resource
    */
   private $handle;
   
   /**
    * Create a new FileOutputStream
-   * 
-   * @param string $file The absolute (or relative) path to file to write into.
-   * @param boolean $append Whether to append the data to an existing file.
+   *
+   * @param string $file
+   *          The absolute (or relative) path to file to write into.
+   * @param boolean $append
+   *          Whether to append the data to an existing file.
    * @throws FileExistsException will be thrown in case of file exists and append is set to false.
    * @throws NoAccessException will be thrown in case of it is not possible to write to file.
    */
@@ -58,17 +60,18 @@ class FileOutputStream implements OutputStream
     }
     else
     {
-      if (! is_writable ( dirname( $file ) ))
+      if (! is_writable ( dirname ( $file ) ))
       {
         throw new NoAccessException ( "Cannot write to file $file" );
       }
     }
     
-    $this->handle = fopen($file, $mode);
+    $this->handle = fopen ( $file, $mode );
   }
   
   /**
    * (non-PHPdoc)
+   * 
    * @see \Generics\Streams\Stream::ready()
    */
   public function ready()
@@ -78,43 +81,62 @@ class FileOutputStream implements OutputStream
   
   /**
    * (non-PHPdoc)
+   * 
    * @see \Generics\Streams\OutputStream::write()
    */
   public function write($buffer)
   {
-    if(!$this->ready())
+    if (! $this->ready ())
     {
-      throw new StreamException("Stream is not open!");
+      throw new StreamException ( "Stream is not open!" );
     }
     
-    fwrite($this->handle, $buffer);
-    fflush($this->handle);
+    if ($buffer instanceof InputStream)
+    {
+      $in = clone $buffer;
+      assert ( $in instanceof InputStream );
+      while ( $in->ready () )
+      {
+        fwrite ( $this->handle, $in->read ( 1024 ) );
+      }
+    }
+    else
+    {
+      $buffer = strval ( $buffer );
+      if (fwrite ( $this->handle, $buffer ) != strlen ( $buffer ))
+      {
+        throw new StreamException ( "Could not write buffer into file" );
+      }
+      fflush ( $this->handle );
+    }
   }
   
   /**
    * (non-PHPdoc)
+   * 
    * @see \Generics\Streams\Stream::close()
    */
   public function close()
   {
-    if(is_resource($this->handle))
+    if (is_resource ( $this->handle ))
     {
-      fclose($this->handle);
+      fclose ( $this->handle );
       $this->handle = null;
     }
   }
   
   /**
    * (non-PHPdoc)
-   * @see \Generics\Streams\Stream::size()
+   * 
+   * @see \Countable::count()
    */
-  public function size()
+  public function count()
   {
-    if(!$this->ready())
+    if (! $this->ready ())
     {
-      throw new StreamException("Stream is not open!");
+      throw new StreamException ( "Stream is not open!" );
     }
     
-    return ftell($this->handle);
+    return ftell ( $this->handle );
   }
 }

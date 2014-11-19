@@ -15,7 +15,7 @@ class MemoryStreamTest extends PHPUnit_Framework_TestCase
     $ms = new MemoryStream();
     $ms->write($this->testData);
     
-    $this->assertEquals(strlen($this->testData), $ms->size());
+    $this->assertEquals(strlen($this->testData), $ms->count());
   }
   
   /**
@@ -52,7 +52,7 @@ class MemoryStreamTest extends PHPUnit_Framework_TestCase
     $this->assertEquals("{$this->testData}{$this->testData}", $out);
     
     
-    $this->assertEquals(strlen($this->testData) * 2, $ms->size());
+    $this->assertEquals(strlen($this->testData) * 2, $ms->count());
   }
   
   public function testMemoryFromInput()
@@ -63,7 +63,7 @@ class MemoryStreamTest extends PHPUnit_Framework_TestCase
     
     $ms = new MemoryStream($fis);
     
-    $this->assertEquals(strlen($in), $ms->size());
+    $this->assertEquals(strlen($in), $ms->count());
     
     $in2 = $ms->read(1024);
     

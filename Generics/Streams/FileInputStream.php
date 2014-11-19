@@ -1,39 +1,44 @@
 <?php
+
 /**
  * This file is part of the PHP Generics package.
  *
  * @package Generics
  */
-
 namespace Generics\Streams;
 
 /**
  * Import dependencies
  */
 require_once 'Generics/FileNotFoundException.php';
+
 require_once 'Generics/Streams/InputStream.php';
-require_once 'Generics/Streams/StreamException.php';    
+require_once 'Generics/Streams/StreamException.php';
+
+require_once 'Generics/Resettable.php';
 
 use \Generics\FileNotFoundException;
+use \Generics\Resettable;
 
 /**
  * This class provides an input stream for files.
- * 
+ *
  * @author Maik Greubel <greubel@nkey.de>
  */
-class FileInputStream implements InputStream
+class FileInputStream implements InputStream, Resettable
 {
   /**
    * The file handle
-   * 
+   *
    * @var resource
    */
   private $handle;
   
   /**
    * Create a new FileInputStream
-   * 
-   * @param string $file The absolute (or relative) path to the file to open
+   *
+   * @param string $file
+   *          The absolute (or relative) path to the file to open
    * @throws FileNotFoundException
    */
   public function __construct($file)
@@ -48,6 +53,7 @@ class FileInputStream implements InputStream
   
   /**
    * (non-PHPdoc)
+   *
    * @see \Generics\Streams\Stream::close()
    */
   public function close()
@@ -61,6 +67,7 @@ class FileInputStream implements InputStream
   
   /**
    * (non-PHPdoc)
+   *
    * @see \Generics\Streams\Stream::ready()
    */
   public function ready()
@@ -70,6 +77,7 @@ class FileInputStream implements InputStream
   
   /**
    * (non-PHPdoc)
+   *
    * @see \Generics\Streams\InputStream::read()
    */
   public function read($length = 1)
@@ -84,20 +92,22 @@ class FileInputStream implements InputStream
   
   /**
    * (non-PHPdoc)
-   * @see \Generics\Streams\Stream::size()
+   *
+   * @see \Countable::count()
    */
-  public function size()
+  public function count()
   {
-    $stat = fstat($this->handle);
-    return $stat['size'];
+    $stat = fstat ( $this->handle );
+    return $stat ['size'];
   }
   
   /**
    * (non-PHPdoc)
+   *
    * @see \Generics\Streams\InputStream::reset()
    */
   public function reset()
   {
-    fseek($this->handle, 0, SEEK_SET);
+    fseek ( $this->handle, 0, SEEK_SET );
   }
 }
