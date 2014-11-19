@@ -26,7 +26,7 @@ class ClientSocket extends Socket
    */
   public function connect()
   {
-    if (! socket_connect ( $this->handle, $this->endpoint->getAddress(), $this->endpoint->getPort() ))
+    if (! @socket_connect ( $this->handle, $this->endpoint->getAddress(), $this->endpoint->getPort() ))
     {
       $code = socket_last_error ( $this->handle );
       throw new SocketException ( socket_strerror($code), $code );
