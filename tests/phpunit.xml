@@ -10,5 +10,8 @@
 			<file>socket-tests/ClientSocketTest.php</file>
 			<file>socket-tests/ServerSocketTest.php</file>
 		</testsuite>
+		<testsuite>
+			<file>logger-tests/SimpleLoggerTest.php</file>
+		</testsuite>
 	</testsuites>
 </phpunit>
