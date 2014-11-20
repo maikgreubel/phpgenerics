@@ -7,6 +7,11 @@
  */
 namespace Generics\Socket;
 
+/**
+ * This class provides a data holder for a socket endpoint
+ * 
+ * @author Maik Greubel <greubel@nkey.de>
+ */
 class Endpoint
 {
   /**
@@ -55,5 +60,15 @@ class Endpoint
   public function getPort()
   {
     return $this->port;
+  }
+  
+  /**
+   * Retrieve the endpoint as string
+   * 
+   * @return string
+   */
+  public function __toString()
+  {
+    return sprintf("%s:%d", $this->address, $this->port);
   }
 }
