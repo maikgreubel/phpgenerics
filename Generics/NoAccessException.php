@@ -8,22 +8,17 @@
 namespace Generics;
 
 /**
+ * Import dependencies
+ */
+require_once 'Generics/GenericsException.php';
+
+/**
  * Derived exception
  *
  * Will be thrown whenever the access to a resource is prohibited.
  *
  * @author Maik Greubel <greubel@nkey.de>
  */
-class NoAccessException extends \Exception
+class NoAccessException extends GenericsException
 {
-  /**
-   * Create a new NoAccessException
-   *
-   * @param string $message
-   *          The message to throw
-   */
-  public function __construct($message)
-  {
-    parent::__construct ( $message, 0, null );
-  }
 }

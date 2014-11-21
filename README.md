@@ -3,7 +3,7 @@ PHP Generics
 
 The purpose of this package is to provide some classes for more sophisticated access to ressources. It can be used in any framework or application which intends to use abstract interfaces.
 
-Currently it provides a basic stream API. The intention is to extend it with more infrastructure code.
+Currently it provides a basic stream API, a socket provider and a logging infrastructure based on the PSR-3. The intention is to extend it with more infrastructure code.
 
 Usage
 --

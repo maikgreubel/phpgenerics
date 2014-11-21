@@ -35,6 +35,13 @@ class FileInputStream implements InputStream, Resettable
   private $handle;
   
   /**
+   * The absolute file path and name
+   *
+   * @var string
+   */
+  private $fileName;
+  
+  /**
    * Create a new FileInputStream
    *
    * @param string $file
@@ -45,10 +52,21 @@ class FileInputStream implements InputStream, Resettable
   {
     if (! file_exists ( $file ))
     {
-      throw new FileNotFoundException ( "File $file could not be found" );
+      throw new FileNotFoundException ( "File {file} could not be found", array (
+          'file' => $file 
+      ) );
     }
     
     $this->handle = fopen ( $file, "rb" );
+    
+    if (! $this->ready ())
+    {
+      throw new StreamException ( "Could not open {file} for reading", array (
+          'file' => $file 
+      ) );
+    }
+    
+    $this->fileName = $file;
   }
   
   /**
@@ -109,5 +127,15 @@ class FileInputStream implements InputStream, Resettable
   public function reset()
   {
     fseek ( $this->handle, 0, SEEK_SET );
+  }
+  
+  /**
+   * Retrieve the file path and name
+   *
+   * @return string
+   */
+  public function __toString()
+  {
+    return $this->fileName;
   }
 }

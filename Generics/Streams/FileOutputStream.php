@@ -32,6 +32,13 @@ class FileOutputStream implements OutputStream
   private $handle;
   
   /**
+   * The absolute file path and name
+   *
+   * @var string
+   */
+  private $fileName;
+  
+  /**
    * Create a new FileOutputStream
    *
    * @param string $file
@@ -62,11 +69,22 @@ class FileOutputStream implements OutputStream
     {
       if (! is_writable ( dirname ( $file ) ))
       {
-        throw new NoAccessException ( "Cannot write to file $file" );
+        throw new NoAccessException ( "Cannot write to file {file}", array (
+            'file' => $file 
+        ) );
       }
     }
     
     $this->handle = fopen ( $file, $mode );
+    
+    if (! $this->ready ())
+    {
+      throw new StreamException ( "Could not open {file} for writing", array (
+          'file' => $file 
+      ) );
+    }
+    
+    $this->fileName = $file;
   }
   
   /**
@@ -97,7 +115,11 @@ class FileOutputStream implements OutputStream
       assert ( $in instanceof InputStream );
       while ( $in->ready () )
       {
-        fwrite ( $this->handle, $in->read ( 1024 ) );
+        $buf = $in->read ( 1024 );
+        if (fwrite ( $this->handle, $buf ) != strlen ( $buf ))
+        {
+          throw new StreamException ( "Could not write memory stream into file" );
+        }
       }
     }
     else
@@ -138,5 +160,15 @@ class FileOutputStream implements OutputStream
     }
     
     return ftell ( $this->handle );
+  }
+  
+  /**
+   * Retrieve the file path and name
+   *
+   * @return string
+   */
+  public function __toString()
+  {
+    return $this->fileName;
   }
 }

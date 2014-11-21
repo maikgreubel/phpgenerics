@@ -1,7 +1,7 @@
 <?php
-require 'Generics/Socket/ClientSocket.php';
-require 'Generics/Socket/Endpoint.php';
-require 'Generics/Socket/SocketException.php';
+require_once 'Generics/Socket/ClientSocket.php';
+require_once 'Generics/Socket/Endpoint.php';
+require_once 'Generics/Socket/SocketException.php';
 
 use Generics\Socket\ClientSocket;
 use Generics\Socket\Endpoint;

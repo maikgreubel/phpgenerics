@@ -1,5 +1,6 @@
 <?php
-require 'Generics/Logger/SimpleLogger.php';
+require_once 'Generics/Logger/SimpleLogger.php';
+require_once 'Generics/Streams/FileInputStream.php';
 
 use Generics\Logger\SimpleLogger;
 use Generics\Streams\FileInputStream;

@@ -128,7 +128,10 @@ abstract class Socket implements SocketStream
     
     if ($written != strlen ( $buffer ) + 1)
     {
-      throw new SocketException ( sprintf ( "Could not write all %d bytes to socket (%d written)", strlen ( $buffer ), $written ) );
+      throw new SocketException ( "Could not write all {bytes} bytes to socket ({written} written)", array (
+          'bytes' => strlen ( $buffer ),
+          'written' => $written 
+      ) );
     }
   }
   
