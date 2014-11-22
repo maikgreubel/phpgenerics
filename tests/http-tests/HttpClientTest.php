@@ -9,7 +9,7 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
 {
   public function testSimpleRequest()
   {
-    $http = new HttpClient ( new Endpoint ( 'localhost', 80 ) );
+    $http = new HttpClient ( new Endpoint ( 'httpbin.org', 80 ) );
     $http->request ( 'GET' );
 
     $this->assertEquals(200, $http->getResponseCode());
