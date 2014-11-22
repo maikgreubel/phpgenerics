@@ -45,9 +45,12 @@ class GenericsException extends \Exception
   {
     $replace = array ();
     
-    foreach ( $context as $key => $val )
+    if($context !== null)
     {
-      $replace ['{' . $key . '}'] = $val;
+      foreach ( $context as $key => $val )
+      {
+        $replace ['{' . $key . '}'] = $val;
+      }
     }
     
     return strtr ( $message, $replace );

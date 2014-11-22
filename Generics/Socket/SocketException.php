@@ -8,13 +8,20 @@
 namespace Generics\Socket;
 
 /**
+ * Import dependencies
+ */
+require_once 'Generics/GenericsException.php';
+
+use Generics\GenericsException;
+
+/**
  * Derived exception
  *
  * Will be thrown whenever socket has an exceptional state
  *
  * @author Maik Greubel <greubel@nkey.de>
  */
-class SocketException extends \Exception
+class SocketException extends GenericsException
 {
   /**
    * Create a new SocketException
@@ -27,6 +34,6 @@ class SocketException extends \Exception
    */
   public function __construct($message, $code = 0)
   {
-    parent::__construct ( trim($message), $code, null );
+    parent::__construct ( trim ( $message ), array(), $code, null );
   }
 }

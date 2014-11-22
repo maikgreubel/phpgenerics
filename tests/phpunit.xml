@@ -13,7 +13,10 @@
 		<testsuite name="HttpClientTest">
 			<file>http-tests/HttpClientTest.php</file>		
 		</testsuite>
-		<testsuite>
+		<testsuite name="ExceptionTest">
+			<file>exception-tests/ExceptionTest.php</file>
+		</testsuite>
+		<testsuite name="LoggerTest">
 			<file>logger-tests/SimpleLoggerTest.php</file>
 		</testsuite>
 	</testsuites>
