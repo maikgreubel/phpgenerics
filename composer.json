@@ -24,12 +24,12 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"Generics" : "Generics",
-			"Generics/Client" : "Generics/Client",
-			"Generics/Logger" : "Generics/Logger",
-			"Generics/Socket" : "Generics/Socket",
-			"Generics/Streams" : "Generics/Streams",
-			"Psr/Log" : "Psr/Log"
+			"Generics\\" : "Generics",
+			"Generics\\Client\\" : "Generics/Client",
+			"Generics\\Logger\\" : "Generics/Logger",
+			"Generics\\Socket\\" : "Generics/Socket",
+			"Generics\\Streams\\" : "Generics/Streams",
+			"Psr/Log\\" : "Psr/Log"
 		}
 	},
 	"config" : {
@@ -42,5 +42,5 @@
 	"scripts": {
 		"test": [ "phpunit -c ./tests/phpunit.xml" ],
 		"documentation": [ "phpdoc" ]
-	}
+	}	
 }
