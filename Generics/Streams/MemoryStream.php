@@ -140,6 +140,11 @@ class MemoryStream implements InputOutputStream, Resettable
     $out = substr ( $this->memory, $this->current, $length );
     $this->current += $length;
     
+    if ($this->current == strlen ( $this->memory ))
+    {
+      $this->ready = false;
+    }
+    
     return $out;
   }
   
@@ -170,5 +175,33 @@ class MemoryStream implements InputOutputStream, Resettable
     }
     $this->current = 0;
     $this->ready = true;
+  }
+  
+  /**
+   * Write to stream by interpolation of context vars into a string
+   *
+   * @param string $string
+   *          The string to interpolate, may contains placeholders in format {placeholder}.
+   * @param array $context
+   *          The context array containing the associative replacers and its values.
+   */
+  public function interpolate($string, array $context)
+  {
+    $replacers = array ();
+    foreach ( $context as $key => $value )
+    {
+      $replacers ['{' . $key . '}'] = $value;
+    }
+    $this->write ( strtr ( $string, $replacers ) );
+  }
+  
+  /**
+   * (non-PHPdoc)
+   * 
+   * @see \Generics\Streams\OutputStream::isWriteable()
+   */
+  public function isWriteable()
+  {
+    return true;
   }
 }

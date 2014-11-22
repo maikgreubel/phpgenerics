@@ -20,6 +20,13 @@ require_once 'Generics/Socket/Socket.php';
 class ClientSocket extends Socket
 {
   /**
+   * Whether the socket is connected
+   * 
+   * @var boolean
+   */
+  private $conntected;
+  
+  /**
    * Create a new client socket
    *
    * @param Endpoint $endpoint
@@ -29,14 +36,13 @@ class ClientSocket extends Socket
    */
   public function __construct(Endpoint $endpoint, $clientHandle = null)
   {
+    $this->endpoint = $endpoint;
+    $this->handle = $clientHandle;
+    $this->conntected = false;
+    
     if (! is_resource ( $clientHandle ))
     {
       parent::__construct ( $endpoint );
-    }
-    else
-    {
-      $this->endpoint = $endpoint;
-      $this->handle = $clientHandle;
     }
   }
   
@@ -52,5 +58,32 @@ class ClientSocket extends Socket
       $code = socket_last_error ( $this->handle );
       throw new SocketException ( socket_strerror ( $code ), $code );
     }
+    $this->conntected = true;
+  }
+  
+  /**
+   * Disconnects the socket
+   * 
+   * @throws SocketException
+   */
+  public function disconnect()
+  {
+    if(!$this->conntected)
+    {
+      throw new SocketException("Socket is not connected");
+    }
+    
+    $this->close();
+    $this->conntected = false;
+  }
+  
+  /**
+   * Whether the client is connected
+   * 
+   * @return boolean
+   */
+  public function isConnected()
+  {
+    return $this->conntected;
   }
 }

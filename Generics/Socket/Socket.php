@@ -11,6 +11,7 @@ namespace Generics\Socket;
  * Import dependencies
  */
 require_once 'Generics/Streams/SocketStream.php';
+require_once 'Generics/Socket/SocketException.php';
 
 use Generics\Streams\SocketStream;
 
@@ -52,6 +53,14 @@ abstract class Socket implements SocketStream
       throw new SocketException ( socket_strerror ( $code ), $code );
     }
   }
+
+  /**
+   * Clean up
+   */
+  public function __destruct()
+  {
+    $this->close();
+  }
   
   /**
    * (non-PHPdoc)
@@ -74,7 +83,73 @@ abstract class Socket implements SocketStream
    */
   public function ready()
   {
-    return is_resource ( $this->handle );
+    if (! is_resource ( $this->handle ))
+    {
+      return false;
+    }
+    
+    $read = array (
+        $this->handle 
+    );
+    $write = null;
+    $except = null;
+    
+    $num = @socket_select ( $read, $write, $except, 0, 10 );
+    
+    if ($num === false)
+    {
+      $code = socket_last_error ( $this->handle );
+      throw new SocketException ( socket_strerror ( $code ), $code );
+    }
+    
+    if ($num < 1)
+    {
+      return false;
+    }
+    
+    if (! in_array ( $this->handle, $read ))
+    {
+      return false;
+    }
+    
+    return true;
+  }
+  
+  /**
+   * (non-PHPdoc)
+   * 
+   * @see \Generics\Streams\OutputStream::isWriteable()
+   */
+  public function isWriteable()
+  {
+    if (! is_resource ( $this->handle ))
+    {
+      return false;
+    }
+    
+    $read = null;
+    $write = array($this->handle);
+    $except = null;
+    
+    $num = @socket_select ( $read, $write, $except, 0, 10 );
+    
+    if ($num === false)
+    {
+      $code = socket_last_error ( $this->handle );
+      throw new SocketException ( socket_strerror ( $code ), $code );
+    }
+    
+    if ($num < 1)
+    {
+      return false;
+    }
+    
+    if (! in_array ( $this->handle, $write ))
+    {
+      return false;
+    }
+    
+    return true;
   }
   
   /**
@@ -100,13 +175,16 @@ abstract class Socket implements SocketStream
     {
       $buf = null;
       $code = socket_last_error ();
-      if ($code != 10053)
+      if ($code != 0)
       {
-        throw new SocketException ( socket_strerror ( $code ), $code );
-      }
-      else
-      {
-        $this->handle = null;
+        if ($code != 10053)
+        {
+          throw new SocketException ( socket_strerror ( $code ), $code );
+        }
+        else
+        {
+          $this->handle = null;
+        }
       }
     }
     

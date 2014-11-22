@@ -27,4 +27,11 @@ interface OutputStream extends Stream
    * @throws StreamException in case of stream is closed
    */
   public function write($buffer);
+  
+  /**
+   * Whether it is possible to write to stream
+   * 
+   * @return boolean
+   */
+  public function isWriteable();
 }

@@ -171,4 +171,14 @@ class FileOutputStream implements OutputStream
   {
     return $this->fileName;
   }
+  
+  /**
+   * (non-PHPdoc)
+   * 
+   * @see \Generics\Streams\OutputStream::isWriteable()
+   */
+  public function isWriteable()
+  {
+    return $this->ready();
+  }
 }
