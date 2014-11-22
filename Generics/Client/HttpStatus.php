@@ -66,7 +66,7 @@ class HttpStatus
   public static function getStatus($code)
   {
     $prop = sprintf("STATUS_%d", $code);
-    return self::$prop;
+    return self::$$prop;
   }
   
   /**

@@ -9,7 +9,7 @@ use Generics\Streams\MemoryStream;
 
 class FileOutputStreamTest extends PHPUnit_Framework_TestCase
 {
-  private $testFile = 'tests/output.dat';
+  private $testFile = 'output.dat';
   
   private $testData = "Only some test data; Purpose is to test the file output stream.";
   
@@ -53,7 +53,7 @@ class FileOutputStreamTest extends PHPUnit_Framework_TestCase
    */
   public function testError()
   {
-    $fos = new FileOutputStream($this->testFile);
+    new FileOutputStream($this->testFile);
   }
   
   public function testAppending()

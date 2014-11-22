@@ -7,7 +7,7 @@ use Generics\Streams\FileInputStream;
 
 class SimpleLoggerTest extends PHPUnit_Framework_TestCase
 {
-  private $logFileName = "tests/test-logger.log";
+  private $logFileName = "test-logger.log";
   
   public function setUp()
   {

@@ -35,7 +35,8 @@ class ServerSocket extends Socket
    * @param Endpoint $endpoint
    *          The endpoint to use
    *          
-   * @throws SocketException in case of creation of socket has failed or socket options could not be set
+   * @throws SocketException 
+   *          In case of creation of socket has failed or socket options could not be set.
    */
   public function __construct(Endpoint $endpoint)
   {
@@ -70,6 +71,8 @@ class ServerSocket extends Socket
         throw new SocketException ( socket_strerror ( $code ), $code );
       }
       
+      $address = null;
+      $port = 0;
       if (! @socket_getpeername ( $clientHandle, $address, $port ))
       {
         $code = socket_last_error ( $clientHandle );

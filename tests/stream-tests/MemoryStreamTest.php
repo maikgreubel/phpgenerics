@@ -6,9 +6,22 @@ use Generics\Streams\FileInputStream;
 
 class MemoryStreamTest extends PHPUnit_Framework_TestCase
 {
-  private $testFile = 'tests/sample.dat';
+  private $testFile = 'sample.dat';
   
   private $testData = "This data will only appear in memory. Writing to persistent files is not possible!";
+  
+  public function setUp()
+  {
+    file_put_contents($this->testFile, $this->testData);
+  }
+  
+  public function tearDown()
+  {
+    if(file_exists($this->testFile))
+    {
+      unlink($this->testFile);
+    }
+  }
   
   public function testMemoryWrite()
   {
