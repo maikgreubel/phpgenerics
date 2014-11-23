@@ -3,10 +3,8 @@
 	<title><![CDATA[PHP Generics API Documentation]]></title>
     <transformations>
         <template name="responsive-twig"/>
-		<target>docs</target>
     </transformations>
     <files>
-    	<directory>Generics</directory>
-    	<directory>Psr</directory>
+    	<directory>src/Generics</directory>
     </files>
 </phpdocumentor>
