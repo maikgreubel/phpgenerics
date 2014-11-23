@@ -19,71 +19,69 @@ require_once 'Generics/Socket/Socket.php';
  */
 class ClientSocket extends Socket
 {
-  /**
-   * Whether the socket is connected
-   * 
-   * @var boolean
-   */
-  private $conntected;
-  
-  /**
-   * Create a new client socket
-   *
-   * @param Endpoint $endpoint
-   *          The endpoint to use
-   * @param resource $clientHandle
-   *          optional existing client handle
-   */
-  public function __construct(Endpoint $endpoint, $clientHandle = null)
-  {
-    $this->endpoint = $endpoint;
-    $this->handle = $clientHandle;
-    $this->conntected = false;
-    
-    if (! is_resource ( $clientHandle ))
+
+    /**
+     * Whether the socket is connected
+     *
+     * @var boolean
+     */
+    private $conntected;
+
+    /**
+     * Create a new client socket
+     *
+     * @param Endpoint $endpoint
+     *            The endpoint to use
+     * @param resource $clientHandle
+     *            optional existing client handle
+     */
+    public function __construct(Endpoint $endpoint, $clientHandle = null)
     {
-      parent::__construct ( $endpoint );
+        $this->endpoint = $endpoint;
+        $this->handle = $clientHandle;
+        $this->conntected = false;
+        
+        if (! is_resource($clientHandle)) {
+            parent::__construct($endpoint);
+        }
     }
-  }
-  
-  /**
-   * Connect to remote endpoint
-   *
-   * @throws SocketException
-   */
-  public function connect()
-  {
-    if (! @socket_connect ( $this->handle, $this->endpoint->getAddress (), $this->endpoint->getPort () ))
+
+    /**
+     * Connect to remote endpoint
+     *
+     * @throws SocketException
+     */
+    public function connect()
     {
-      $code = socket_last_error ( $this->handle );
-      throw new SocketException ( socket_strerror ( $code ), $code );
+        if (! @socket_connect($this->handle, $this->endpoint->getAddress(), $this->endpoint->getPort())) {
+            $code = socket_last_error($this->handle);
+            throw new SocketException(socket_strerror($code), $code);
+        }
+        $this->conntected = true;
     }
-    $this->conntected = true;
-  }
-  
-  /**
-   * Disconnects the socket
-   * 
-   * @throws SocketException
-   */
-  public function disconnect()
-  {
-    if(!$this->conntected)
+
+    /**
+     * Disconnects the socket
+     *
+     * @throws SocketException
+     */
+    public function disconnect()
     {
-      throw new SocketException("Socket is not connected");
+        if (! $this->conntected) {
+            throw new SocketException("Socket is not connected");
+        }
+        
+        $this->close();
+        $this->conntected = false;
     }
-    
-    $this->close();
-    $this->conntected = false;
-  }
-  
-  /**
-   * Whether the client is connected
-   * 
-   * @return boolean
-   */
-  public function isConnected()
-  {
-    return $this->conntected;
-  }
+
+    /**
+     * Whether the client is connected
+     *
+     * @return boolean
+     */
+    public function isConnected()
+    {
+        return $this->conntected;
+    }
 }

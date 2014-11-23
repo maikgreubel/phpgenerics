@@ -24,184 +24,175 @@ use Generics\Resettable;
  */
 class MemoryStream implements InputOutputStream, Resettable
 {
-  /**
-   * The local memory buffer
-   *
-   * @var string
-   */
-  private $memory;
-  
-  /**
-   * Current position in memory buffer
-   *
-   * @var int
-   */
-  private $current;
-  
-  /**
-   * Whether it is possible to perform reading action
-   *
-   * @var boolean
-   */
-  private $ready;
-  
-  /**
-   * Whether stream is closed
-   *
-   * @var boolean
-   */
-  private $closed;
-  
-  /**
-   * Create a new MemoryStream
-   *
-   * @param InputStream $in
-   *          optional existing input stream - will be copied
-   */
-  public function __construct(InputStream $in = null)
-  {
-    $this->memory = "";
-    if ($in != null)
+
+    /**
+     * The local memory buffer
+     *
+     * @var string
+     */
+    private $memory;
+
+    /**
+     * Current position in memory buffer
+     *
+     * @var int
+     */
+    private $current;
+
+    /**
+     * Whether it is possible to perform reading action
+     *
+     * @var boolean
+     */
+    private $ready;
+
+    /**
+     * Whether stream is closed
+     *
+     * @var boolean
+     */
+    private $closed;
+
+    /**
+     * Create a new MemoryStream
+     *
+     * @param InputStream $in
+     *            optional existing input stream - will be copied
+     */
+    public function __construct(InputStream $in = null)
     {
-      $copy = clone $in;
-      $copy->reset ();
-      while ( $copy->ready () )
-      {
-        $this->memory .= $copy->read ();
-      }
-      $copy->close ();
+        $this->memory = "";
+        if ($in != null) {
+            $copy = clone $in;
+            $copy->reset();
+            while ($copy->ready()) {
+                $this->memory .= $copy->read();
+            }
+            $copy->close();
+        }
+        $this->current = 0;
+        $this->ready = true;
+        $this->closed = false;
     }
-    $this->current = 0;
-    $this->ready = true;
-    $this->closed = false;
-  }
-  
-  /**
-   * (non-PHPdoc)
-   *
-   * @see \Generics\Streams\Stream::close()
-   */
-  public function close()
-  {
-    unset ( $this->memory );
-    $this->current = 0;
-    $this->ready = false;
-    $this->closed = true;
-  }
-  
-  /**
-   * (non-PHPdoc)
-   *
-   * @see \Generics\Streams\Stream::ready()
-   */
-  public function ready()
-  {
-    return $this->ready;
-  }
-  
-  /**
-   * (non-PHPdoc)
-   *
-   * @see \Generics\Streams\OutputStream::write()
-   */
-  public function write($buffer)
-  {
-    if ($this->closed)
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Streams\Stream::close()
+     */
+    public function close()
     {
-      throw new StreamException ( "Stream is not open" );
+        unset($this->memory);
+        $this->current = 0;
+        $this->ready = false;
+        $this->closed = true;
     }
-    $this->memory .= $buffer;
-    $this->ready = true;
-  }
-  
-  /**
-   * (non-PHPdoc)
-   *
-   * @see \Generics\Streams\InputStream::read()
-   */
-  public function read($length = 1)
-  {
-    if ($this->closed)
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Streams\Stream::ready()
+     */
+    public function ready()
     {
-      throw new StreamException ( "Stream is not open" );
+        return $this->ready;
     }
-    
-    if (strlen ( $this->memory ) <= $this->current)
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Streams\OutputStream::write()
+     */
+    public function write($buffer)
     {
-      $this->ready = false;
-      return "";
+        if ($this->closed) {
+            throw new StreamException("Stream is not open");
+        }
+        $this->memory .= $buffer;
+        $this->ready = true;
     }
-    
-    if (strlen ( $this->memory ) - $this->current < $length)
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Streams\InputStream::read()
+     */
+    public function read($length = 1)
     {
-      $length = strlen ( $this->memory ) - $this->current;
+        if ($this->closed) {
+            throw new StreamException("Stream is not open");
+        }
+        
+        if (strlen($this->memory) <= $this->current) {
+            $this->ready = false;
+            return "";
+        }
+        
+        if (strlen($this->memory) - $this->current < $length) {
+            $length = strlen($this->memory) - $this->current;
+        }
+        
+        $out = substr($this->memory, $this->current, $length);
+        $this->current += $length;
+        
+        if ($this->current == strlen($this->memory)) {
+            $this->ready = false;
+        }
+        
+        return $out;
     }
-    
-    $out = substr ( $this->memory, $this->current, $length );
-    $this->current += $length;
-    
-    if ($this->current == strlen ( $this->memory ))
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Countable::count()
+     */
+    public function count()
     {
-      $this->ready = false;
+        if ($this->closed) {
+            throw new StreamException("Stream is not open");
+        }
+        return strlen($this->memory);
     }
-    
-    return $out;
-  }
-  
-  /**
-   * (non-PHPdoc)
-   *
-   * @see \Countable::count()
-   */
-  public function count()
-  {
-    if ($this->closed)
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Resettable::reset()
+     */
+    public function reset()
     {
-      throw new StreamException ( "Stream is not open" );
+        if ($this->closed) {
+            throw new StreamException("Stream is not open");
+        }
+        $this->current = 0;
+        $this->ready = true;
     }
-    return strlen ( $this->memory );
-  }
-  
-  /**
-   * (non-PHPdoc)
-   *
-   * @see \Generics\Resettable::reset()
-   */
-  public function reset()
-  {
-    if ($this->closed)
+
+    /**
+     * Write to stream by interpolation of context vars into a string
+     *
+     * @param string $string
+     *            The string to interpolate, may contains placeholders in format {placeholder}.
+     * @param array $context
+     *            The context array containing the associative replacers and its values.
+     */
+    public function interpolate($string, array $context)
     {
-      throw new StreamException ( "Stream is not open" );
+        $replacers = array();
+        foreach ($context as $key => $value) {
+            $replacers['{' . $key . '}'] = $value;
+        }
+        $this->write(strtr($string, $replacers));
     }
-    $this->current = 0;
-    $this->ready = true;
-  }
-  
-  /**
-   * Write to stream by interpolation of context vars into a string
-   *
-   * @param string $string
-   *          The string to interpolate, may contains placeholders in format {placeholder}.
-   * @param array $context
-   *          The context array containing the associative replacers and its values.
-   */
-  public function interpolate($string, array $context)
-  {
-    $replacers = array ();
-    foreach ( $context as $key => $value )
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Streams\OutputStream::isWriteable()
+     */
+    public function isWriteable()
     {
-      $replacers ['{' . $key . '}'] = $value;
+        return true;
     }
-    $this->write ( strtr ( $string, $replacers ) );
-  }
-  
-  /**
-   * (non-PHPdoc)
-   * 
-   * @see \Generics\Streams\OutputStream::isWriteable()
-   */
-  public function isWriteable()
-  {
-    return true;
-  }
 }

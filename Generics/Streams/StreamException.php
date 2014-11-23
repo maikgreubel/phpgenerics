@@ -16,14 +16,15 @@ namespace Generics\Streams;
  */
 class StreamException extends \Exception
 {
-  /**
-   * Create a new StreamException
-   *
-   * @param string $message
-   *          The message to throw
-   */
-  public function __construct($message)
-  {
-    parent::__construct ( $message, 0, null );
-  }
+
+    /**
+     * Create a new StreamException
+     *
+     * @param string $message
+     *            The message to throw
+     */
+    public function __construct($message)
+    {
+        parent::__construct($message, 0, null);
+    }
 }

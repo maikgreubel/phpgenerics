@@ -14,15 +14,16 @@ namespace Psr\Log;
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {
-  /**
-   * Create a new InvalidArgumentException instance
-   *
-   * @param unknown $message          
-   * @param number $code          
-   * @param string $prev          
-   */
-  public function __construct($message, $code = 0, $prev = null)
-  {
-    parent::__construct ( $message, $code, $prev );
-  }
+
+    /**
+     * Create a new InvalidArgumentException instance
+     *
+     * @param unknown $message            
+     * @param number $code            
+     * @param string $prev            
+     */
+    public function __construct($message, $code = 0, $prev = null)
+    {
+        parent::__construct($message, $code, $prev);
+    }
 }

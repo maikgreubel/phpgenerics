@@ -16,10 +16,9 @@ use Generics\GenericsException;
 
 /**
  * Derived exception used for HTTP exceptions
- * 
+ *
  * @author Maik Greubel <greubel@nkey.de>
  */
 class HttpException extends GenericsException
 {
-  
 }

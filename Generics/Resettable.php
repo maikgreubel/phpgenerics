@@ -14,10 +14,11 @@ namespace Generics;
  */
 interface Resettable
 {
-  /**
-   * Reset the stream pointer to beginning of stream.
-   *
-   * @throws Exception in case of reset has failed
-   */
-  public function reset();
+
+    /**
+     * Reset the stream pointer to beginning of stream.
+     *
+     * @throws Exception in case of reset has failed
+     */
+    public function reset();
 }

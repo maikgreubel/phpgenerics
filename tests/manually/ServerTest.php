@@ -1,5 +1,5 @@
 <?php
-set_include_path ( get_include_path () . PATH_SEPARATOR . '../../' );
+set_include_path(get_include_path() . PATH_SEPARATOR . '../../');
 
 require_once 'Generics/Socket/Socket.php';
 require_once 'Generics/Socket/ServerSocket.php';
@@ -12,23 +12,21 @@ use Generics\Socket\ServerSocket;
 use Generics\Socket\ServiceCallback;
 use Generics\Socket\Endpoint;
 
-
 class ServerSocketCallback extends ServiceCallback
 {
-  public function callback(Socket $client)
-  {
-    //printf ( "Incoming connection from %s (remote port = %d)\n", $client->getEndpoint ()->getAddress (), $client->getEndpoint ()->getPort () );
-    
-    $in = null;
-    if (($buf = $client->read ( 1024 )) !== null)
+
+    public function callback(Socket $client)
     {
-      $in = $buf;
+        // printf ( "Incoming connection from %s (remote port = %d)\n", $client->getEndpoint ()->getAddress (), $client->getEndpoint ()->getPort () );
+        $in = null;
+        if (($buf = $client->read(1024)) !== null) {
+            $in = $buf;
+        }
+        // Just return to sender
+        $client->write($in);
     }
-    // Just return to sender
-    $client->write ( $in );
-  }
 }
 
-$serverEndpoint = new Endpoint ( '127.0.0.1', 8421 );
-$server = new ServerSocket ( $serverEndpoint );
-$server->serve ( new ServerSocketCallback ( $serverEndpoint ) );
+$serverEndpoint = new Endpoint('127.0.0.1', 8421);
+$server = new ServerSocket($serverEndpoint);
+$server->serve(new ServerSocketCallback($serverEndpoint));

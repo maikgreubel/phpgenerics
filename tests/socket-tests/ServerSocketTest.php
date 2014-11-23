@@ -12,22 +12,22 @@ use Generics\Socket\ServiceCallback;
 
 class TestServiceCallback extends ServiceCallback
 {
-  public function callback(Socket $client)
-  {
-    return false;
-  }
-}
 
+    public function callback(Socket $client)
+    {
+        return false;
+    }
+}
 
 class ServerSocketTest extends PHPUnit_Framework_TestCase
 {
-  
-  public function testServerSocket()
-  {
-    $serverEndpoint = new Endpoint('127.0.0.1', 5555);
-    new ServerSocket( $serverEndpoint );
 
-    // currently we are not able to test a server socket using phpunit... :-(
-    //$server->serve( new TestServiceCallback( $serverEndpoint ) );
-  }
+    public function testServerSocket()
+    {
+        $serverEndpoint = new Endpoint('127.0.0.1', 5555);
+        new ServerSocket($serverEndpoint);
+        
+        // currently we are not able to test a server socket using phpunit... :-(
+        // $server->serve( new TestServiceCallback( $serverEndpoint ) );
+    }
 }

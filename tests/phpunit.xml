@@ -11,7 +11,7 @@
 			<file>socket-tests/ServerSocketTest.php</file>
 		</testsuite>
 		<testsuite name="HttpClientTest">
-			<file>http-tests/HttpClientTest.php</file>		
+			<file>http-tests/HttpClientTest.php</file>
 		</testsuite>
 		<testsuite name="ExceptionTest">
 			<file>exception-tests/ExceptionTest.php</file>

@@ -19,13 +19,14 @@ require_once 'Generics/Streams/Stream.php';
  */
 interface InputStream extends Stream
 {
-  /**
-   * Read bytes from stream.
-   *
-   * @param int $length
-   *          Number of bytes to read
-   * @throws StreamException in case of stream is closed
-   * @return string The readen buffer
-   */
-  public function read($length);
+
+    /**
+     * Read bytes from stream.
+     *
+     * @param int $length
+     *            Number of bytes to read
+     * @throws StreamException in case of stream is closed
+     * @return string The readen buffer
+     */
+    public function read($length);
 }
