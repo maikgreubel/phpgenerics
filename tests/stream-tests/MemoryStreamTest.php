@@ -1,10 +1,11 @@
 <?php
-require_once 'Generics/Streams/MemoryStream.php';
+
+namespace Generics\Tests;
 
 use Generics\Streams\MemoryStream;
 use Generics\Streams\FileInputStream;
 
-class MemoryStreamTest extends PHPUnit_Framework_TestCase
+class MemoryStreamTest extends \PHPUnit_Framework_TestCase
 {
 
     private $testFile = 'sample.dat';

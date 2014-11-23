@@ -1,25 +1,13 @@
 <?php
-require_once 'Generics/Socket/Socket.php';
-require_once 'Generics/Socket/Endpoint.php';
-require_once 'Generics/Socket/ServerSocket.php';
-require_once 'Generics/Socket/ServiceCallback.php';
-require_once 'Generics/Socket/SocketException.php';
+
+namespace Generics\Tests;
 
 use Generics\Socket\Socket;
 use Generics\Socket\Endpoint;
 use Generics\Socket\ServerSocket;
 use Generics\Socket\ServiceCallback;
 
-class TestServiceCallback extends ServiceCallback
-{
-
-    public function callback(Socket $client)
-    {
-        return false;
-    }
-}
-
-class ServerSocketTest extends PHPUnit_Framework_TestCase
+class ServerSocketTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testServerSocket()

@@ -1,11 +1,11 @@
 <?php
-require_once 'Generics/Client/HttpClient.php';
-require_once 'Generics/Socket/Endpoint.php';
+
+namespace Generics\Tests;
 
 use Generics\Client\HttpClient;
 use Generics\Socket\Endpoint;
 
-class HttpClientTest extends PHPUnit_Framework_TestCase
+class HttpClientTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testSimpleRequest()
@@ -18,8 +18,10 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
         $response = "";
         
         while ($http->getPayload()->ready()) {
-            $response = $http->getPayload()->read($http->getPayload()
-                ->count());
+            $response = $http->getPayload()->read(
+                $http->getPayload()
+                ->count()
+            );
         }
         
         $this->assertNotEmpty($response);

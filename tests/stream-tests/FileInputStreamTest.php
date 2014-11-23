@@ -1,9 +1,10 @@
 <?php
-require_once 'Generics/Streams/FileInputStream.php';
+
+namespace Generics\Tests;
 
 use Generics\Streams\FileInputStream;
 
-class FileInputStreamTest extends PHPUnit_Framework_TestCase
+class FileInputStreamTest extends \PHPUnit_Framework_TestCase
 {
 
     private $fileName = 'sample.dat';
@@ -25,23 +26,23 @@ class FileInputStreamTest extends PHPUnit_Framework_TestCase
     public function testSimple()
     {
         $fis = new FileInputStream($this->fileName);
-        
+
         $this->assertEquals(strlen($this->testData), $fis->count());
-        
+
         $in = "";
-        
+
         while ($fis->ready()) {
             $in .= $fis->read();
         }
-        
+
         $this->assertEquals($this->testData, $in);
-        
+
         $fis->reset();
-        
+
         $in = $fis->read(1024);
-        
+
         $this->assertEquals($this->testData, $in);
-        
+
         $this->assertFalse($fis->ready());
     }
-} 
+}

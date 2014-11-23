@@ -1,12 +1,11 @@
 <?php
-require_once 'Generics/Socket/ClientSocket.php';
-require_once 'Generics/Socket/Endpoint.php';
-require_once 'Generics/Socket/SocketException.php';
+
+namespace Generics\Tests;
 
 use Generics\Socket\ClientSocket;
 use Generics\Socket\Endpoint;
 
-class ClientSocketTest extends PHPUnit_Framework_TestCase
+class ClientSocketTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testClientSocketConnect()

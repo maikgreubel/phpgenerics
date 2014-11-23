@@ -1,13 +1,12 @@
 <?php
-require_once 'Generics/Streams/FileOutputStream.php';
-require_once 'Generics/Streams/FileOutputStream.php';
-require_once 'Generics/FileExistsException.php';
+
+namespace Generics\Tests;
 
 use Generics\Streams\FileOutputStream;
 use Generics\Streams\FileInputStream;
 use Generics\Streams\MemoryStream;
 
-class FileOutputStreamTest extends PHPUnit_Framework_TestCase
+class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
 {
 
     private $testFile = 'output.dat';

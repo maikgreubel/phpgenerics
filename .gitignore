@@ -1,7 +1,9 @@
+/composer.lock
+/composer.phar
+/phpunit.xml
 /vendor
 /output
-composer.lock
-.buildpath
-.project
-.settings
-/r/
+/.buildpath
+/.project
+/.settings
+

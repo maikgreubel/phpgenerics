@@ -1,11 +1,10 @@
 <?php
-require_once 'Generics/Logger/SimpleLogger.php';
-require_once 'Generics/Streams/FileInputStream.php';
+namespace Generics\Tests;
 
 use Generics\Logger\SimpleLogger;
 use Generics\Streams\FileInputStream;
 
-class SimpleLoggerTest extends PHPUnit_Framework_TestCase
+class SimpleLoggerTest extends \PHPUnit_Framework_TestCase
 {
 
     private $logFileName = "test-logger.log";
@@ -23,10 +22,10 @@ class SimpleLoggerTest extends PHPUnit_Framework_TestCase
         $logger->info("This message contains some {replacable} content", array(
             'replacable' => 'fine'
         ));
-        
+
         $fis = new FileInputStream($logger->getFile());
         $content = $fis->read(1024);
-        
+
         $this->assertRegExp('/This message contains some fine content$/', $content);
     }
 

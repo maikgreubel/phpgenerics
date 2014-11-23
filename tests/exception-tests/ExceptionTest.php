@@ -1,10 +1,11 @@
 <?php
-require_once 'Generics/GenericsException.php';
+
+namespace Generics\Tests;
 
 use Generics\GenericsException;
 use Generics\Socket\SocketException;
 
-class ExceptionTest extends PHPUnit_Framework_TestCase
+class ExceptionTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testGenericException()

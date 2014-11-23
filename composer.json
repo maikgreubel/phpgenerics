@@ -1,4 +1,8 @@
 {
+	"reqire" : {
+		"php" : ">=5.3",
+		"psr/log" : "1.0*@dev"
+	},
 	"require-dev" : {
 		"phpunit/phpunit" : "4.3.*",
 		"phpdocumentor/phpdocumentor" : "2.8.1",
@@ -23,24 +27,18 @@
 		"wiki" : "https://github.com/maikgreubel/phpgenerics/wiki"
 	},
 	"autoload" : {
+		"classmap" : [
+			"src/"
+		],
 		"psr-4" : {
-			"Generics\\" : "Generics",
-			"Generics\\Client\\" : "Generics/Client",
-			"Generics\\Logger\\" : "Generics/Logger",
-			"Generics\\Socket\\" : "Generics/Socket",
-			"Generics\\Streams\\" : "Generics/Streams",
-			"Psr/Log\\" : "Psr/Log"
+			"Generics\\" : "src"
 		}
 	},
 	"config" : {
-		"vendor-dir" : "r"
+		"vendor-dir" : "vendor"
 	},
 	"keywords" : [
 		"framework",
 		"component"
-	],
-	"scripts": {
-		"test": [ "phpunit -c ./tests/phpunit.xml" ],
-		"documentation": [ "phpdoc" ]
-	}	
+	]
 }
