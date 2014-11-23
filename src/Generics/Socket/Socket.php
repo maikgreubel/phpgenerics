@@ -202,4 +202,14 @@ abstract class Socket implements SocketStream
     {
         return $this->endpoint;
     }
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Streams\OutputStream::flush()
+     */
+    public function flush()
+    {
+        // There is no function to flush a socket. This is only possible for file descriptors.
+    }
 }

@@ -30,4 +30,11 @@ interface OutputStream extends Stream
      * @return boolean
      */
     public function isWriteable();
+
+    /**
+     * Flush the stream
+     *
+     * @throws StreamException
+     */
+    public function flush();
 }

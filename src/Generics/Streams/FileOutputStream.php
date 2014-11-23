@@ -159,4 +159,18 @@ class FileOutputStream implements OutputStream
     {
         return $this->ready();
     }
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Streams\OutputStream::flush()
+     */
+    public function flush()
+    {
+        if (! $this->ready()) {
+            throw new StreamException("Stream is not open!");
+        }
+
+        fflush($this->handle);
+    }
 }

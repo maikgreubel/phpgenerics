@@ -187,4 +187,19 @@ class MemoryStream implements InputOutputStream, Resettable
     {
         return true;
     }
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Streams\OutputStream::flush()
+     */
+    public function flush()
+    {
+        if ($this->closed) {
+            throw new StreamException("Stream is not open");
+        }
+
+        unset($this->memory);
+        $this->reset();
+    }
 }
