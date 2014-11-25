@@ -27,42 +27,8 @@ class EndpointParser
      */
     public static function parseUrl($url)
     {
-        $parts = parse_url($url);
+        $url = UrlParser::parseUrl($url);
 
-        if (! isset($parts['scheme'])) {
-            throw new InvalidUrlException('This URL does not contain a scheme part');
-        }
-        if (! isset($parts['host'])) {
-            throw new InvalidUrlException('This URL does not contain a host part');
-        }
-
-        $address = $parts['host'];
-        $port = 0;
-        if (isset($parts['port'])) {
-            $port = intval($parts['port']);
-        }
-
-        if ($port == 0) {
-            switch ($parts['scheme']) {
-                case 'http':
-                    $port = 80;
-                    break;
-
-                case 'https':
-                    $port = 443;
-                    break;
-
-                case 'ftp':
-                    $port = 21;
-                    break;
-
-                default:
-                    throw new InvalidUrlException("Scheme {scheme} is not handled!", array(
-                        'scheme' => $parts['scheme']
-                    ));
-            }
-        }
-
-        return new Endpoint($address, $port);
+        return new Endpoint($url->getAddress(), $url->getPort());
     }
 }
