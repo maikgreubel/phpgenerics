@@ -29,10 +29,7 @@
 	"autoload" : {
 		"classmap" : [
 			"src/"
-		],
-		"psr-4" : {
-			"Generics\\" : "src"
-		}
+		]
 	},
 	"config" : {
 		"vendor-dir" : "vendor"

@@ -4,6 +4,7 @@ namespace Generics\Tests;
 
 use Generics\GenericsException;
 use Generics\Socket\SocketException;
+use Generics\Socket\InvalidUrlException;
 
 class ExceptionTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,5 +28,13 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
         } catch (GenericsException $ex) {
             $this->assertEquals(10053, $ex->getCode());
         }
+    }
+
+    /**
+     * @expectedException \Generics\Socket\InvalidUrlException
+     */
+    public function testInvalidUrlException()
+    {
+        throw new InvalidUrlException("IUE thrown");
     }
 }
