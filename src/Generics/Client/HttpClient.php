@@ -13,6 +13,7 @@ use Generics\Streams\MemoryStream;
 use Generics\Streams\InputOutputStream;
 use Generics\Socket\ClientSocket;
 use Generics\Socket\Endpoint;
+use Generics\Socket\Url;
 
 /**
  * This class implements a HttpStream as client
@@ -79,11 +80,11 @@ class HttpClient extends ClientSocket implements HttpStream
      * @param string $path
      *            The path part for http request
      */
-    public function __construct(Endpoint $endpoint, $path = "/", $secure = false, $proto = 'HTTP/1.1', $timeout = 5)
+    public function __construct(Url $url, $proto = 'HTTP/1.1', $timeout = 5)
     {
-        parent::__construct($endpoint);
-        $this->path = $path;
-        $this->secure = $secure;
+        parent::__construct($url);
+        $this->path = $url->getPath();
+        $this->secure = $url->getScheme() == 'https';
         $this->protocol = $proto;
         $this->headers = array();
         $this->payload = new MemoryStream();

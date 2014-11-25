@@ -17,4 +17,16 @@ class UrlParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http', $url->getScheme());
         $this->assertEquals('www.nkey.de', $url->getAddress());
     }
+
+    public function testUrlParserSimpleUrl()
+    {
+        $urlToParse = "http://www.nkey.de";
+
+        $url = UrlParser::parseUrl($urlToParse);
+
+        $this->assertEquals(80, $url->getPort());
+        $this->assertEquals('/', $url->getPath());
+        $this->assertEquals('http', $url->getScheme());
+        $this->assertEquals('www.nkey.de', $url->getAddress());
+    }
 }

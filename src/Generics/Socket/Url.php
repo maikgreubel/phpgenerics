@@ -7,6 +7,8 @@
  */
 namespace Generics\Socket;
 
+use Generics\Util\UrlParser;
+
 /**
  * This class provides a data holder for a url
  *
@@ -31,16 +33,27 @@ class Url extends Endpoint
     /**
      * Create a new Url instance
      *
-     * @param string $address   The address for the url
-     * @param int $port         The port for the url
-     * @param string $scheme    The scheme for the url
-     * @param string $path      The path for the url
+     * @param string $address
+     *            The address for the url (either only address or full url)
+     * @param int $port
+     *            The port for the url
+     * @param string $path
+     *            The path for the url
+     * @param string $scheme
+     *            The scheme for the url
      */
-    public function __construct($address, $port, $scheme, $path)
+    public function __construct($address, $port = 80, $path = '/', $scheme = 'http')
     {
-        parent::__construct($address, $port);
-        $this->path = $path;
-        $this->scheme = $scheme;
+        try {
+            $parsed = UrlParser::parseUrl($address);
+            parent::__construct($parsed->getAddress(), $parsed->getPort());
+            $this->path = $parsed->getPath();
+            $this->scheme = $parsed->getScheme();
+        } catch (InvalidUrlException $ex) {
+            parent::__construct($address, $port);
+            $this->path = $path;
+            $this->scheme = $scheme;
+        }
     }
 
     /**

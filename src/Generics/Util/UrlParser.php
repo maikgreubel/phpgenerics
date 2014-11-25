@@ -40,7 +40,7 @@ class UrlParser
         $address = $parts['host'];
         $scheme = $parts['scheme'];
         $port = 0;
-        $path = "";
+        $path = "/";
 
         if (isset($parts['port'])) {
             $port = intval($parts['port']);
@@ -71,6 +71,6 @@ class UrlParser
             $path = $parts['path'];
         }
 
-        return new Url($address, $port, $scheme, $path);
+        return new Url($address, $port, $path, $scheme);
     }
 }
