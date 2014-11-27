@@ -147,7 +147,7 @@ class FileOutputStream implements OutputStream
      */
     public function __toString()
     {
-        return $this->fileName;
+        return realpath($this->fileName);
     }
 
     /**

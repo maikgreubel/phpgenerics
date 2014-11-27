@@ -105,10 +105,20 @@ class HttpClient extends ClientSocket implements HttpStream
      * (non-PHPdoc)
      *
      * @see \Generics\Streams\HttpStream::setHeader()
+     * @return HttpClient
      */
     public function setHeader($headerName, $headerValue)
     {
         $this->headers[$headerName] = $headerValue;
+        return $this;
+    }
+
+    /**
+     * Reset the headers
+     */
+    public function resetHeaders()
+    {
+        $this->headers = array();
     }
 
     /**
@@ -134,6 +144,40 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
+     * Load headers from remote and return it
+     *
+     * @return array
+     */
+    public function retrieveHeaders()
+    {
+        $this->setHeader('Connection', 'close');
+        $this->setHeader('Accept', '');
+        $this->setHeader('Accept-Language', '');
+        $this->setHeader('User-Agent', '');
+
+        $savedProto = $this->protocol;
+        $this->protocol = 'HTTP/1.0';
+        $this->request('HEAD');
+        $this->protocol = $savedProto;
+
+        return $this->headers;
+    }
+
+    /**
+     * Set connection timeout in seconds
+     *
+     * @param int $timeout
+     */
+    public function setTimeout($timeout)
+    {
+        $timeout = intval($timeout);
+        if ($timeout < 1 || $timeout > 60) {
+            $timeout = 5;
+        }
+        $this->timeout = $timeout;
+    }
+
+    /**
      * (non-PHPdoc)
      *
      * @see \Generics\Streams\HttpStream::request()
@@ -142,6 +186,10 @@ class HttpClient extends ClientSocket implements HttpStream
     {
         if ($this->secure) {
             throw new HttpException("Secure connection using HTTPs is not supported yet!");
+        }
+
+        if ($requestType == 'HEAD') {
+            $this->setTimeout(1); // Don't wait too long on simple head
         }
 
         $ms = new MemoryStream();
@@ -159,20 +207,45 @@ class HttpClient extends ClientSocket implements HttpStream
                 ->getAddress()
         ));
 
+        if (!array_key_exists('Accept', $this->headers)) {
+            $this->setHeader('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8');
+        }
+
+        if (!array_key_exists('Accept-Language', $this->headers)) {
+            $this->setHeader('Accept-Language', 'en-US;q=0.7,en;q=0.3');
+        }
+
+        if (!array_key_exists('User-Agent', $this->headers)) {
+            $this->setHeader('User-Agent', 'phpGenerics 1.0');
+        }
+
+        if (!array_key_exists('Connection', $this->headers)) {
+            if ($requestType == 'HEAD') {
+                $this->setHeader('Connection', 'close');
+            } else {
+                $this->setHeader('Connection', 'keep-alive');
+            }
+        }
+
         // Add all existing headers
         foreach ($this->headers as $headerName => $headerValue) {
-            $ms->interpolate("{headerName}: {headerValue}\r\n", array(
-                'headerName' => $headerName,
-                'headerValue' => $headerValue
-            ));
+            if (isset($headerValue) && strlen($headerValue) > 0) {
+                $ms->interpolate("{headerName}: {headerValue}\r\n", array(
+                    'headerName' => $headerName,
+                    'headerValue' => $headerValue
+                ));
+            }
         }
 
         $ms->write("\r\n");
+
         $this->payload->reset();
 
         while ($this->payload->ready()) {
             $ms->write($this->payload->read(1024));
         }
+
+        $ms->reset();
 
         if (! $this->isConnected()) {
             $this->connect();
@@ -204,12 +277,17 @@ class HttpClient extends ClientSocket implements HttpStream
             if ($c === null) {
                 break;
             }
-
+            $start = time(); // we have readen something => adjust timeout start point
             $tmp .= $c;
 
             if (! $delimiterFound && substr($tmp, - 2, 2) == "\r\n") {
                 if ("\r\n" == $tmp) {
                     $delimiterFound = true;
+
+                    if ($requestType == 'HEAD') {
+                        // Header readen, in type HEAD it is now time to leave
+                        break;
+                    }
 
                     if (isset($this->headers['Content-Length'])) {
                         // Try to read the whole payload at once
@@ -239,6 +317,10 @@ class HttpClient extends ClientSocket implements HttpStream
                     }
                 }
             }
+        }
+
+        if ($this->headers['Connection'] == 'close' && $this->isConnected()) {
+            $this->disconnect();
         }
 
         // Set pointer to start

@@ -13,6 +13,11 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         $url = new Url('httpbin.org', 80);
 
         $http = new HttpClient($url);
+        $http->setHeader('Connection', '');
+        $http->setHeader('User-Agent', '');
+        $http->setHeader('Accept', '');
+        $http->setHeader('Accept-Language', '');
+        $http->setTimeout(2);
         $http->request('GET');
 
         $this->assertEquals(200, $http->getResponseCode());
@@ -27,5 +32,20 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertNotEmpty($response);
+    }
+
+    public function testRetrieveHeaders()
+    {
+        $url = new Url('httpbin.org', 80);
+
+        $http = new HttpClient($url);
+        $http->setHeader('Connection', '');
+        $http->setTimeout(1);
+
+        $headers = $http->retrieveHeaders();
+
+        var_dump($headers);
+
+        $this->assertEquals(200, $http->getResponseCode());
     }
 }

@@ -7,7 +7,7 @@ use Generics\Client\HttpClient;
 use Generics\Socket\Url;
 
 $http = new HttpClient(new Url('httpbin.org', 80));
-$http->request('GET');
+$http->request('HEAD');
 
 if ($http->getResponseCode() == 200) {
     $response = "";

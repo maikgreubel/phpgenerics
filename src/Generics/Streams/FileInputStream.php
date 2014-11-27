@@ -123,6 +123,6 @@ class FileInputStream implements InputStream, Resettable
      */
     public function __toString()
     {
-        return $this->fileName;
+        return realpath($this->fileName);
     }
 }
