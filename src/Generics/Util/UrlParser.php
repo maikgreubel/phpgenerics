@@ -30,11 +30,11 @@ class UrlParser
     {
         $parts = parse_url($url);
 
-        if (! isset($parts['scheme'])) {
-            throw new InvalidUrlException('This URL does not contain a scheme part');
-        }
-        if (! isset($parts['host'])) {
+        if (! isset($parts['host']) || strlen($parts['host']) == 0) {
             throw new InvalidUrlException('This URL does not contain a host part');
+        }
+        if (! isset($parts['scheme']) || strlen($parts['scheme']) == 0) {
+            throw new InvalidUrlException('This URL does not contain a scheme part');
         }
 
         $address = $parts['host'];

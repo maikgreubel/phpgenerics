@@ -23,5 +23,5 @@ if ($http->getResponseCode() == 200) {
     }
     printf("Response: %s\n", $response);
 
-    $http->close();
+    $http->disconnect();
 }

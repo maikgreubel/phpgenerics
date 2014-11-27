@@ -14,6 +14,7 @@ use Generics\Streams\InputOutputStream;
 use Generics\Socket\ClientSocket;
 use Generics\Socket\Endpoint;
 use Generics\Socket\Url;
+use Generics\Socket\SocketException;
 
 /**
  * This class implements a HttpStream as client
@@ -207,19 +208,19 @@ class HttpClient extends ClientSocket implements HttpStream
                 ->getAddress()
         ));
 
-        if (!array_key_exists('Accept', $this->headers)) {
+        if (!array_key_exists('Accept', $this->headers) && $requestType != 'HEAD') {
             $this->setHeader('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8');
         }
 
-        if (!array_key_exists('Accept-Language', $this->headers)) {
+        if (!array_key_exists('Accept-Language', $this->headers) && $requestType != 'HEAD') {
             $this->setHeader('Accept-Language', 'en-US;q=0.7,en;q=0.3');
         }
 
-        if (!array_key_exists('User-Agent', $this->headers)) {
+        if (!array_key_exists('User-Agent', $this->headers) && $requestType != 'HEAD') {
             $this->setHeader('User-Agent', 'phpGenerics 1.0');
         }
 
-        if (!array_key_exists('Connection', $this->headers)) {
+        if (!array_key_exists('Connection', $this->headers) || strlen($this->headers['Connection']) == 0) {
             if ($requestType == 'HEAD') {
                 $this->setHeader('Connection', 'close');
             } else {
@@ -274,52 +275,52 @@ class HttpClient extends ClientSocket implements HttpStream
             }
 
             $c = $this->read($numBytes);
-            if ($c === null) {
-                break;
-            }
-            $start = time(); // we have readen something => adjust timeout start point
-            $tmp .= $c;
 
-            if (! $delimiterFound && substr($tmp, - 2, 2) == "\r\n") {
-                if ("\r\n" == $tmp) {
-                    $delimiterFound = true;
+            if ($c !== null) {
+                $start = time(); // we have readen something => adjust timeout start point
+                $tmp .= $c;
 
-                    if ($requestType == 'HEAD') {
-                        // Header readen, in type HEAD it is now time to leave
-                        break;
+                if (! $delimiterFound && substr($tmp, - 2, 2) == "\r\n") {
+                    if ("\r\n" == $tmp) {
+                        $delimiterFound = true;
+
+                        if ($requestType == 'HEAD') {
+                            // Header readen, in type HEAD it is now time to leave
+                            break;
+                        }
+
+                        if (isset($this->headers['Content-Length'])) {
+                            // Try to read the whole payload at once
+                            $numBytes = intval($this->headers['Content-Length']);
+                        }
+                    } else {
+                        if (strpos($tmp, ':') === false) {
+                            $this->responseCode = HttpStatus::parseStatus($tmp)->getCode();
+                        } else {
+                            $tmp = trim($tmp);
+                            list ($headerName, $headerValue) = explode(':', $tmp, 2);
+                            $this->headers[$headerName] = trim($headerValue);
+                        }
                     }
+                    $tmp = "";
+                    continue;
+                }
+
+                if ($delimiterFound) {
+                    // delimiter already found, append to payload
+                    $this->payload->write($tmp);
+                    $tmp = "";
 
                     if (isset($this->headers['Content-Length'])) {
-                        // Try to read the whole payload at once
-                        $numBytes = intval($this->headers['Content-Length']);
-                    }
-                } else {
-                    if (strpos($tmp, ':') === false) {
-                        $this->responseCode = HttpStatus::parseStatus($tmp)->getCode();
-                    } else {
-                        $tmp = trim($tmp);
-                        list ($headerName, $headerValue) = explode(':', $tmp, 2);
-                        $this->headers[$headerName] = $headerValue;
-                    }
-                }
-                $tmp = "";
-                continue;
-            }
-
-            if ($delimiterFound) {
-                // delimiter already found, append to payload
-                $this->payload->write($tmp);
-                $tmp = "";
-
-                if (isset($this->headers['Content-Length'])) {
-                    if ($this->payload->count() >= $this->headers['Content-Length']) {
-                        break;
+                        if ($this->payload->count() >= $this->headers['Content-Length']) {
+                            break;
+                        }
                     }
                 }
             }
         }
 
-        if ($this->headers['Connection'] == 'close' && $this->isConnected()) {
+        if ($this->headers['Connection'] == 'close') {
             $this->disconnect();
         }
 

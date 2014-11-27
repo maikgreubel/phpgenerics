@@ -76,6 +76,17 @@ class Url extends Endpoint
         return $this->path;
     }
 
+    public function getUrlString()
+    {
+        if (($this->scheme == 'http' && $this->getPort() == 80) ||
+            ($this->scheme == 'ftp' && $this->getPort() == 21) ||
+            ($this->scheme == 'https' && $this->getPort() == 443))
+        {
+            return sprintf("%s://%s%s", $this->scheme, $this->getAddress(), $this->path);
+        }
+        return sprintf("%s://%s:%d%s", $this->scheme, $this->getAddress(), $this->getPort(), $this->path);
+    }
+
     /**
      * (non-PHPdoc)
      *
@@ -83,6 +94,7 @@ class Url extends Endpoint
      */
     public function __toString()
     {
-        return sprintf("%s://%s:%d/%s", $this->scheme, $this->getAddress(), $this->getPort(), $this->path);
+        return $this->getUrlString();
+
     }
 }

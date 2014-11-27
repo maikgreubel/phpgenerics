@@ -2,6 +2,7 @@
 /composer.phar
 /vendor
 /output
+/coverage
 /.buildpath
 /.project
 /.settings

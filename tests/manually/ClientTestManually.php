@@ -25,6 +25,6 @@ if (($buf = $client->read(1024)) !== null) {
     $response = $buf;
 }
 
-$client->close();
+$client->disconnect();
 
 printf("Response from server: %s\n", $response);

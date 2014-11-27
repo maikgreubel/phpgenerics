@@ -20,5 +20,7 @@ class HttpStatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(500, $status->getCode());
         $this->assertEquals('HTTP/1.1', $status->getProtocol());
         $this->assertEquals($statLine, $status->toStatusLine());
+
+        $this->assertEquals($statLine, strval($status));
     }
 }

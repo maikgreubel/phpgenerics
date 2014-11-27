@@ -22,6 +22,4 @@ if ($http->getResponseCode() == 200) {
         printf("%s: %s\n", $headerName, $headerValue);
     }
     printf("Response: %s\n", $response);
-
-    $http->close();
 }

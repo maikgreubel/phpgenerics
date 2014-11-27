@@ -66,7 +66,7 @@ class ClientSocket extends Socket
             throw new SocketException("Socket is not connected");
         }
 
-        $this->close();
+        parent::close();
         $this->conntected = false;
     }
 
@@ -78,5 +78,15 @@ class ClientSocket extends Socket
     public function isConnected()
     {
         return $this->conntected;
+    }
+
+    /**
+     * This method does nothing! Use disconnect() instead
+     *
+     * @see \Generics\Socket\ClientSocket::disconnect()
+     */
+    public function close()
+    {
+        // Do nothing, the disconnect() method has to be called
     }
 }
