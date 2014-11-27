@@ -14,7 +14,7 @@ namespace Generics\Client;
 class HttpStatus
 {
 
-    const STATUS_200 = 'Ok';
+    const STATUS_200 = 'OK';
 
     const STATUS_301 = 'Moved Permanently';
 
@@ -75,8 +75,8 @@ class HttpStatus
      */
     public static function getStatus($code)
     {
-        $prop = sprintf("STATUS_%d", $code);
-        return self::$$prop;
+        $prop = sprintf("Generics\\Client\\HttpStatus::STATUS_%d", $code);
+        return constant($prop);
     }
 
     /**
@@ -100,7 +100,7 @@ class HttpStatus
      */
     public function toStatusLine()
     {
-        return sprintf("HTTP/%f %d %s", $this->proto, $this->code, self::getStatus($this->code));
+        return sprintf("%s %d %s", $this->proto, $this->code, self::getStatus($this->code));
     }
 
     /**

@@ -44,8 +44,6 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
 
         $headers = $http->retrieveHeaders();
 
-        var_dump($headers);
-
         $this->assertEquals(200, $http->getResponseCode());
     }
 }
