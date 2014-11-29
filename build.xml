@@ -167,6 +167,8 @@
 			<arg path="${basedir}/build/logs/clover.xml" />
 			<arg value="--coverage-crap4j" />
 			<arg path="${basedir}/build/logs/crap4j.xml" />
+			<arg value="--log-junit" />
+			<arg path="${basedir}/build/logs/junit.xml" />
 		</exec>
 	</target>
 
