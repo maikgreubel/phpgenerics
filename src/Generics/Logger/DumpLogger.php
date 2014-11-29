@@ -19,7 +19,7 @@ interface DumpLogger
     /**
      * Dumps an arbitrary variable into log.
      *
-     * @param mixed $o            
+     * @param mixed $o
      */
     public function dump($o);
 }

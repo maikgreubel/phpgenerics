@@ -15,6 +15,7 @@ use Generics\Socket\ClientSocket;
 use Generics\Socket\Endpoint;
 use Generics\Socket\Url;
 use Generics\Socket\SocketException;
+use Generics\Streams\StreamException;
 
 /**
  * This class implements a HttpStream as client
@@ -193,60 +194,9 @@ class HttpClient extends ClientSocket implements HttpStream
             $this->setTimeout(1); // Don't wait too long on simple head
         }
 
-        $ms = new MemoryStream();
+        $ms = $this->prepareRequest($requestType);
 
-        // First send the request type
-        $ms->interpolate("{rqtype} {path} {proto}\r\n", array(
-            'rqtype' => $requestType,
-            'path' => $this->path,
-            'proto' => $this->protocol
-        ));
-
-        // Add the host part
-        $ms->interpolate("Host: {host}\r\n", array(
-            'host' => $this->getEndpoint()
-                ->getAddress()
-        ));
-
-        if (!array_key_exists('Accept', $this->headers) && $requestType != 'HEAD') {
-            $this->setHeader('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8');
-        }
-
-        if (!array_key_exists('Accept-Language', $this->headers) && $requestType != 'HEAD') {
-            $this->setHeader('Accept-Language', 'en-US;q=0.7,en;q=0.3');
-        }
-
-        if (!array_key_exists('User-Agent', $this->headers) && $requestType != 'HEAD') {
-            $this->setHeader('User-Agent', 'phpGenerics 1.0');
-        }
-
-        if (!array_key_exists('Connection', $this->headers) || strlen($this->headers['Connection']) == 0) {
-            if ($requestType == 'HEAD') {
-                $this->setHeader('Connection', 'close');
-            } else {
-                $this->setHeader('Connection', 'keep-alive');
-            }
-        }
-
-        // Add all existing headers
-        foreach ($this->headers as $headerName => $headerValue) {
-            if (isset($headerValue) && strlen($headerValue) > 0) {
-                $ms->interpolate("{headerName}: {headerValue}\r\n", array(
-                    'headerName' => $headerName,
-                    'headerValue' => $headerValue
-                ));
-            }
-        }
-
-        $ms->write("\r\n");
-
-        $this->payload->reset();
-
-        while ($this->payload->ready()) {
-            $ms->write($this->payload->read(1024));
-        }
-
-        $ms->reset();
+        $ms = $this->appendPayloadToRequest($ms);
 
         if (! $this->isConnected()) {
             $this->connect();
@@ -256,6 +206,23 @@ class HttpClient extends ClientSocket implements HttpStream
             $this->write($ms->read(1024));
         }
 
+        $this->retrieveAndParseResponse($requestType);
+
+        if ($this->headers['Connection'] == 'close') {
+            $this->disconnect();
+        }
+    }
+
+    /**
+     * Retrieve and parse the response
+     *
+     * @param string $requestType
+     * @throws \Generics\Client\HttpException
+     * @throws \Generics\Socket\SocketException
+     * @throws \Generics\Streams\StreamException
+     */
+    private function retrieveAndParseResponse($requestType)
+    {
         $this->payload = new MemoryStream();
         $this->headers = array();
 
@@ -320,12 +287,97 @@ class HttpClient extends ClientSocket implements HttpStream
             }
         }
 
-        if ($this->headers['Connection'] == 'close') {
-            $this->disconnect();
-        }
-
         // Set pointer to start
         $this->payload->reset();
+    }
+
+    /**
+     * Append the payload buffer to the request buffer
+     *
+     * @param MemoryStream $ms
+     * @return MemoryStream
+     * @throws \Generics\Streams\StreamException
+     * @throws \Generics\ResetException
+     */
+    private function appendPayloadToRequest(MemoryStream $ms)
+    {
+        $this->payload->reset();
+
+        while ($this->payload->ready()) {
+            $ms->write($this->payload->read(1024));
+        }
+
+        $ms->reset();
+
+        return $ms;
+    }
+
+    /**
+     * Prepare the request buffer
+     *
+     * @param string $requestType
+     * @return \Generics\Streams\MemoryStream
+     * @throws \Generics\Streams\StreamException
+     */
+    private function prepareRequest($requestType)
+    {
+        $ms = new MemoryStream();
+
+        // First send the request type
+        $ms->interpolate("{rqtype} {path} {proto}\r\n", array(
+            'rqtype' => $requestType,
+            'path' => $this->path,
+            'proto' => $this->protocol
+        ));
+
+        // Add the host part
+        $ms->interpolate("Host: {host}\r\n", array(
+            'host' => $this->getEndpoint()
+            ->getAddress()
+        ));
+
+        $this->adjustHeaders($requestType);
+
+        // Add all existing headers
+        foreach ($this->headers as $headerName => $headerValue) {
+            if (isset($headerValue) && strlen($headerValue) > 0) {
+                $ms->interpolate("{headerName}: {headerValue}\r\n", array(
+                    'headerName' => $headerName,
+                    'headerValue' => $headerValue
+                ));
+            }
+        }
+
+        $ms->write("\r\n");
+
+        return $ms;
+    }
+
+    /**
+     * Adjust the headers by injecting default values for missing keys.
+     */
+    private function adjustHeaders($requestType)
+    {
+        if (!array_key_exists('Accept', $this->headers) && $requestType != 'HEAD') {
+            $this->setHeader('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8');
+        }
+
+        if (!array_key_exists('Accept-Language', $this->headers) && $requestType != 'HEAD') {
+            $this->setHeader('Accept-Language', 'en-US;q=0.7,en;q=0.3');
+        }
+
+        if (!array_key_exists('User-Agent', $this->headers) && $requestType != 'HEAD') {
+            $this->setHeader('User-Agent', 'phpGenerics 1.0');
+        }
+
+        if (!array_key_exists('Connection', $this->headers) || strlen($this->headers['Connection']) == 0) {
+            if ($requestType == 'HEAD') {
+                $this->setHeader('Connection', 'close');
+            } else {
+                $this->setHeader('Connection', 'keep-alive');
+            }
+        }
+
     }
 
     /**

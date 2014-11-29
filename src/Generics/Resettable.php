@@ -18,7 +18,7 @@ interface Resettable
     /**
      * Reset the stream pointer to beginning of stream.
      *
-     * @throws Exception in case of reset has failed
+     * @throws ResetException in case of reset has failed
      */
     public function reset();
 }

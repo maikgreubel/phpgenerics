@@ -47,24 +47,7 @@ class UrlParser
         }
 
         if ($port == 0) {
-            switch ($scheme) {
-                case 'http':
-                    $port = 80;
-                    break;
-
-                case 'https':
-                    $port = 443;
-                    break;
-
-                case 'ftp':
-                    $port = 21;
-                    break;
-
-                default:
-                    throw new InvalidUrlException("Scheme {scheme} is not handled!", array(
-                        'scheme' => $scheme
-                    ));
-            }
+            $port = self::getPortByScheme($scheme);
         }
 
         if (isset($parts['path'])) {
@@ -72,5 +55,40 @@ class UrlParser
         }
 
         return new Url($address, $port, $path, $scheme);
+    }
+
+    /**
+     * Get port number by scheme name.
+     * The port will be the default which is defined by
+     * http://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
+     *
+     * @param string $scheme The scheme.
+     * @throws InvalidUrlException
+     * @return int
+     */
+    public static function getPortByScheme($scheme)
+    {
+        $port = 0;
+
+        switch ($scheme) {
+            case 'http':
+                $port = 80;
+                break;
+
+            case 'https':
+                $port = 443;
+                break;
+
+            case 'ftp':
+                $port = 21;
+                break;
+
+            default:
+                throw new InvalidUrlException("Scheme {scheme} is not handled!", array(
+                    'scheme' => $scheme
+                ));
+        }
+
+        return $port;
     }
 }

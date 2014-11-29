@@ -85,12 +85,32 @@ class SimpleLogger implements LoggerInterface, ExceptionLogger, DumpLogger
         /**
          * This check implements the specification request.
          */
-        if ($level != LogLevel::ALERT && $level != LogLevel::CRITICAL && $level != LogLevel::DEBUG && //
-$level != LogLevel::EMERGENCY && $level != LogLevel::ERROR && $level != LogLevel::INFO && //
-$level != LogLevel::NOTICE && $level != LogLevel::WARNING) {
-            throw new \Psr\Log\InvalidArgumentException("Invalid log level provided!");
-        }
+        self::checkLevel($level);
 
+        $fd = fopen($this->file, $this->getOpenMode());
+        if ($fd) {
+            if (count($context) > 0) {
+                $message = $this->interpolate($message, $context);
+            }
+
+            $time = strftime("%Y-%m-%d %H:%M:%S", time());
+            fprintf($fd, "%s\t[%6.6s]: %s\n", $time, $level, $message);
+            fflush($fd);
+            fclose($fd);
+        }
+    }
+
+    /**
+     * Checks which mode has to be used for opening the log file
+     *
+     * In case of the maximum file size has been exceeded, the mode will
+     * be 'w' (write, which performs a truncation), instead of the
+     * default 'a' (append).
+     *
+     * @return string
+     */
+    private function getOpenMode()
+    {
         clearstatcache();
 
         $mode = "a";
@@ -103,16 +123,21 @@ $level != LogLevel::NOTICE && $level != LogLevel::WARNING) {
             }
         }
 
-        $fd = fopen($this->file, $mode);
-        if ($fd) {
-            if (count($context) > 0) {
-                $message = $this->interpolate($message, $context);
-            }
+        return $mode;
+    }
 
-            $time = strftime("%Y-%m-%d %H:%M:%S", time());
-            fprintf($fd, "%s\t[%6.6s]: %s\n", $time, $level, $message);
-            fflush($fd);
-            fclose($fd);
+    /**
+     * Checks the given level
+     *
+     * @param string $level
+     * @throws \Psr\Log\InvalidArgumentException
+     */
+    private static function checkLevel($level)
+    {
+        if ($level != LogLevel::ALERT && $level != LogLevel::CRITICAL && $level != LogLevel::DEBUG && //
+            $level != LogLevel::EMERGENCY && $level != LogLevel::ERROR && $level != LogLevel::INFO && //
+            $level != LogLevel::NOTICE && $level != LogLevel::WARNING) {
+            throw new \Psr\Log\InvalidArgumentException("Invalid log level provided!");
         }
     }
 

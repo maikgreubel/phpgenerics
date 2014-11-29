@@ -21,7 +21,7 @@ abstract class ServiceCallback
      *
      * @var Service endpoint
      */
-    private $serverEndpoint;
+    private $serviceEndpoint;
 
     /**
      * Create a new service callback instance
