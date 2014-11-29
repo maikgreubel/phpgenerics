@@ -9,13 +9,15 @@ namespace Generics\Streams;
 
 use Generics\FileExistsException;
 use Generics\NoAccessException;
+use Generics\LockException;
+use Generics\Lockable;
 
 /**
  * This class provides a file output stream.
  *
  * @author Maik
  */
-class FileOutputStream implements OutputStream
+class FileOutputStream implements OutputStream, Lockable
 {
 
     /**
@@ -33,6 +35,13 @@ class FileOutputStream implements OutputStream
     private $fileName;
 
     /**
+     * Whether resource is locked
+     *
+     * @var boolean
+     */
+    private $locked;
+
+    /**
      * Create a new FileOutputStream
      *
      * @param string $file
@@ -44,6 +53,8 @@ class FileOutputStream implements OutputStream
      */
     public function __construct($file, $append = false)
     {
+        $this->locked = false;
+
         $mode = "wb";
 
         if (file_exists($file)) {
@@ -72,6 +83,20 @@ class FileOutputStream implements OutputStream
         }
 
         $this->fileName = $file;
+    }
+
+    /**
+     * Cleanup (e.g. release lock)
+     */
+    public function __destruct()
+    {
+        try {
+            if ($this->locked) {
+                $this->unlock();
+            }
+        } catch (GenericsException $ex) {
+            // Do nothing
+        }
     }
 
     /**
@@ -172,5 +197,29 @@ class FileOutputStream implements OutputStream
         }
 
         fflush($this->handle);
+    }
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Lockable::lock()
+     */
+    public function lock()
+    {
+        if ($this->locked || flock($this->handle, LOCK_EX) === false) {
+            throw new LockException("Could not acquire lock");
+        }
+    }
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Lockable::unlock()
+     */
+    public function unlock()
+    {
+        if (!$this->locked || flock($this->handle, LOCK_UN) === false) {
+            throw new LockException("Could not release lock");
+        }
     }
 }

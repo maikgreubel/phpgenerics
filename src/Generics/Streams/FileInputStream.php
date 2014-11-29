@@ -9,13 +9,15 @@ namespace Generics\Streams;
 
 use \Generics\FileNotFoundException;
 use \Generics\Resettable;
+use \Generics\Lockable;
+use \Generics\LockException;
 
 /**
  * This class provides an input stream for files.
  *
  * @author Maik Greubel <greubel@nkey.de>
  */
-class FileInputStream implements InputStream, Resettable
+class FileInputStream implements InputStream, Resettable, Lockable
 {
 
     /**
@@ -31,6 +33,13 @@ class FileInputStream implements InputStream, Resettable
      * @var string
      */
     private $fileName;
+
+    /**
+     * Whether the access is locked
+     *
+     * @var boolean
+     */
+    private $locked;
 
     /**
      * Create a new FileInputStream
@@ -56,6 +65,20 @@ class FileInputStream implements InputStream, Resettable
         }
 
         $this->fileName = $file;
+    }
+
+    /**
+     * Cleanup (e.g. release lock)
+     */
+    public function __destruct()
+    {
+        try {
+            if ($this->locked) {
+                $this->unlock();
+            }
+        } catch (GenericsException $ex) {
+            // Do nothing
+        }
     }
 
     /**
@@ -114,6 +137,32 @@ class FileInputStream implements InputStream, Resettable
     public function reset()
     {
         fseek($this->handle, 0, SEEK_SET);
+    }
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Lockable::lock()
+     */
+    public function lock()
+    {
+        if ($this->locked || flock($this->handle, LOCK_SH) === false) {
+            throw new LockException("Could not acquire lock");
+        }
+        $this->locked = true;
+    }
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Lockable::unlock()
+     */
+    public function unlock()
+    {
+        if (!$this->locked || flock($this->handle, LOCK_UN) === false) {
+            throw new LockException("Could not release lock");
+        }
+        $this->locked = false;
     }
 
     /**

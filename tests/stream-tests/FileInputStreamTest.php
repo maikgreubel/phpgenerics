@@ -3,11 +3,12 @@
 namespace Generics\Tests;
 
 use Generics\Streams\FileInputStream;
+use Generics\Streams\FileOutputStream;
 
 class FileInputStreamTest extends \PHPUnit_Framework_TestCase
 {
 
-    private $fileName = 'sample.dat';
+    private $fileName = 'input.dat';
 
     private $testData = "Well, this content is only needed for testing the framework. Don't expect to much...";
 
@@ -44,5 +45,55 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->testData, $in);
 
         $this->assertFalse($fis->ready());
+    }
+
+    /**
+     * @expectedException \Generics\FileNotFoundException
+     */
+    public function testNonExisting()
+    {
+        $fis = new FileInputStream("non-existing-file.ext");
+    }
+
+    /**
+     * This will work without any exception
+     * It will cause an exception in case of the FileInputStream will be opened by another process
+     */
+    public function testNoAccess()
+    {
+        if (file_exists($this->fileName)) {
+            unlink($this->fileName);
+        }
+        $fis = new FileOutputStream($this->fileName);
+        $fis->lock();
+
+        $fis2 = new FileInputStream($this->fileName);
+    }
+
+    public function testLockUnlock()
+    {
+        $fis = new FileInputStream($this->fileName);
+        $fis->lock();
+        $fis->unlock();
+    }
+
+    /**
+     * @expectedException \Generics\LockException
+     */
+    public function testDoubleLock()
+    {
+        $fis = new FileInputStream($this->fileName);
+        $fis->lock();
+        $fis->lock();
+    }
+
+    /**
+     * @expectedException \Generics\Streams\StreamException
+     */
+    public function testNotReady()
+    {
+        $fis = new FileInputStream($this->fileName);
+        $fis->close();
+        $fis->read();
     }
 }

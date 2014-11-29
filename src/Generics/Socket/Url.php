@@ -80,8 +80,7 @@ class Url extends Endpoint
     {
         if (($this->scheme == 'http' && $this->getPort() == 80) ||
             ($this->scheme == 'ftp' && $this->getPort() == 21) ||
-            ($this->scheme == 'https' && $this->getPort() == 443))
-        {
+            ($this->scheme == 'https' && $this->getPort() == 443)) {
             return sprintf("%s://%s%s", $this->scheme, $this->getAddress(), $this->path);
         }
         return sprintf("%s://%s:%d%s", $this->scheme, $this->getAddress(), $this->getPort(), $this->path);

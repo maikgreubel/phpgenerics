@@ -144,6 +144,9 @@ class MemoryStream implements InputOutputStream, Resettable
         if ($this->closed) {
             throw new StreamException("Stream is not open");
         }
+        if (!isset($this->memory)) {
+            return 0;
+        }
         return strlen($this->memory);
     }
 
