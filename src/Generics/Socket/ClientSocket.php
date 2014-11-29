@@ -97,7 +97,7 @@ class ClientSocket extends Socket
      */
     public function isWriteable()
     {
-        if (!$this->conntected) {
+        if (!$this->isConnected()) {
             return false;
         }
 
