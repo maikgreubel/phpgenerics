@@ -9,7 +9,7 @@
 	<target name="update-deps">
 		<!-- Composer must be already installed -->
 		<exec executable="composer">
-			<arg value="update-dev"/>
+			<arg value="update"/>
 		</exec>
 	</target>
 
