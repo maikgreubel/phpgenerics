@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit colors="true"
-		 convertErrorToExceptions="true"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://phpunit.de/phpunit/schema contrib/phpunit.xsd"
+         xmlns="http://phpunit.de/phpunit/schema"
+         colors="true"
+		 convertErrorsToExceptions="true"
 		 convertNoticesToExceptions="true"
-		 converWarningsToExceptions="true"
+		 convertWarningsToExceptions="true"
 		 processIsolation="false"
 		 stopOnFailure="false"
 		 bootstrap="vendor/autoload.php">
@@ -13,7 +16,7 @@
 	</testsuites>
 	<filter>
 		<whitelist>
-			<directory>./src</directory>
+			<directory suffix=".php">./src</directory>
 		</whitelist>
 	</filter>
 </phpunit>
