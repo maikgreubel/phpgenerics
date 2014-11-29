@@ -89,4 +89,18 @@ class ClientSocket extends Socket
     {
         // Do nothing, the disconnect() method has to be called
     }
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Generics\Socket\Socket::isWriteable()
+     */
+    public function isWriteable()
+    {
+        if (!$this->conntected) {
+            return false;
+        }
+
+        return parent::isWriteable();
+    }
 }
