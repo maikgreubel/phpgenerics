@@ -3,6 +3,7 @@
 /vendor
 /output
 /coverage
+/logs
 /.buildpath
 /.project
 /.settings
