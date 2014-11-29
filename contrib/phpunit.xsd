@@ -9,8 +9,6 @@
   - @since 02.03.2011
   -->
 <xsd:schema
-	xmlns:phpu="http://phpunit.de/phpunit/schema"
-	targetNamespace="http://phpunit.de/phpunit/schema" 
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     attributeFormDefault="unqualified"
 	elementFormDefault="qualified">
@@ -18,19 +16,19 @@
 	<xsd:element name="phpunit">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element name="testsuites" type="phpu:Testsuites"
+				<xsd:element name="testsuites" type="Testsuites"
 					minOccurs="1" maxOccurs="1" />
-				<xsd:element name="groups" type="phpu:Groups" minOccurs="0"
+				<xsd:element name="groups" type="Groups" minOccurs="0"
 					maxOccurs="1" />
-				<xsd:element name="filter" type="phpu:Filter" minOccurs="0"
+				<xsd:element name="filter" type="Filter" minOccurs="0"
 					maxOccurs="1" />
-				<xsd:element name="logging" type="phpu:Logging" minOccurs="0"
+				<xsd:element name="logging" type="Logging" minOccurs="0"
 					maxOccurs="1" />
-				<xsd:element name="listeners" type="phpu:Listeners"
+				<xsd:element name="listeners" type="Listeners"
 					minOccurs="0" maxOccurs="1" />
-				<xsd:element name="php" type="phpu:PhpSettings" minOccurs="0"
+				<xsd:element name="php" type="PhpSettings" minOccurs="0"
 					maxOccurs="1" />
-				<xsd:element name="selenium" type="phpu:Selenium" minOccurs="0"
+				<xsd:element name="selenium" type="Selenium" minOccurs="0"
 					maxOccurs="1" />
 			</xsd:sequence>
 			<xsd:attribute name="backupGlobals" type="xsd:boolean"
@@ -63,14 +61,14 @@
 	<!-- Test Suites -->
 	<xsd:complexType name="Testsuites">
 		<xsd:sequence>
-			<xsd:element name="testsuite" type="phpu:Testsuite" minOccurs="1"
+			<xsd:element name="testsuite" type="Testsuite" minOccurs="1"
 				maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
 	<xsd:complexType name="Testsuite">
 		<xsd:sequence>
-			<xsd:element name="directory" type="phpu:Directory" minOccurs="0"
+			<xsd:element name="directory" type="Directory" minOccurs="0"
 				maxOccurs="unbounded" />
 			<xsd:element name="file" type="xsd:string" minOccurs="0"
 				maxOccurs="unbounded" />
@@ -89,9 +87,9 @@
 	<!-- Groups -->
 	<xsd:complexType name="Groups">
 		<xsd:sequence>
-			<xsd:element name="include" type="phpu:GroupContainer"
+			<xsd:element name="include" type="GroupContainer"
 				minOccurs="0" maxOccurs="1" />
-			<xsd:element name="exclude" type="phpu:GroupContainer"
+			<xsd:element name="exclude" type="GroupContainer"
 				minOccurs="0" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -106,20 +104,20 @@
 	<!-- Including and Excluding Files for Code Coverage -->
 	<xsd:complexType name="Filter">
 		<xsd:sequence>
-			<xsd:element name="blacklist" type="phpu:FilterContainer"
+			<xsd:element name="blacklist" type="FilterContainer"
 				minOccurs="0" maxOccurs="1" />
-			<xsd:element name="whitelist" type="phpu:FilterContainer"
+			<xsd:element name="whitelist" type="FilterContainer"
 				minOccurs="0" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
 
 	<xsd:complexType name="FilterContainer">
 		<xsd:sequence>
-			<xsd:element name="directory" type="phpu:FilterDirectory"
+			<xsd:element name="directory" type="FilterDirectory"
 				minOccurs="0" maxOccurs="unbounded" />
-			<xsd:element name="file" type="phpu:FilterContainer"
+			<xsd:element name="file" type="FilterContainer"
 				minOccurs="0" maxOccurs="unbounded" />
-			<xsd:element name="exclude" type="phpu:FilterExclude"
+			<xsd:element name="exclude" type="FilterExclude"
 				minOccurs="0" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -135,7 +133,7 @@
 
 	<xsd:complexType name="FilterExclude">
 		<xsd:sequence>
-			<xsd:element name="directory" type="phpu:FilterDirectory"
+			<xsd:element name="directory" type="FilterDirectory"
 				minOccurs="0" maxOccurs="unbounded" />
 			<xsd:element name="file" type="xsd:string" minOccurs="0"
 				maxOccurs="unbounded" />
@@ -145,7 +143,7 @@
 	<!-- Logging -->
 	<xsd:complexType name="Logging">
 		<xsd:sequence>
-			<xsd:element name="log" type="phpu:Log" minOccurs="1"
+			<xsd:element name="log" type="Log" minOccurs="1"
 				maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -167,7 +165,7 @@
 	<!-- Test Listeners -->
 	<xsd:complexType name="Listeners">
 		<xsd:sequence>
-			<xsd:element name="listener" type="phpu:Listener" minOccurs="1"
+			<xsd:element name="listener" type="Listener" minOccurs="1"
 				maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -176,7 +174,7 @@
 		<xsd:sequence>
 			<xsd:element name="arguments" minOccurs="1" maxOccurs="1">
 				<xsd:complexType>
-					<xsd:group ref="phpu:ListenerArgumentData" minOccurs="0"
+					<xsd:group ref="ListenerArgumentData" minOccurs="0"
 						maxOccurs="unbounded" />
 				</xsd:complexType>
 			</xsd:element>
@@ -187,12 +185,12 @@
 
 	<xsd:group name="ListenerArgumentData">
 		<xsd:choice>
-			<xsd:element name="array" type="phpu:ListenerArgumentArray" />
+			<xsd:element name="array" type="ListenerArgumentArray" />
 			<xsd:element name="integer" type="xsd:integer" />
 			<xsd:element name="string" type="xsd:string" />
 			<xsd:element name="double" type="xsd:double" />
-			<xsd:element name="null" type="phpu:Empty" />
-			<xsd:element name="object" type="phpu:ListenerArgumentObject" />
+			<xsd:element name="null" type="Empty" />
+			<xsd:element name="object" type="ListenerArgumentObject" />
 		</xsd:choice>
 	</xsd:group>
 
@@ -200,7 +198,7 @@
 		<xsd:sequence>
 			<xsd:element name="element">
 				<xsd:complexType>
-					<xsd:group ref="phpu:ListenerArgumentData" minOccurs="0"
+					<xsd:group ref="ListenerArgumentData" minOccurs="0"
 						maxOccurs="unbounded" />
 					<xsd:attribute name="key" type="xsd:string" use="required" />
 				</xsd:complexType>
@@ -217,25 +215,25 @@
 		<xsd:sequence>
 			<xsd:element name="includePath" type="xsd:string"
 				minOccurs="0" maxOccurs="1" />
-			<xsd:element name="ini" type="phpu:PhpSetting" minOccurs="0"
+			<xsd:element name="ini" type="PhpSetting" minOccurs="0"
 				maxOccurs="unbounded" />
-			<xsd:element name="const" type="phpu:PhpSetting" minOccurs="0"
+			<xsd:element name="const" type="PhpSetting" minOccurs="0"
 				maxOccurs="unbounded" />
-			<xsd:element name="var" type="phpu:PhpSetting" minOccurs="0"
+			<xsd:element name="var" type="PhpSetting" minOccurs="0"
 				maxOccurs="unbounded" />
-			<xsd:element name="env" type="phpu:PhpSetting" minOccurs="0"
+			<xsd:element name="env" type="PhpSetting" minOccurs="0"
 				maxOccurs="unbounded" />
-			<xsd:element name="post" type="phpu:PhpSetting" minOccurs="0"
+			<xsd:element name="post" type="PhpSetting" minOccurs="0"
 				maxOccurs="unbounded" />
-			<xsd:element name="get" type="phpu:PhpSetting" minOccurs="0"
+			<xsd:element name="get" type="PhpSetting" minOccurs="0"
 				maxOccurs="unbounded" />
-			<xsd:element name="cookie" type="phpu:PhpSetting" minOccurs="0"
+			<xsd:element name="cookie" type="PhpSetting" minOccurs="0"
 				maxOccurs="unbounded" />
-			<xsd:element name="server" type="phpu:PhpSetting" minOccurs="0"
+			<xsd:element name="server" type="PhpSetting" minOccurs="0"
 				maxOccurs="unbounded" />
-			<xsd:element name="files" type="phpu:PhpSetting" minOccurs="0"
+			<xsd:element name="files" type="PhpSetting" minOccurs="0"
 				maxOccurs="unbounded" />
-			<xsd:element name="request" type="phpu:PhpSetting" minOccurs="0"
+			<xsd:element name="request" type="PhpSetting" minOccurs="0"
 				maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>

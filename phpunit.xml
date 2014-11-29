@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE phpunit>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://phpunit.de/phpunit/schema contrib/phpunit.xsd"
-         xmlns="http://phpunit.de/phpunit/schema"
-         colors="true"
+    	 xsi:noNamespaceSchemaLocation="contrib/phpunit.xsd"
+		 colors="true"
 		 convertErrorsToExceptions="true"
 		 convertNoticesToExceptions="true"
 		 convertWarningsToExceptions="true"
