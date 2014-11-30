@@ -76,6 +76,11 @@ class Url extends Endpoint
         return $this->path;
     }
 
+    /**
+     * Retrieve the url as string
+     *
+     * @return string
+     */
     public function getUrlString()
     {
         if (($this->scheme == 'http' && $this->getPort() == 80) ||
@@ -84,6 +89,16 @@ class Url extends Endpoint
             return sprintf("%s://%s%s", $this->scheme, $this->getAddress(), $this->path);
         }
         return sprintf("%s://%s:%d%s", $this->scheme, $this->getAddress(), $this->getPort(), $this->path);
+    }
+
+    /**
+     * Retrieve only the file part
+     *
+     * @return string
+     */
+    public function getFile()
+    {
+        return basename($this->path);
     }
 
     /**
