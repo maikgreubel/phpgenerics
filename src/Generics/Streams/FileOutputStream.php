@@ -209,6 +209,7 @@ class FileOutputStream implements OutputStream, Lockable
         if ($this->locked || flock($this->handle, LOCK_EX) === false) {
             throw new LockException("Could not acquire lock");
         }
+        $this->locked = true;
     }
 
     /**
@@ -221,5 +222,6 @@ class FileOutputStream implements OutputStream, Lockable
         if (!$this->locked || flock($this->handle, LOCK_UN) === false) {
             throw new LockException("Could not release lock");
         }
+        $this->locked = false;
     }
 }

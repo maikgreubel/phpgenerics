@@ -276,4 +276,14 @@ class SimpleLogger implements LoggerInterface, ExceptionLogger, DumpLogger
     {
         return $this->file;
     }
+
+    /**
+     * Retrieve the maximum size of log file in megabytes
+     *
+     * @return int
+     */
+    public function getMaxLogSize()
+    {
+        return $this->maxLogSize;
+    }
 }

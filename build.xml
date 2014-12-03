@@ -55,6 +55,7 @@
 		<delete dir="${basedir}/build/logs" />
 		<delete dir="${basedir}/build/pdepend" />
 		<delete dir="${basedir}/build/phpdox" />
+		<delete dir="${basedir}/coverage" />
 		<property name="clean.done" value="true" />
 	</target>
 
@@ -291,6 +292,8 @@
 			<arg path="${basedir}/build/logs/crap4j.xml" />
 			<arg value="--log-junit" />
 			<arg path="${basedir}/build/logs/junit.xml" />
+			<arg value="--coverage-html" />
+			<arg path="${basedir}/coverage" />
 		</exec>
 	</target>
 
@@ -304,6 +307,8 @@
 			<arg path="${basedir}/build/logs/crap4j.xml" />
 			<arg value="--log-junit" />
 			<arg path="${basedir}/build/logs/junit.xml" />
+			<arg value="--coverage-html" />
+			<arg path="${basedir}/coverage" />
 		</exec>
 	</target>
 
