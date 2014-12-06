@@ -82,7 +82,7 @@ class HttpClient extends ClientSocket implements HttpStream
      * @param string $path
      *            The path part for http request
      */
-    public function __construct(Url $url, $proto = 'HTTP/1.1', $timeout = 5)
+    public function __construct(Url $url, $proto = 'HTTP/1.1', $timeout = 10)
     {
         parent::__construct($url);
         $this->path = $url->getPath();

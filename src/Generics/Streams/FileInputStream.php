@@ -109,10 +109,16 @@ class FileInputStream implements InputStream, Resettable, Lockable
      *
      * @see \Generics\Streams\InputStream::read()
      */
-    public function read($length = 1)
+    public function read($length = 1, $offset = null)
     {
         if (! $this->ready()) {
             throw new StreamException("Stream is not ready!");
+        }
+
+        if ($offset !== null && intval($offset) > 0) {
+            if (fseek($this->handle, $offset, SEEK_SET) != 0) {
+                throw new StreamException("Could not set offset!");
+            }
         }
 
         return fread($this->handle, $length);

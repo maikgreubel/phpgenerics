@@ -173,7 +173,7 @@ class SimpleLoggerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(128, $fis->count());
         $fis->close();
 
-        for($i = 0; $i < 8192; $i++) {
+        for ($i = 0; $i < 8192; $i++) {
             $logger->info($message);
         }
         $fis = new FileInputStream($logger->getFile());
@@ -189,7 +189,7 @@ class SimpleLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testDump()
     {
-        $logger = new SimpleLogger();
+        $logger = new SimpleLogger($this->logFileName);
         $o = new \stdClass();
         $logger->dump($o);
 

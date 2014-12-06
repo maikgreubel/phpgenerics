@@ -154,7 +154,7 @@ abstract class Socket implements SocketStream
      *
      * @see \Generics\Streams\InputStream::read()
      */
-    public function read($length = 1)
+    public function read($length = 1, $offset = null)
     {
         $buf = null;
 

@@ -9,13 +9,14 @@ namespace Generics\Logger;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Psr\Log\AbstractLogger;
 
 /**
  * This class is a standard reference implementation of the PSR LoggerInterface.
  *
  * @author Maik Greubel <greubel@nkey.de>
  */
-class SimpleLogger implements LoggerInterface, ExceptionLogger, DumpLogger
+class SimpleLogger extends AbstractLogger implements ExceptionLogger, DumpLogger
 {
 
     /**
@@ -139,86 +140,6 @@ class SimpleLogger implements LoggerInterface, ExceptionLogger, DumpLogger
             $level != LogLevel::NOTICE && $level != LogLevel::WARNING) {
             throw new \Psr\Log\InvalidArgumentException("Invalid log level provided!");
         }
-    }
-
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \Psr\Log\LoggerInterface::emergency()
-     */
-    public function emergency($message, array $context = array())
-    {
-        $this->logImpl(LogLevel::EMERGENCY, $message, $context);
-    }
-
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \Psr\Log\LoggerInterface::alert()
-     */
-    public function alert($message, array $context = array())
-    {
-        $this->logImpl(LogLevel::ALERT, $message, $context);
-    }
-
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \Psr\Log\LoggerInterface::critical()
-     */
-    public function critical($message, array $context = array())
-    {
-        $this->logImpl(LogLevel::CRITICAL, $message, $context);
-    }
-
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \Psr\Log\LoggerInterface::error()
-     */
-    public function error($message, array $context = array())
-    {
-        $this->logImpl(LogLevel::ERROR, $message, $context);
-    }
-
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \Psr\Log\LoggerInterface::warning()
-     */
-    public function warning($message, array $context = array())
-    {
-        $this->logImpl(LogLevel::WARNING, $message, $context);
-    }
-
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \Psr\Log\LoggerInterface::notice()
-     */
-    public function notice($message, array $context = array())
-    {
-        $this->logImpl(LogLevel::NOTICE, $message, $context);
-    }
-
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \Psr\Log\LoggerInterface::info()
-     */
-    public function info($message, array $context = array())
-    {
-        $this->logImpl(LogLevel::INFO, $message, $context);
-    }
-
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \Psr\Log\LoggerInterface::debug()
-     */
-    public function debug($message, array $context = array())
-    {
-        $this->logImpl(LogLevel::DEBUG, $message, $context);
     }
 
     /**

@@ -109,10 +109,14 @@ class MemoryStream implements InputOutputStream, Resettable
      *
      * @see \Generics\Streams\InputStream::read()
      */
-    public function read($length = 1)
+    public function read($length = 1, $offset = null)
     {
         if ($this->closed) {
             throw new StreamException("Stream is not open");
+        }
+
+        if ($offset !== null) {
+            $this->current = intval($offset);
         }
 
         if (strlen($this->memory) <= $this->current) {

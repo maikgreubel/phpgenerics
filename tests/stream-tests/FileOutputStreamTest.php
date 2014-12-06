@@ -97,7 +97,7 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
 
     public function testOtherFunctions()
     {
-        if(file_exists($this->testFile)) {
+        if (file_exists($this->testFile)) {
             unlink($this->testFile);
         }
 
@@ -124,7 +124,7 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testDoubleLock()
     {
-        if(file_exists($this->testFile)) {
+        if (file_exists($this->testFile)) {
             unlink($this->testFile);
         }
 
@@ -138,7 +138,7 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testFailFlush()
     {
-        if(file_exists($this->testFile)) {
+        if (file_exists($this->testFile)) {
             unlink($this->testFile);
         }
 
@@ -152,7 +152,7 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testFailUnlock()
     {
-        if(file_exists($this->testFile)) {
+        if (file_exists($this->testFile)) {
             unlink($this->testFile);
         }
 
@@ -165,7 +165,7 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testFailCount()
     {
-        if(file_exists($this->testFile)) {
+        if (file_exists($this->testFile)) {
             unlink($this->testFile);
         }
 

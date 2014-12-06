@@ -20,8 +20,10 @@ interface InputStream extends Stream
      *
      * @param int $length
      *            Number of bytes to read
+     * @param int $offset
+     *            The offset where to start reading
      * @throws StreamException in case of stream is closed
      * @return string The readen buffer
      */
-    public function read($length);
+    public function read($length, $offset = null);
 }
