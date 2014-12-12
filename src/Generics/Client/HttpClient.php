@@ -214,6 +214,75 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
+     * Check the connection availability
+     *
+     * @param int $start Timestamp when read request attempt starts
+     * @throws HttpException
+     * @return boolean
+     */
+    private function checkConnection($start)
+    {
+        if (! $this->ready()) {
+            if (time() - $start > $this->timeout) {
+                $this->disconnect();
+                throw new HttpException("Connection timed out!");
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Adjust number of bytes to read according content length header
+     *
+     * @param int $numBytes
+     * @return int
+     */
+    private function adjustNumbytes($numBytes)
+    {
+        if (isset($this->headers['Content-Length'])) {
+            // Try to read the whole payload at once
+            $numBytes = intval($this->headers['Content-Length']);
+        }
+
+        return $numBytes;
+    }
+
+    /**
+     * Try to parse line as header and add the results to local header list
+     *
+     * @param string $line
+     */
+    private function addParsedHeader($line)
+    {
+        if (strpos($line, ':') === false) {
+            $this->responseCode = HttpStatus::parseStatus($line)->getCode();
+        } else {
+            $line = trim($line);
+            list ($headerName, $headerValue) = explode(':', $line, 2);
+            $this->headers[$headerName] = trim($headerValue);
+        }
+    }
+
+    /**
+     * Check whether the readen bytes amount has reached the
+     * content length amount
+     *
+     * @return boolean
+     */
+    private function checkContentLengthExceeded()
+    {
+        if (isset($this->headers['Content-Length'])) {
+            if ($this->payload->count() >= $this->headers['Content-Length']) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Retrieve and parse the response
      *
      * @param string $requestType
@@ -232,12 +301,7 @@ class HttpClient extends ClientSocket implements HttpStream
         $numBytes = 1;
         $start = time();
         while (true) {
-            if (! $this->ready()) {
-                if (time() - $start > $this->timeout) {
-                    $this->disconnect();
-                    throw new HttpException("Connection timed out!");
-                }
-
+            if (!$this->checkConnection($start)) {
                 continue;
             }
 
@@ -256,18 +320,10 @@ class HttpClient extends ClientSocket implements HttpStream
                             break;
                         }
 
-                        if (isset($this->headers['Content-Length'])) {
-                            // Try to read the whole payload at once
-                            $numBytes = intval($this->headers['Content-Length']);
-                        }
+                        $numBytes = $this->adjustNumbytes($numBytes);
+
                     } else {
-                        if (strpos($tmp, ':') === false) {
-                            $this->responseCode = HttpStatus::parseStatus($tmp)->getCode();
-                        } else {
-                            $tmp = trim($tmp);
-                            list ($headerName, $headerValue) = explode(':', $tmp, 2);
-                            $this->headers[$headerName] = trim($headerValue);
-                        }
+                        $this->addParsedHeader($tmp);
                     }
                     $tmp = "";
                     continue;
@@ -278,10 +334,8 @@ class HttpClient extends ClientSocket implements HttpStream
                     $this->payload->write($tmp);
                     $tmp = "";
 
-                    if (isset($this->headers['Content-Length'])) {
-                        if ($this->payload->count() >= $this->headers['Content-Length']) {
-                            break;
-                        }
+                    if($this->checkContentLengthExceeded()) {
+                        break;
                     }
                 }
             }
@@ -354,6 +408,21 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
+     * Depending on request type the connection header is either
+     * set to keep-alive or close
+     *
+     * @param string $requestType
+     */
+    private function adjustConnectionHeader($requestType)
+    {
+        if ($requestType == 'HEAD') {
+            $this->setHeader('Connection', 'close');
+        } else {
+            $this->setHeader('Connection', 'keep-alive');
+        }
+    }
+
+    /**
      * Adjust the headers by injecting default values for missing keys.
      */
     private function adjustHeaders($requestType)
@@ -371,13 +440,8 @@ class HttpClient extends ClientSocket implements HttpStream
         }
 
         if (!array_key_exists('Connection', $this->headers) || strlen($this->headers['Connection']) == 0) {
-            if ($requestType == 'HEAD') {
-                $this->setHeader('Connection', 'close');
-            } else {
-                $this->setHeader('Connection', 'keep-alive');
-            }
+            $this->adjustConnectionHeader($requestType);
         }
-
     }
 
     /**
