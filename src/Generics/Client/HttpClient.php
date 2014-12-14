@@ -334,7 +334,7 @@ class HttpClient extends ClientSocket implements HttpStream
                     $this->payload->write($tmp);
                     $tmp = "";
 
-                    if($this->checkContentLengthExceeded()) {
+                    if ($this->checkContentLengthExceeded()) {
                         break;
                     }
                 }
