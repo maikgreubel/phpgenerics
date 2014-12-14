@@ -307,36 +307,38 @@ class HttpClient extends ClientSocket implements HttpStream
 
             $c = $this->read($numBytes);
 
-            if ($c !== null) {
-                $start = time(); // we have readen something => adjust timeout start point
-                $tmp .= $c;
+            if ($c == null ) {
+                continue;
+            }
 
-                if (! $delimiterFound && substr($tmp, - 2, 2) == "\r\n") {
-                    if ("\r\n" == $tmp) {
-                        $delimiterFound = true;
+            $start = time(); // we have readen something => adjust timeout start point
+            $tmp .= $c;
 
-                        if ($requestType == 'HEAD') {
-                            // Header readen, in type HEAD it is now time to leave
-                            break;
-                        }
+            if (! $delimiterFound && substr($tmp, - 2, 2) == "\r\n") {
+                if ("\r\n" == $tmp) {
+                    $delimiterFound = true;
 
-                        $numBytes = $this->adjustNumbytes($numBytes);
-
-                    } else {
-                        $this->addParsedHeader($tmp);
-                    }
-                    $tmp = "";
-                    continue;
-                }
-
-                if ($delimiterFound) {
-                    // delimiter already found, append to payload
-                    $this->payload->write($tmp);
-                    $tmp = "";
-
-                    if ($this->checkContentLengthExceeded()) {
+                    if ($requestType == 'HEAD') {
+                        // Header readen, in type HEAD it is now time to leave
                         break;
                     }
+
+                    $numBytes = $this->adjustNumbytes($numBytes);
+
+                } else {
+                    $this->addParsedHeader($tmp);
+                }
+                $tmp = "";
+                continue;
+            }
+
+            if ($delimiterFound) {
+                // delimiter already found, append to payload
+                $this->payload->write($tmp);
+                $tmp = "";
+
+                if ($this->checkContentLengthExceeded()) {
+                    break;
                 }
             }
         }
