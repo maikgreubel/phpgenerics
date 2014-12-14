@@ -283,6 +283,31 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
+     * Handle a header line
+     *
+     * All parameters by reference, which means the the values can be
+     * modified during execution of this method.
+     *
+     * @param boolean $delimiterFound Whether the delimiter for end of header section was found
+     * @param int $numBytes The number of bytes to read from remote
+     * @param string $tmp The current readen line
+     */
+    private function handleHeader(&$delimiterFound, &$numBytes, &$tmp)
+    {
+        if ($tmp == "\r\n") {
+            $numBytes = $this->adjustNumbytes($numBytes);
+            $delimiterFound = true;
+            $tmp = "";
+            return;
+        }
+
+        if (substr($tmp, - 2, 2) == "\r\n") {
+            $this->addParsedHeader($tmp);
+            $tmp = "";
+        }
+    }
+
+    /**
      * Retrieve and parse the response
      *
      * @param string $requestType
@@ -307,32 +332,23 @@ class HttpClient extends ClientSocket implements HttpStream
 
             $c = $this->read($numBytes);
 
-            if ($c == null ) {
-                continue;
+            if ($c == null) {
+                break;
             }
 
             $start = time(); // we have readen something => adjust timeout start point
             $tmp .= $c;
 
-            if (! $delimiterFound && substr($tmp, - 2, 2) == "\r\n") {
-                if ("\r\n" == $tmp) {
-                    $delimiterFound = true;
-
-                    if ($requestType == 'HEAD') {
-                        // Header readen, in type HEAD it is now time to leave
-                        break;
-                    }
-
-                    $numBytes = $this->adjustNumbytes($numBytes);
-
-                } else {
-                    $this->addParsedHeader($tmp);
-                }
-                $tmp = "";
-                continue;
+            if (!$delimiterFound) {
+                $this->handleHeader($delimiterFound, $numBytes, $tmp);
             }
 
             if ($delimiterFound) {
+                if ($requestType == 'HEAD') {
+                    // Header readen, in type HEAD it is now time to leave
+                    break;
+                }
+
                 // delimiter already found, append to payload
                 $this->payload->write($tmp);
                 $tmp = "";
