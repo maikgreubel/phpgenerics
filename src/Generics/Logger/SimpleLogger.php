@@ -10,6 +10,8 @@ namespace Generics\Logger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Psr\Log\AbstractLogger;
+use Generics\Streams\MemoryStream;
+use Generics\Streams\FileOutputStream;
 
 /**
  * This class is a standard reference implementation of the PSR LoggerInterface.
@@ -88,43 +90,45 @@ class SimpleLogger extends AbstractLogger implements ExceptionLogger, DumpLogger
          */
         self::checkLevel($level);
 
-        $fd = fopen($this->file, $this->getOpenMode());
-        if ($fd) {
-            if (count($context) > 0) {
-                $message = $this->interpolate($message, $context);
-            }
+        $ms = new MemoryStream();
 
-            $time = strftime("%Y-%m-%d %H:%M:%S", time());
-            fprintf($fd, "%s\t[%6.6s]: %s\n", $time, $level, $message);
-            fflush($fd);
-            fclose($fd);
+        $ms->write(strftime("%Y-%m-%d %H:%M:%S", time()));
+        $ms->interpolate("\t[{level}]: ", array('level' => sprintf("%6.6s", $level)));
+        $ms->interpolate($message, $context);
+        $ms->write("\n");
+
+        if ($this->isRotationNeeded()) {
+            unlink($this->file);
         }
+
+        $fos = new FileOutputStream($this->file, true);
+        $fos->write($ms);
+        $fos->flush();
+        $fos->close();
     }
 
     /**
-     * Checks which mode has to be used for opening the log file
+     * Checks whether a rotation of log file is necessary
      *
-     * In case of the maximum file size has been exceeded, the mode will
-     * be 'w' (write, which performs a truncation), instead of the
-     * default 'a' (append).
-     *
-     * @return string
+     * @return boolean true in case of its necessary, false otherwise
      */
-    private function getOpenMode()
+    private function isRotationNeeded()
     {
         clearstatcache();
 
-        $mode = "a";
         if (! file_exists($this->file)) {
-            $mode = "w";
-        } else {
-            $attributes = stat($this->file);
-            if ($attributes == false || $attributes['size'] >= $this->maxLogSize * 1024 * 1024) {
-                $mode = "w";
-            }
+            return false;
         }
 
-        return $mode;
+        $result = false;
+
+        $attributes = stat($this->file);
+
+        if ($attributes == false || $attributes['size'] >= $this->maxLogSize * 1024 * 1024) {
+            $result = true;
+        }
+
+        return $result;
     }
 
     /**
