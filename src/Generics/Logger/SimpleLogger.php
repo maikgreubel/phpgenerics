@@ -54,22 +54,6 @@ class SimpleLogger extends AbstractLogger implements ExceptionLogger, DumpLogger
     }
 
     /**
-     * Interpolates context values into the message placeholders.
-     * Taken as copy & paste from PSR document.
-     */
-    private function interpolate($message, array $context = array())
-    {
-        // build a replacement array with braces around the context keys
-        $replace = array();
-        foreach ($context as $key => $val) {
-            $replace['{' . $key . '}'] = $val;
-        }
-
-        // interpolate replacement values into the message and return
-        return strtr($message, $replace);
-    }
-
-    /**
      * This function provides the real logging function.
      *
      * First the log file size is checked.
