@@ -13,6 +13,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase
         $tempDirName = RandomString::generate(8, RandomString::ASCII);
         $dir = new Directory(getcwd() . "/$tempDirName");
         $dir->create();
+        $dir->isEmpty();
         $dir->remove();
         $this->assertFalse($dir->exists());
     }
@@ -50,6 +51,9 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase
         $file->close();
 
         $this->assertTrue($dir->fileExists($fileName));
+
+        $this->assertFalse($dir->isEmpty());
+        $this->assertTrue($dir->isEmpty($fileName));
 
         $dir->remove(true);
 

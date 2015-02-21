@@ -1,6 +1,17 @@
 <?php
+/**
+ * This file is part of the PHP Generics package.
+ *
+ * @package Generics
+ */
 namespace Generics\Util;
 
+/**
+ * This utility class helps to generate a random string
+ *
+ * @author Maik Greubel <greubel@nkey.de>
+ *
+ */
 class RandomString
 {
 
@@ -25,7 +36,7 @@ class RandomString
      *
      * @param number $length
      *            The length of string to generate
-     * @param unknown $allowed
+     * @param int $allowed
      *            Type of allowed characters
      * @param boolean $repeatable
      *            Whether a character may be reused
@@ -59,7 +70,7 @@ class RandomString
         srand(time());
         $i = $length;
         while ($i > 0) {
-            $index = rand(0, count($allowedChars)-1);
+            $index = rand(0, count($allowedChars) - 1);
             if (! $repeatable && in_array($index, $used)) {
                 continue;
             }
@@ -74,14 +85,15 @@ class RandomString
     /**
      * Reset the locale settings back to saved vars
      *
-     * @param string $localeSaved String containing the locale infos obtained using setlocale(LC_ALL, '');
+     * @param string $localeSaved
+     *            String containing the locale infos obtained using setlocale(LC_ALL, '');
      */
     private static function resetLocaleTo($localeSaved)
     {
         $localeData = explode(';', $localeSaved);
 
         foreach ($localeData as $identifier) {
-            list($type, $value) = explode("=", $identifier);
+            list ($type, $value) = explode("=", $identifier);
             switch ($type) {
                 case 'LC_ALL':
                     setlocale(LC_ALL, $value);

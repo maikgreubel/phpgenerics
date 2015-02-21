@@ -1,8 +1,18 @@
 <?php
+/**
+ * This file is part of the PHP Generics package.
+ *
+ * @package Generics
+ */
 namespace Generics\Util;
 
 use Generics\DirectoryException;
 
+/**
+ * This utility class helps on acting on directories
+ *
+ * @author Maik Greubel <greubel@nkey.de>
+ */
 class Directory
 {
 
@@ -26,11 +36,14 @@ class Directory
     /**
      * Checks whether directory is empty or not
      *
+     * @param string $filter
+     *            The filter for entries to skip
+     *
      * @return boolean
      *
      * @throws DirectoryException
      */
-    public function isEmpty()
+    public function isEmpty($filter = null)
     {
         if (! $this->exists()) {
             throw new DirectoryException("Directory {dir} does not exist", array(
@@ -40,11 +53,10 @@ class Directory
 
         $iter = new \DirectoryIterator($this->path);
         while ($iter->valid()) {
-            if ($iter->isDot()) {
-                $iter->next();
-            } else {
+            if (! $iter->isDot() && ($filter == null || ! preg_match("/$filter/", $iter->getFilename()))) {
                 return false;
             }
+            $iter->next();
         }
 
         return true;
