@@ -4,6 +4,7 @@ namespace Generics\Tests;
 
 use Generics\Util\Directory;
 use Generics\Util\RandomString;
+use Generics\Streams\FileOutputStream;
 
 class DirectoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,5 +31,28 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase
         $dir2->remove(true);
 
         $this->assertFalse($dir2->exists());
+    }
+
+    public function testFileExists()
+    {
+        $fileName = "test.txt";
+        $tempDirName = RandomString::generate(8, RandomString::ASCII);
+
+        $dir = new Directory(getcwd() . "/$tempDirName");
+        $this->assertFalse($dir->fileExists($fileName));
+
+        $dir->create();
+
+        $this->assertFalse($dir->fileExists($fileName));
+
+        $file = new FileOutputStream($dir->getPath() . '/' . $fileName);
+        $file->write("Rant data");
+        $file->close();
+
+        $this->assertTrue($dir->fileExists($fileName));
+
+        $dir->remove(true);
+
+        $this->assertFalse($dir->fileExists($fileName));
     }
 }

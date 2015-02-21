@@ -145,4 +145,25 @@ class Directory
     {
         return $this->path;
     }
+
+    /**
+     * Check whether a particular file exist in directory
+     *
+     * @param string $fileName
+     *            The file name to check
+     *
+     * @throws DirectoryException
+     *
+     * @return boolean
+     */
+    public function fileExists($fileName)
+    {
+        if (! $this->exists()) {
+            return false;
+        }
+
+        $file = sprintf("%s/%s", $this->path, $fileName);
+
+        return file_exists($file);
+    }
 }
