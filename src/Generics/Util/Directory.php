@@ -81,7 +81,6 @@ class Directory
 
         $iter = new \DirectoryIterator($this->path);
         while ($iter->valid()) {
-
             if ($iter->isDot()) {
                 $iter->next();
                 continue;
@@ -107,9 +106,9 @@ class Directory
      *
      * @throws DirectoryException
      */
-    public function create($recursive = false)
+    public function create($recursive = false, $mode = 0755)
     {
-        if (mkdir($this->path, null, $recursive) === false) {
+        if (mkdir($this->path, $mode, $recursive) === false) {
             throw new DirectoryException("Could not create the directory {dir}", array(
                 'dir' => $this->path
             ));
