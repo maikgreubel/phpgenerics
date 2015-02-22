@@ -8,6 +8,7 @@
 namespace Generics\Streams;
 
 use Generics\Resettable;
+use Generics\Util\Interpolator;
 
 /**
  * This class provides a memory stream for both input and output
@@ -16,7 +17,9 @@ use Generics\Resettable;
  */
 class MemoryStream implements InputOutputStream, Resettable
 {
-
+    use Interpolator {
+        interpolate as tinterpolate;
+    }
     /**
      * The local memory buffer
      *
@@ -178,11 +181,7 @@ class MemoryStream implements InputOutputStream, Resettable
      */
     public function interpolate($string, array $context)
     {
-        $replacers = array();
-        foreach ($context as $key => $value) {
-            $replacers['{' . $key . '}'] = $value;
-        }
-        $this->write(strtr($string, $replacers));
+        $this->write($this->tinterpolate($string, $context));
     }
 
     /**

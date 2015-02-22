@@ -1,6 +1,6 @@
 {
 	"reqire" : {
-		"php" : ">=5.3",
+		"php" : ">=5.4",
 		"psr/log" : "1.0.0"
 	},
 	"require-dev" : {

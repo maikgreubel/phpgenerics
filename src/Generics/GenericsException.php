@@ -7,6 +7,8 @@
  */
 namespace Generics;
 
+use Generics\Util\Interpolator;
+
 /**
  * This class provides a generic exception
  *
@@ -14,6 +16,7 @@ namespace Generics;
  */
 class GenericsException extends \Exception
 {
+    use Interpolator;
 
     /**
      * Create a new GenericsException
@@ -31,28 +34,5 @@ class GenericsException extends \Exception
     public function __construct($message, array $context = array(), $code = 0, $previous = null)
     {
         parent::__construct($this->interpolate($message, $context), $code, $previous);
-    }
-
-    /**
-     * Interpolates context values into the message placeholders.
-     *
-     * @param string $message
-     *            The message containing placeholders
-     * @param array $context
-     *            The context array containing the replacers
-     *
-     * @return string The interpolated message
-     */
-    private function interpolate($message, array $context = array())
-    {
-        $replace = array();
-
-        if ($context !== null) {
-            foreach ($context as $key => $val) {
-                $replace['{' . $key . '}'] = $val;
-            }
-        }
-
-        return strtr($message, $replace);
     }
 }
