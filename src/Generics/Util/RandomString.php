@@ -67,10 +67,9 @@ class RandomString
         $used = array();
 
         $string = "";
-        srand(time());
         $i = $length;
         while ($i > 0) {
-            $index = rand(0, count($allowedChars) - 1);
+            $index = mt_rand(0, count($allowedChars) - 1);
             if (! $repeatable && in_array($index, $used)) {
                 continue;
             }
