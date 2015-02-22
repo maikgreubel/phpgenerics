@@ -31,6 +31,9 @@ class Directory
     public function __construct($path)
     {
         $this->path = $path;
+        if ($this->exists()) {
+            $this->path = realpath($this->path);
+        }
     }
 
     /**
@@ -120,11 +123,18 @@ class Directory
      */
     public function create($recursive = false, $mode = 0755)
     {
+        if ($this->exists()) {
+            throw new DirectoryException("Directory {dir} already exists", array(
+                'dir' => $this->path
+            ));
+        }
+
         if (mkdir($this->path, $mode, $recursive) === false) {
             throw new DirectoryException("Could not create the directory {dir}", array(
                 'dir' => $this->path
             ));
         }
+        $this->path = realpath($this->path);
     }
 
     /**
