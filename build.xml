@@ -16,13 +16,13 @@
 	</condition>
 
 	<target name="update-deps-windows" if="is_windows">
-		<exec executable="composer.cmd">
+		<exec executable="composer.cmd" failonerror="true">
 			<arg value="update" />
 		</exec>
 	</target>
 
 	<target name="update-deps-unix" if="is_unix">
-		<exec executable="composer">
+		<exec executable="composer" failonerror="true">
 			<arg value="update" />
 		</exec>
 	</target>
