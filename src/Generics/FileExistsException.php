@@ -14,6 +14,6 @@ namespace Generics;
  *
  * @author Maik Greubel <greubel@nkey.de>
  */
-class FileExistsException extends \Exception
+class FileExistsException extends GenericsException
 {
 }
