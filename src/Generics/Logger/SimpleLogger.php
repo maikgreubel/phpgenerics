@@ -18,7 +18,7 @@ use Generics\Streams\FileOutputStream;
  *
  * @author Maik Greubel <greubel@nkey.de>
  */
-class SimpleLogger extends AbstractLogger implements ExceptionLogger, DumpLogger
+class SimpleLogger extends AbstractLogger
 {
 
     /**
@@ -67,7 +67,7 @@ class SimpleLogger extends AbstractLogger implements ExceptionLogger, DumpLogger
      * @param array $context
      *            The context of logging
      */
-    private function logImpl($level, $message, array $context = array())
+    protected function logImpl($level, $message, array $context = array())
     {
         /**
          * This check implements the specification request.
@@ -138,42 +138,6 @@ class SimpleLogger extends AbstractLogger implements ExceptionLogger, DumpLogger
     public function log($level, $message, array $context = array())
     {
         $this->logImpl($level, $message, $context);
-    }
-
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \Generics\Logger\ExceptionLogger::logException()
-     */
-    public function logException(\Exception $ex)
-    {
-        $level = LogLevel::ALERT;
-
-        if ($ex instanceof \ErrorException) {
-            $level = LogLevel::ERROR;
-        } elseif ($ex instanceof \RuntimeException) {
-            $level = LogLevel::EMERGENCY;
-        }
-
-        $this->logImpl($level, "({code}): {message}\n{stackTrace}", array(
-            'code' => $ex->getCode(),
-            'message' => $ex->getMessage(),
-            'stackTrace' => $ex->getTraceAsString()
-        ));
-    }
-
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \Generics\Logger\DumpLogger::dump()
-     */
-    public function dump($o)
-    {
-        $out = var_export($o, true);
-        $this->debug("Contents of {object}\n{dump}", array(
-            'object' => gettype($o),
-            'dump' => $out
-        ));
     }
 
     /**

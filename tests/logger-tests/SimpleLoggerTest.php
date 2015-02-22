@@ -4,7 +4,6 @@ namespace Generics\Tests;
 use Generics\Logger\SimpleLogger;
 use Generics\Streams\FileInputStream;
 use Generics\GenericsException;
-use Doctrine\Common\Annotations\SimpleAnnotationReader;
 
 class SimpleLoggerTest extends \PHPUnit_Framework_TestCase
 {
@@ -124,45 +123,6 @@ class SimpleLoggerTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/\[ debug\]: Some debug log message$/', $content);
     }
 
-    public function testException()
-    {
-        $logger = new SimpleLogger($this->logFileName);
-
-        $logger->logException(new GenericsException("Some exception"));
-
-        $fis = new FileInputStream($logger->getFile());
-        $content = $fis->read(1024);
-        $fis->close();
-
-        $this->assertContains('[ alert]: (0): Some exception', $content);
-    }
-
-    public function testErrorException()
-    {
-        $logger = new SimpleLogger($this->logFileName);
-
-        $logger->logException(new \ErrorException("Some exception", 255));
-
-        $fis = new FileInputStream($logger->getFile());
-        $content = $fis->read(1024);
-        $fis->close();
-
-        $this->assertContains('[ error]: (255): Some exception', $content);
-    }
-
-    public function testRuntimeException()
-    {
-        $logger = new SimpleLogger($this->logFileName);
-
-        $logger->logException(new \RuntimeException("Some exception", 127));
-
-        $fis = new FileInputStream($logger->getFile());
-        $content = $fis->read(1024);
-        $fis->close();
-
-        $this->assertContains('[emerge]: (127): Some exception', $content);
-    }
-
     public function testRotate()
     {
         $logger = new SimpleLogger($this->logFileName, 1);
@@ -173,7 +133,7 @@ class SimpleLoggerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(128, $fis->count());
         $fis->close();
 
-        for ($i = 0; $i < 8192; $i++) {
+        for ($i = 0; $i < 8192; $i ++) {
             $logger->info($message);
         }
         $fis = new FileInputStream($logger->getFile());
@@ -185,18 +145,5 @@ class SimpleLoggerTest extends \PHPUnit_Framework_TestCase
     {
         $logger = new SimpleLogger($this->logFileName, 0);
         $this->assertEquals(2, $logger->getMaxLogSize());
-    }
-
-    public function testDump()
-    {
-        $logger = new SimpleLogger($this->logFileName);
-        $o = new \stdClass();
-        $logger->dump($o);
-
-        $fis = new FileInputStream($logger->getFile());
-        $content = $fis->read(1024);
-        $fis->close();
-
-        $this->assertContains('stdClass', $content);
     }
 }
