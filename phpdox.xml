@@ -22,7 +22,7 @@
 					<file name="logs/phploc.xml" />
 				</source>
 				<source type="phpunit">
-					<coverage path="coverage" />
+					<coverage path="coverage/xml" />
 				</source>
 			</enrich>
 
