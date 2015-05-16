@@ -16,7 +16,7 @@ trait LoggerTrait
     /**
      * Logger instance
      *
-     * @var AbstractLogger
+     * @var \Psr\Log\LoggerInterface
      */
     private $logger = null;
 
@@ -42,7 +42,7 @@ trait LoggerTrait
     /**
      * Retrieve the logger instance
      *
-     * @return \Generics\Logger\AbstractLogger
+     * @return \Psr\Log\LoggerInterface
      */
     private function getLog()
     {
