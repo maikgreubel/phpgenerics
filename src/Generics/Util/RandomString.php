@@ -92,7 +92,11 @@ class RandomString
         $localeData = explode(';', $localeSaved);
 
         foreach ($localeData as $identifier) {
-            list ($type, $value) = explode("=", $identifier);
+            if (!strchr($identifier, '=')) {
+                continue;
+            }
+            $type = $value = null;
+            sscanf($identifier, "%s=%s", $type, $value);
             switch ($type) {
                 case 'LC_ALL':
                     setlocale(LC_ALL, $value);
