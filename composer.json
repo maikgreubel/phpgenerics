@@ -38,7 +38,14 @@
 	},
 	"autoload-dev" : {
 		"psr-4" : {
-			"Generics\\Tests\\" : "tests"
+			"Generics\\Tests\\" : [
+			    "tests/exception-tests",
+			    "tests/http-tests",
+			    "tests/logger-tests",
+			    "tests/socket-tests",
+			    "tests/stream-tests",
+			    "tests/util-tests"
+			]
 		}
 	},
 	"config" : {
