@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/maikgreubel/phpgenerics.svg?branch=master)](https://travis-ci.org/maikgreubel/phpgenerics)
+[![Coverage Status](https://coveralls.io/repos/maikgreubel/phpgenerics/badge.svg?branch=master)](https://coveralls.io/r/maikgreubel/phpgenerics?branch=master)
+
 PHP Generics
 ==
 
