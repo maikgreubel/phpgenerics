@@ -11,7 +11,7 @@
 		"phpmd/phpmd" : "2.2.0",
 		"sebastian/phpcpd" : "2.0.1",
 		"theseer/phpdox" : "0.7.0",
-		"psr/log" : "1.0.0"
+        "satooshi/php-coveralls": "dev-master"
 	},
 	"name" : "nkey/phpgenerics",
 	"description" : "A generic component framework",
