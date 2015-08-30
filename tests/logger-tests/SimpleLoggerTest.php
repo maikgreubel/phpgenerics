@@ -3,7 +3,6 @@ namespace Generics\Tests;
 
 use Generics\Logger\SimpleLogger;
 use Generics\Streams\FileInputStream;
-use Generics\GenericsException;
 
 class SimpleLoggerTest extends \PHPUnit_Framework_TestCase
 {

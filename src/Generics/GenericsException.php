@@ -28,10 +28,10 @@ class GenericsException extends \Exception
      *            The context elements to replace in message
      * @param number $code
      *            Optional code
-     * @param string $previous
+     * @param \Exception $previous
      *            Optional previous exception
      */
-    public function __construct($message, array $context = array(), $code = 0, $previous = null)
+    public function __construct($message, array $context = array(), $code = 0, \Exception $previous = null)
     {
         parent::__construct($this->interpolate($message, $context), $code, $previous);
     }

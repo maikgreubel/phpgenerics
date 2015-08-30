@@ -7,7 +7,6 @@
  */
 namespace Generics\Util;
 
-use Generics\Socket\Endpoint;
 use Generics\Socket\InvalidUrlException;
 use Generics\Socket\Url;
 

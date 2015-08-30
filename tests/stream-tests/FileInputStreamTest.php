@@ -52,7 +52,7 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testNonExisting()
     {
-        $fis = new FileInputStream("non-existing-file.ext");
+        new FileInputStream("non-existing-file.ext");
     }
 
     /**
@@ -67,7 +67,7 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
         $fis = new FileOutputStream($this->fileName);
         $fis->lock();
 
-        $fis2 = new FileInputStream($this->fileName);
+        new FileInputStream($this->fileName);
     }
 
     public function testLockUnlock()

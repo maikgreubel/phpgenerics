@@ -10,7 +10,6 @@ namespace Generics\Client;
 use Generics\Streams\HttpStream;
 use Generics\Streams\InputStream;
 use Generics\Streams\MemoryStream;
-use Generics\Streams\InputOutputStream;
 use Generics\Socket\ClientSocket;
 use Generics\Socket\Endpoint;
 use Generics\Socket\Url;

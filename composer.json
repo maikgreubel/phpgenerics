@@ -4,14 +4,13 @@
 		"psr/log" : "1.0.0"
 	},
 	"require-dev" : {
-		"phpunit/phpunit" : "4.6.6",
-		"phpunit/dbunit" : "1.3.2",
-		"squizlabs/php_codesniffer" : "2.3.2",
-		"phploc/phploc" : "2.1.1",
-		"pdepend/pdepend" : "2.0.6",
-		"phpmd/phpmd" : "2.2.2",
+		"phpunit/phpunit" : "4.8.6",
+		"squizlabs/php_codesniffer" : "2.3.3",
+		"phploc/phploc" : "2.1.4",
+		"pdepend/pdepend" : "2.1.0",
+		"phpmd/phpmd" : "2.2.3",
 		"sebastian/phpcpd" : "2.0.2",
-		"theseer/phpdox" : "0.8.0",
+		"theseer/phpdox" : "0.8.1.1",
 		"satooshi/php-coveralls" : "dev-master"
 	},
 	"name" : "nkey/phpgenerics",
@@ -39,12 +38,12 @@
 	"autoload-dev" : {
 		"psr-4" : {
 			"Generics\\Tests\\" : [
-			    "tests/exception-tests",
-			    "tests/http-tests",
-			    "tests/logger-tests",
-			    "tests/socket-tests",
-			    "tests/stream-tests",
-			    "tests/util-tests"
+				"tests/exception-tests",
+				"tests/http-tests",
+				"tests/logger-tests",
+				"tests/socket-tests",
+				"tests/stream-tests",
+				"tests/util-tests"
 			]
 		}
 	},
