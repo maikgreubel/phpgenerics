@@ -19,7 +19,7 @@ Please take a look into API documentation. To create the API documentation by yo
 	
 Any further execution can be performed without updating the dependencies using command
 
-	and no-update
+	ant no-update
 
 	
 Stability
