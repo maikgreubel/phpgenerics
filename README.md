@@ -13,22 +13,27 @@ Currently it provides a basic stream API, a socket provider and a logging infras
 Usage
 --
 
-Please take a look into API documentation. To create the API documentation by yourself, please install composer and execute
+Please take a look into API documentation. To create the API documentation by yourself, please install Apache Ant and execute
 
-	composer install
-	composer documentation
+	ant
+	
+Any further execution can be performed without updating the dependencies using command
+
+	and no-update
 
 	
 Stability
 --
 
-The API is a test-driven framework and uses PHPUnit to test the stability. Please install composer (if not yet done, see Usage) and execute
+The API is a test-driven framework and uses PHPUnit to test the stability. Please use ant (if not yet done, see Usage) and execute
 
-	composer test
+	ant
+	
+This will run all available test suites in tests/*. The command performs also some basic checks for copy&paste code parts and calculate the code quality.
 	
 Feel free to write and publish further tests.
 
-In case of an error please report bugs using a PHPUnit test class. Take a look into the tests/stream-tests folder to see example how to do create a new one.
+In case of an error please report bugs using a PHPUnit test class. Take a look into the tests/ sub folders to see examples how to do create a new one.
 
 
 License
