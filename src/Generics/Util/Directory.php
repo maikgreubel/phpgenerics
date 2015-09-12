@@ -56,7 +56,7 @@ class Directory
 
         $iter = new \DirectoryIterator($this->path);
         while ($iter->valid()) {
-            if (! $iter->isDot() && ($filter == null || ! preg_match("/$filter/", $iter->getFilename()))) {
+            if (! $iter->isDot() && ($filter === null || ! preg_match("/$filter/", $iter->getFilename()))) {
                 return false;
             }
             $iter->next();

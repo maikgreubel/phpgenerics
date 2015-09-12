@@ -64,7 +64,7 @@ abstract class Socket implements SocketStream
     public function close()
     {
         if (is_resource($this->handle)) {
-            @socket_close($this->handle);
+            socket_close($this->handle);
             $this->handle = null;
         }
     }
@@ -156,8 +156,6 @@ abstract class Socket implements SocketStream
      */
     public function read($length = 1, $offset = null)
     {
-        $buf = null;
-
         if (($buf = @socket_read($this->handle, $length)) === false) {
             $buf = null;
             $code = socket_last_error();

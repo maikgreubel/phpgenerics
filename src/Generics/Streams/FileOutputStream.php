@@ -94,7 +94,7 @@ class FileOutputStream implements OutputStream, Lockable
             if ($this->locked) {
                 $this->unlock();
             }
-        } catch (GenericsException $ex) {
+        } catch (\Generics\GenericsException $ex) {
             // Do nothing
         }
     }

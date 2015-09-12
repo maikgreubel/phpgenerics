@@ -25,5 +25,5 @@ interface InputStream extends Stream
      * @throws StreamException in case of stream is closed
      * @return string The readen buffer
      */
-    public function read($length, $offset = null);
+    public function read($length = 1, $offset = null);
 }

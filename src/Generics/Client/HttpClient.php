@@ -11,9 +11,7 @@ use Generics\Streams\HttpStream;
 use Generics\Streams\InputStream;
 use Generics\Streams\MemoryStream;
 use Generics\Socket\ClientSocket;
-use Generics\Socket\Endpoint;
 use Generics\Socket\Url;
-use Generics\Socket\SocketException;
 use Generics\Streams\StreamException;
 
 /**
@@ -76,10 +74,12 @@ class HttpClient extends ClientSocket implements HttpStream
     /**
      * Create a new http client
      *
-     * @param Endpoint $endpoint
-     *            The endpoint address for http request
-     * @param string $path
-     *            The path part for http request
+     * @param Url $url
+     *            The url for http request
+     * @param string $proto
+     *            The protocol to use (default = HTTP/1.1)
+     * @param integer $timeout
+     *            Optional timeout for request (default = 10 seconds)
      */
     public function __construct(Url $url, $proto = 'HTTP/1.1', $timeout = 10)
     {

@@ -19,7 +19,7 @@ abstract class ServiceCallback
     /**
      * Endpoint
      *
-     * @var Service endpoint
+     * @var Endpoint endpoint
      */
     private $serviceEndpoint;
 

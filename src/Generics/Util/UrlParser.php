@@ -67,27 +67,20 @@ class UrlParser
      */
     public static function getPortByScheme($scheme)
     {
-        $port = 0;
-
         switch ($scheme) {
             case 'http':
-                $port = 80;
-                break;
+                return 80;
 
             case 'https':
-                $port = 443;
-                break;
+                return 443;
 
             case 'ftp':
-                $port = 21;
-                break;
+                return 21;
 
             default:
                 throw new InvalidUrlException("Scheme {scheme} is not handled!", array(
                     'scheme' => $scheme
                 ));
         }
-
-        return $port;
     }
 }

@@ -31,7 +31,7 @@ trait ExceptionLoggerTrait
             $level = LogLevel::EMERGENCY;
         }
 
-        parent::logImpl($level, "({code}): {message}\n{stackTrace}", array(
+       $this->logImpl($level, "({code}): {message}\n{stackTrace}", array(
             'code' => $ex->getCode(),
             'message' => $ex->getMessage(),
             'stackTrace' => $ex->getTraceAsString()
