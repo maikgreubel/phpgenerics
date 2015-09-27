@@ -21,6 +21,6 @@ class ConsoleLogger extends BasicLogger
             $channel = STDERR;
         }
 
-        fwrite($channel, $this->log($level, $message, $context));
+        fwrite($channel, $this->getMessage($level, $message, $context));
     }
 }
