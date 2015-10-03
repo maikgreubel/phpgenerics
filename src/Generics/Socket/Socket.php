@@ -9,10 +9,6 @@ namespace Generics\Socket;
 
 use Generics\Streams\SocketStream;
 
-if (!extension_loaded('sockets')) {
-    throw new \Generics\GenericsException("Socket extension not loaded");
-}
-
 /**
  * This abstract class provides basic socket functionality
  *

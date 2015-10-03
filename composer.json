@@ -1,17 +1,29 @@
 {
 	"require" : {
 		"php" : ">=5.4",
-		"psr/log" : "1.0.0"
+		"psr/log" : "1.0.0",
+		"ext-sockets" : "*",
+		"ext-spl" : "*"
 	},
 	"require-dev" : {
-		"phpunit/phpunit" : "4.8.9",
-		"squizlabs/php_codesniffer" : "2.3.4",
-		"phploc/phploc" : "2.1.4",
-		"pdepend/pdepend" : "2.2.1",
-		"phpmd/phpmd" : "2.3.2",
-		"sebastian/phpcpd" : "2.0.2",
-		"theseer/phpdox" : "0.8.1.1"
+		"phpunit/phpunit" : "~5.0",
+		"phpunit/php-code-coverage" : "~3.0",
+		"phpunit/phpunit-mock-objects" : "~3.0",
+		"sebastian/resource-operations" : "~1.0",
+		"squizlabs/php_codesniffer" : "~2.0",
+		"phploc/phploc" : "~2.0",
+		"pdepend/pdepend" : "~2.0",
+		"phpmd/phpmd" : "~2.0",
+		"sebastian/phpcpd" : "~2.0",
+		"theseer/phpdox" : "~0.8",
+		"piece/stagehand-testrunner" : "dev-master"
 	},
+	"repositories" : [{
+			"type" : "vcs",
+			"url" : "../stagehand-testrunner",
+			"name" : "Local stagehand-testrunner repository"
+		}
+	],
 	"name" : "nkey/phpgenerics",
 	"description" : "A generic component framework",
 	"homepage" : "https://github.com/maikgreubel/phpgenerics",

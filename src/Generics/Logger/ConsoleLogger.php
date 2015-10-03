@@ -16,7 +16,7 @@ class ConsoleLogger extends BasicLogger
     {
         $channel = STDOUT;
 
-        if($level === LogLevel::ALERT || $level === LogLevel::CRITICAL || $level === LogLevel::EMERGENCY ||
+        if ($level === LogLevel::ALERT || $level === LogLevel::CRITICAL || $level === LogLevel::EMERGENCY ||
             $level === LogLevel::ERROR || $level === LogLevel::WARNING) {
             $channel = STDERR;
         }

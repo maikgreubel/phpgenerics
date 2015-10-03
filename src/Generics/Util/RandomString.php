@@ -53,10 +53,7 @@ class RandomString
         }
 
         for ($i = 32; $i < 256; $i ++) {
-            if ($allowed == RandomString::ASCII && ! ctype_alnum(chr($i))) {
-                continue;
-            }
-            if (! ctype_print(chr($i))) {
+            if (($allowed == RandomString::ASCII && ! ctype_alnum(chr($i))) || (! ctype_print(chr($i)))) {
                 continue;
             }
             $allowedChars[] = $i;

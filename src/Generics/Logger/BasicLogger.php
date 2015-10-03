@@ -20,7 +20,7 @@ abstract class BasicLogger extends AbstractLogger
             $level != LogLevel::EMERGENCY && $level != LogLevel::ERROR && $level != LogLevel::INFO && //
             $level != LogLevel::NOTICE && $level != LogLevel::WARNING) {
                 throw new \Psr\Log\InvalidArgumentException("Invalid log level provided!");
-            }
+        }
     }
 
     /**
@@ -62,7 +62,7 @@ abstract class BasicLogger extends AbstractLogger
      * @param array $context
      *            The context of logging
      */
-    protected abstract function logImpl($level, $message, array $context = array());
+    abstract protected function logImpl($level, $message, array $context = array());
 
     /**
      * (non-PHPdoc)
