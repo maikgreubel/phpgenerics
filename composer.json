@@ -18,12 +18,6 @@
 		"theseer/phpdox" : "~0.8",
 		"piece/stagehand-testrunner" : "dev-master"
 	},
-	"repositories" : [{
-			"type" : "vcs",
-			"url" : "../stagehand-testrunner",
-			"name" : "Local stagehand-testrunner repository"
-		}
-	],
 	"name" : "nkey/phpgenerics",
 	"description" : "A generic component framework",
 	"homepage" : "https://github.com/maikgreubel/phpgenerics",
