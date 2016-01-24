@@ -11,7 +11,7 @@
 		"phpunit/phpunit-mock-objects" : "~3.0",
 		"sebastian/resource-operations" : "~1.0",
 		"squizlabs/php_codesniffer" : "~2.0",
-		"phploc/phploc" : "~2.0",
+		"phploc/phploc" : "~3.0",
 		"pdepend/pdepend" : "~2.0",
 		"phpmd/phpmd" : "~2.0",
 		"sebastian/phpcpd" : "~2.0",
