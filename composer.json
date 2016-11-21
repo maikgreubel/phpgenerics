@@ -21,7 +21,7 @@
 	"name" : "nkey/phpgenerics",
 	"description" : "A generic component framework",
 	"homepage" : "https://github.com/maikgreubel/phpgenerics",
-	"license" : "BSD-2-Clause",
+	"license" : "BSD-3-Clause",
 	"authors" : [{
 			"name" : "Maik Greubel",
 			"email" : "greubel@nkey.de",
