@@ -6,7 +6,7 @@ use Generics\Streams\FileOutputStream;
 use Generics\Streams\FileInputStream;
 use Generics\Streams\MemoryStream;
 
-class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
+class FileOutputStreamTest extends \PHPUnit\Framework\TestCase
 {
 
     private $testFile = 'output.dat';

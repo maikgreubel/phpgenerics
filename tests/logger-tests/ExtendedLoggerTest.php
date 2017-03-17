@@ -5,7 +5,7 @@ use Generics\Logger\ExtendedLogger;
 use Generics\GenericsException;
 use Generics\Streams\FileInputStream;
 
-class ExtendedLoggerTest extends \PHPUnit_Framework_TestCase
+class ExtendedLoggerTest extends \PHPUnit\Framework\TestCase
 {
 
     private $logFileName = "test-logger.log";

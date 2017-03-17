@@ -5,7 +5,7 @@ namespace Generics\Tests;
 use Generics\Util\EndpointParser;
 use Generics\Socket\InvalidUrlException;
 
-class EndpointParserTest extends \PHPUnit_Framework_TestCase
+class EndpointParserTest extends \PHPUnit\Framework\TestCase
 {
     public function testEndpointParserHttp()
     {

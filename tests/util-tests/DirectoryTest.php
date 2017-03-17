@@ -6,7 +6,7 @@ use Generics\Util\Directory;
 use Generics\Util\RandomString;
 use Generics\Streams\FileOutputStream;
 
-class DirectoryTest extends \PHPUnit_Framework_TestCase
+class DirectoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreateAndRemoveSimple()
     {

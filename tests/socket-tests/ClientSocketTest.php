@@ -5,7 +5,7 @@ namespace Generics\Tests;
 use Generics\Socket\ClientSocket;
 use Generics\Socket\Endpoint;
 
-class ClientSocketTest extends \PHPUnit_Framework_TestCase
+class ClientSocketTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testClientSocketConnect()

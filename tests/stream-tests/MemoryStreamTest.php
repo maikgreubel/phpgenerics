@@ -5,7 +5,7 @@ namespace Generics\Tests;
 use Generics\Streams\MemoryStream;
 use Generics\Streams\FileInputStream;
 
-class MemoryStreamTest extends \PHPUnit_Framework_TestCase
+class MemoryStreamTest extends \PHPUnit\Framework\TestCase
 {
 
     private $testFile = 'memory.dat';

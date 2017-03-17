@@ -8,7 +8,7 @@ use \PHPUnit_Framework_TestCase;
 use Generics\Util\UrlParser;
 use Generics\Streams\MemoryStream;
 
-class HttpClientTest extends PHPUnit_Framework_TestCase
+class HttpClientTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testSimpleRequest()

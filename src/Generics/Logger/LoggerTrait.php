@@ -44,7 +44,7 @@ trait LoggerTrait
      *
      * @return \Psr\Log\LoggerInterface
      */
-    private function getLog()
+    public function getLog()
     {
         $this->initLogger();
 

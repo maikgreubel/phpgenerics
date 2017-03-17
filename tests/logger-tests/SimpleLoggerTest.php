@@ -4,7 +4,7 @@ namespace Generics\Tests;
 use Generics\Logger\SimpleLogger;
 use Generics\Streams\FileInputStream;
 
-class SimpleLoggerTest extends \PHPUnit_Framework_TestCase
+class SimpleLoggerTest extends \PHPUnit\Framework\TestCase
 {
 
     private $logFileName = "test-logger.log";

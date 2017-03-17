@@ -4,7 +4,7 @@ namespace Generics\Tests;
 
 use Generics\Util\UrlParser;
 
-class UrlParserTest extends \PHPUnit_Framework_TestCase
+class UrlParserTest extends \PHPUnit\Framework\TestCase
 {
     public function testUrlParser()
     {

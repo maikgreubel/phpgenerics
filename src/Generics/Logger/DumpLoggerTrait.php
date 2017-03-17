@@ -14,6 +14,8 @@ namespace Generics\Logger;
  */
 trait DumpLoggerTrait
 {
+	abstract public function debug($message, array $context = array());
+
     /**
      * (non-PHPdoc)
      *

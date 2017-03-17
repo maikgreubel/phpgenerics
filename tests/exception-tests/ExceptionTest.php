@@ -6,7 +6,7 @@ use Generics\GenericsException;
 use Generics\Socket\SocketException;
 use Generics\Socket\InvalidUrlException;
 
-class ExceptionTest extends \PHPUnit_Framework_TestCase
+class ExceptionTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testGenericException()

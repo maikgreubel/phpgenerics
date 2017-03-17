@@ -3,7 +3,7 @@ namespace Generics\Tests;
 
 use Generics\Client\HttpStatus;
 
-class HttpStatusTest extends \PHPUnit_Framework_TestCase
+class HttpStatusTest extends \PHPUnit\Framework\TestCase
 {
     public function testHttpStatusSimple()
     {

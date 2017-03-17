@@ -16,6 +16,8 @@ use Psr\Log\LogLevel;
  */
 trait ExceptionLoggerTrait
 {
+	abstract protected function logImpl($level, $message, array $context = array());
+
     /**
      * (non-PHPdoc)
      *

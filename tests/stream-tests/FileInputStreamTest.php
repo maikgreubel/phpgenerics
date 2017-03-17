@@ -5,7 +5,7 @@ namespace Generics\Tests;
 use Generics\Streams\FileInputStream;
 use Generics\Streams\FileOutputStream;
 
-class FileInputStreamTest extends \PHPUnit_Framework_TestCase
+class FileInputStreamTest extends \PHPUnit\Framework\TestCase
 {
 
     private $fileName = 'input.dat';
