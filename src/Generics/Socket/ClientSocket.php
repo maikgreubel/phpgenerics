@@ -91,8 +91,7 @@ class ClientSocket extends Socket
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Socket\Socket::isWriteable()
      */
     public function isWriteable()

@@ -15,7 +15,7 @@
 		"pdepend/pdepend" : "~2.0",
 		"phpmd/phpmd" : "~2.0",
 		"sebastian/phpcpd" : "~3.0",
-		"theseer/phpdox" : "~0.8"
+		"theseer/phpdox" : "~0.9"
 	},
 	"name" : "nkey/phpgenerics",
 	"description" : "A generic component framework",

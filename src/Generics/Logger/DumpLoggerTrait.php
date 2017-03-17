@@ -17,8 +17,7 @@ trait DumpLoggerTrait
 	abstract public function debug($message, array $context = array());
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Logger\DumpLogger::dump()
      */
     public function dump($o)

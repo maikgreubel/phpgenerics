@@ -102,8 +102,7 @@ class Url extends Endpoint
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Socket\Endpoint::__toString()
      */
     public function __toString()

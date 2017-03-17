@@ -65,8 +65,7 @@ abstract class BasicLogger extends AbstractLogger
     abstract protected function logImpl($level, $message, array $context = array());
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Psr\Log\LoggerInterface::log()
      */
     public function log($level, $message, array $context = array())

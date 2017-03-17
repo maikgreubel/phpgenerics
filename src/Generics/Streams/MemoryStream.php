@@ -71,8 +71,7 @@ class MemoryStream implements InputOutputStream, Resettable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\Stream::close()
      */
     public function close()
@@ -84,8 +83,7 @@ class MemoryStream implements InputOutputStream, Resettable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\Stream::ready()
      */
     public function ready()
@@ -94,8 +92,7 @@ class MemoryStream implements InputOutputStream, Resettable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\OutputStream::write()
      */
     public function write($buffer)
@@ -108,8 +105,7 @@ class MemoryStream implements InputOutputStream, Resettable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\InputStream::read()
      */
     public function read($length = 1, $offset = null)
@@ -142,8 +138,7 @@ class MemoryStream implements InputOutputStream, Resettable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Countable::count()
      */
     public function count()
@@ -158,8 +153,7 @@ class MemoryStream implements InputOutputStream, Resettable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Resettable::reset()
      */
     public function reset()
@@ -185,8 +179,7 @@ class MemoryStream implements InputOutputStream, Resettable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\OutputStream::isWriteable()
      */
     public function isWriteable()
@@ -195,8 +188,7 @@ class MemoryStream implements InputOutputStream, Resettable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\OutputStream::flush()
      */
     public function flush()

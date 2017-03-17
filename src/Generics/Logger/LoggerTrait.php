@@ -20,8 +20,8 @@ trait LoggerTrait
      */
     private $logger = null;
 
-    /*
-     * (non-PHPdoc)
+    /**
+     * {@inheritDoc}
      * @see \Psr\Log\LoggerAwareInterface::setLogger()
      */
     public function setLogger(LoggerInterface $logger)

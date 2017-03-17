@@ -57,8 +57,7 @@ abstract class Socket implements SocketStream
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\Stream::close()
      */
     public function close()
@@ -70,8 +69,7 @@ abstract class Socket implements SocketStream
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\Stream::ready()
      */
     public function ready()
@@ -105,8 +103,7 @@ abstract class Socket implements SocketStream
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\OutputStream::isWriteable()
      */
     public function isWriteable()
@@ -140,8 +137,7 @@ abstract class Socket implements SocketStream
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Countable::count()
      */
     public function count()
@@ -150,8 +146,7 @@ abstract class Socket implements SocketStream
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\InputStream::read()
      */
     public function read($length = 1, $offset = null)
@@ -172,8 +167,7 @@ abstract class Socket implements SocketStream
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\OutputStream::write()
      */
     public function write($buffer)
@@ -202,8 +196,7 @@ abstract class Socket implements SocketStream
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\OutputStream::flush()
      */
     public function flush()

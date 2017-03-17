@@ -100,8 +100,7 @@ class FileOutputStream implements OutputStream, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\Stream::ready()
      */
     public function ready()
@@ -110,8 +109,7 @@ class FileOutputStream implements OutputStream, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\OutputStream::write()
      */
     public function write($buffer)
@@ -139,8 +137,7 @@ class FileOutputStream implements OutputStream, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\Stream::close()
      */
     public function close()
@@ -152,8 +149,7 @@ class FileOutputStream implements OutputStream, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Countable::count()
      */
     public function count()
@@ -176,8 +172,7 @@ class FileOutputStream implements OutputStream, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\OutputStream::isWriteable()
      */
     public function isWriteable()
@@ -186,8 +181,7 @@ class FileOutputStream implements OutputStream, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\OutputStream::flush()
      */
     public function flush()
@@ -200,8 +194,7 @@ class FileOutputStream implements OutputStream, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Lockable::lock()
      */
     public function lock()
@@ -213,8 +206,7 @@ class FileOutputStream implements OutputStream, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Lockable::unlock()
      */
     public function unlock()
@@ -223,5 +215,14 @@ class FileOutputStream implements OutputStream, Lockable
             throw new LockException("Could not release lock");
         }
         $this->locked = false;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see \Generics\Lockable::isLocked()
+     */
+    public function isLocked()
+    {
+    	return $this->locked;
     }
 }

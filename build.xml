@@ -260,6 +260,7 @@
                 <arg path="${basedir}/build/coverage/html" />
                 <arg value="--coverage-xml" />
                 <arg path="${basedir}/build/coverage/xml" />
+                <arg value="--verbose"/>
             </extargs>
         </call-php>
     </target>

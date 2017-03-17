@@ -19,8 +19,7 @@ trait ExceptionLoggerTrait
 	abstract protected function logImpl($level, $message, array $context = array());
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Logger\ExceptionLogger::logException()
      */
     public function logException(\Exception $ex)

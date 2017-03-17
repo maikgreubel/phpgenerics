@@ -65,7 +65,9 @@ class FileInputStreamTest extends \PHPUnit\Framework\TestCase
             unlink($this->fileName);
         }
         $fis = new FileOutputStream($this->fileName);
+        $this->assertTrue($fis->ready());
         $fis->lock();
+        $this->assertTrue($fis->isLocked());
 
         new FileInputStream($this->fileName);
     }
@@ -73,8 +75,11 @@ class FileInputStreamTest extends \PHPUnit\Framework\TestCase
     public function testLockUnlock()
     {
         $fis = new FileInputStream($this->fileName);
+        $this->assertTrue($fis->ready());
         $fis->lock();
+        $this->assertTrue($fis->isLocked());
         $fis->unlock();
+        $this->assertFalse($fis->isLocked());
     }
 
     /**

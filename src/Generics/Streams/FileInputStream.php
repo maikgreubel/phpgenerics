@@ -82,8 +82,7 @@ class FileInputStream implements InputStream, Resettable, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\Stream::close()
      */
     public function close()
@@ -95,8 +94,7 @@ class FileInputStream implements InputStream, Resettable, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\Stream::ready()
      */
     public function ready()
@@ -105,8 +103,7 @@ class FileInputStream implements InputStream, Resettable, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\InputStream::read()
      */
     public function read($length = 1, $offset = null)
@@ -125,8 +122,7 @@ class FileInputStream implements InputStream, Resettable, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Countable::count()
      */
     public function count()
@@ -136,8 +132,7 @@ class FileInputStream implements InputStream, Resettable, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     *{@inheritDoc}
      * @see \Generics\Streams\InputStream::reset()
      */
     public function reset()
@@ -146,8 +141,7 @@ class FileInputStream implements InputStream, Resettable, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Lockable::lock()
      */
     public function lock()
@@ -159,8 +153,7 @@ class FileInputStream implements InputStream, Resettable, Lockable
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Lockable::unlock()
      */
     public function unlock()
@@ -169,6 +162,15 @@ class FileInputStream implements InputStream, Resettable, Lockable
             throw new LockException("Could not release lock");
         }
         $this->locked = false;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see \Generics\Lockable::isLocked()
+     */
+    public function isLocked()
+    {
+    	return $this->locked;
     }
 
     /**

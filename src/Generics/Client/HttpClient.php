@@ -93,8 +93,7 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\HttpStream::getHeaders()
      */
     public function getHeaders()
@@ -103,8 +102,7 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\HttpStream::setHeader()
      * @return HttpClient
      */
@@ -123,8 +121,7 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\HttpStream::appendPayload()
      */
     public function appendPayload(InputStream $payload)
@@ -135,8 +132,7 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     *{@inheritDoc}
      * @see \Generics\Streams\HttpStream::getPayload()
      */
     public function getPayload()
@@ -179,8 +175,7 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
-     * (non-PHPdoc)
-     *
+     * {@inheritDoc}
      * @see \Generics\Streams\HttpStream::request()
      */
     public function request($requestType)
