@@ -30,7 +30,7 @@ class Directory
      */
     public function __construct($path)
     {
-        $this->path = $path;
+    	$this->path = $this->fixDirectorySeparator($path);
         if ($this->exists()) {
             $this->path = realpath($this->path);
         }
@@ -187,5 +187,21 @@ class Directory
         $file = sprintf("%s/%s", $this->path, $fileName);
 
         return file_exists($file);
+    }
+    
+    /**
+     * Generate a platform specific path by replacing invalid directory separators
+     * 
+     * @param string $path 
+     * 				The path to check
+     * @return string
+     * 				The corrected path
+     */
+    private function fixDirectorySeparator($path)
+    {
+    	$path = str_replace("\\", DIRECTORY_SEPARATOR , $path);
+    	$path = str_replace("/", DIRECTORY_SEPARATOR, $path);
+    	
+    	return $path;
     }
 }
