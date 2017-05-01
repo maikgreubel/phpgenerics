@@ -29,4 +29,11 @@ interface Stream extends Countable
      * @return boolean
      */
     public function ready();
+    
+    /**
+     * Retrieves open status of stream
+     * 
+     * @return boolean
+     */
+    public function isOpen();
 }

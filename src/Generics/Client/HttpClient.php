@@ -465,4 +465,13 @@ class HttpClient extends ClientSocket implements HttpStream
     {
         return $this->responseCode;
     }
+    
+    /**
+     * {@inheritDoc}
+     * @see \Generics\Streams\Stream::isOpen()
+     */
+    public function isOpen()
+    {
+    	return true;
+    }
 }

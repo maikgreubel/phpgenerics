@@ -200,4 +200,13 @@ class MemoryStream implements InputOutputStream, Resettable
         unset($this->memory);
         $this->reset();
     }
+    
+    /**
+     * {@inheritDoc}
+     * @see \Generics\Streams\Stream::isOpen()
+     */
+    public function isOpen()
+    {
+    	return true;
+    }
 }

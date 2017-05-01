@@ -84,7 +84,7 @@ abstract class Socket implements SocketStream
         $write = null;
         $except = null;
 
-        $num = @socket_select($read, $write, $except, 0, 10);
+        $num = @socket_select($read, $write, $except, 0);
 
         if ($num === false) {
             $code = socket_last_error($this->handle);
@@ -118,7 +118,7 @@ abstract class Socket implements SocketStream
         );
         $except = null;
 
-        $num = @socket_select($read, $write, $except, 0, 10);
+        $num = @socket_select($read, $write, $except, 0, 0);
 
         if ($num === false) {
             $code = socket_last_error($this->handle);
@@ -202,5 +202,14 @@ abstract class Socket implements SocketStream
     public function flush()
     {
         // There is no function to flush a socket. This is only possible for file descriptors.
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see \Generics\Streams\Stream::isOpen()
+     */
+    public function isOpen()
+    {
+    	return is_resource($this->handle);
     }
 }

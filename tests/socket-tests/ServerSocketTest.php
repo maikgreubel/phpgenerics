@@ -15,6 +15,6 @@ class ServerSocketTest extends \PHPUnit\Framework\TestCase
 
         // currently we are not able to test a server socket using phpunit... :-(
         // $server->serve( new TestServiceCallback( $serverEndpoint ) );
-        $this->assertTrue($server->isWriteable());
+        $this->assertTrue($server->isOpen());
     }
 }

@@ -182,4 +182,13 @@ class FileInputStream implements InputStream, Resettable, Lockable
     {
         return realpath($this->fileName);
     }
+    
+    /**
+     * {@inheritDoc}
+     * @see \Generics\Streams\Stream::isOpen()
+     */
+    public function isOpen()
+    {
+    	return is_resource($this->handle);
+    }
 }

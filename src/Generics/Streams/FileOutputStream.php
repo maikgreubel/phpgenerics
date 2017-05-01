@@ -225,4 +225,13 @@ class FileOutputStream implements OutputStream, Lockable
     {
     	return $this->locked;
     }
+
+    /**
+     * {@inheritDoc}
+     * @see \Generics\Streams\Stream::isOpen()
+     */
+    public function isOpen()
+    {
+    	return is_resource($this->handle);
+    }
 }
