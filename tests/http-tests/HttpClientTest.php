@@ -4,7 +4,6 @@ namespace Generics\Tests;
 
 use Generics\Client\HttpClient;
 use Generics\Socket\Url;
-use \PHPUnit_Framework_TestCase;
 use Generics\Util\UrlParser;
 use Generics\Streams\MemoryStream;
 
