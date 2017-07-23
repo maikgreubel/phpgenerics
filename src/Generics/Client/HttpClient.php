@@ -12,7 +12,6 @@ use Generics\Streams\InputStream;
 use Generics\Streams\MemoryStream;
 use Generics\Socket\ClientSocket;
 use Generics\Socket\Url;
-use Generics\Streams\StreamException;
 
 /**
  * This class implements a HttpStream as client

@@ -7,7 +7,6 @@ require_once 'Generics/Socket/SocketException.php';
 
 use Generics\Socket\ClientSocket;
 use Generics\Socket\Endpoint;
-use Generics\Socket\SocketException;
 
 $clientEndpoint = new Endpoint('127.0.0.1', 8421);
 $client = new ClientSocket($clientEndpoint);

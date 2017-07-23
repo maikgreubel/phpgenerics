@@ -9,8 +9,6 @@ namespace Generics\Logger;
 
 use Generics\Streams\FileOutputStream;
 
-use Psr\Log\LoggerInterface;
-
 /**
  * This class is a standard reference implementation of the PSR LoggerInterface.
  *

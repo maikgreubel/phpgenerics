@@ -7,6 +7,8 @@
  */
 namespace Generics\Logger;
 
+use \Exception;
+
 /**
  * This interface describes an implemention for a
  * logger which is capable to log exceptions.
@@ -26,5 +28,5 @@ interface ExceptionLogger
      * @param Exception $ex
      *            The exception to log.
      */
-    public function logException(\Exception $ex);
+    public function logException(Exception $ex);
 }

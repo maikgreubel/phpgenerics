@@ -9,9 +9,7 @@ require_once 'Generics/Socket/SocketException.php';
 
 require './TestServerSocketCallback.php';
 
-use Generics\Socket\Socket;
 use Generics\Socket\ServerSocket;
-use Generics\Socket\ServiceCallback;
 use Generics\Socket\Endpoint;
 
 use tests\manually\TestServerSocketCallback;

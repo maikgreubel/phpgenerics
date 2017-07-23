@@ -7,12 +7,6 @@
  */
 namespace Generics\Socket;
 
-use Generics\Socket\Endpoint;
-use Generics\Socket\Socket;
-use Generics\Socket\ClientSocket;
-use Generics\Socket\ServiceCallback;
-use Generics\Socket\SocketException;
-
 /**
  * This class provides a basic client socket implementation
  *
