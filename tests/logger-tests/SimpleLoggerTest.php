@@ -3,6 +3,7 @@ namespace Generics\Tests;
 
 use Generics\Logger\SimpleLogger;
 use Generics\Streams\FileInputStream;
+use Psr\Log\LogLevel;
 
 class SimpleLoggerTest extends \PHPUnit\Framework\TestCase
 {
@@ -144,5 +145,20 @@ class SimpleLoggerTest extends \PHPUnit\Framework\TestCase
     {
         $logger = new SimpleLogger($this->logFileName, 0);
         $this->assertEquals(2, $logger->getMaxLogSize());
+    }
+    
+    public function testThreshold()
+    {
+    	$logger = new SimpleLogger();
+    	$logger->setLevel(LogLevel::WARNING);
+    	
+    	$logger->log(LogLevel::DEBUG, "Threshold to high");
+    	$logger->log(LogLevel::WARNING, "This message appears");
+    	
+    	$fis = new FileInputStream($logger->getFile());
+    	$content = $fis->read(1024);
+    	$fis->close();
+    	$this->assertContains("warn", $content);
+    	$this->assertNotContains("debug", $content);
     }
 }

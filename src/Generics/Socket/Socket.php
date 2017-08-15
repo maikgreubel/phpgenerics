@@ -44,7 +44,7 @@ abstract class Socket implements SocketStream
 
         if (! is_resource($this->handle)) {
             $code = socket_last_error();
-            throw new SocketException(socket_strerror($code), $code);
+            throw new SocketException(socket_strerror($code), array(), $code);
         }
     }
 
@@ -88,7 +88,7 @@ abstract class Socket implements SocketStream
 
         if ($num === false) {
             $code = socket_last_error($this->handle);
-            throw new SocketException(socket_strerror($code), $code);
+            throw new SocketException(socket_strerror($code), array(), $code);
         }
 
         if ($num < 1) {
@@ -122,7 +122,7 @@ abstract class Socket implements SocketStream
 
         if ($num === false) {
             $code = socket_last_error($this->handle);
-            throw new SocketException(socket_strerror($code), $code);
+            throw new SocketException(socket_strerror($code), array(), $code);
         }
 
         if ($num < 1) {
@@ -156,7 +156,7 @@ abstract class Socket implements SocketStream
             $code = socket_last_error();
             if ($code != 0) {
                 if ($code != 10053) {
-                    throw new SocketException(socket_strerror($code), $code);
+                	throw new SocketException(socket_strerror($code), array(), $code);
                 } else {
                     $this->handle = null;
                 }
@@ -174,7 +174,7 @@ abstract class Socket implements SocketStream
     {
         if (($written = @socket_write($this->handle, "{$buffer}\0")) === false) {
             $code = socket_last_error();
-            throw new SocketException(socket_strerror($code), $code);
+            throw new SocketException(socket_strerror($code), array(), $code);
         }
 
         if ($written != strlen($buffer) + 1) {

@@ -24,7 +24,7 @@ class ExceptionTest extends \PHPUnit\Framework\TestCase
     public function testExceptionCode()
     {
         try {
-            throw new SocketException(socket_strerror(10053), 10053);
+        	throw new SocketException(socket_strerror(10053), array(), 10053);
         } catch (GenericsException $ex) {
             $this->assertEquals(10053, $ex->getCode());
         }

@@ -28,7 +28,7 @@ class ServerSocket extends Socket
         parent::__construct($endpoint);
         if (! @socket_set_option($this->handle, SOL_SOCKET, SO_REUSEADDR, 1)) {
             $code = socket_last_error($this->handle);
-            throw new SocketException(socket_strerror($code), $code);
+            throw new SocketException(socket_strerror($code), array(), $code);
         }
     }
 
@@ -50,14 +50,14 @@ class ServerSocket extends Socket
 
             if (! is_resource($clientHandle)) {
                 $code = socket_last_error($this->handle);
-                throw new SocketException(socket_strerror($code), $code);
+                throw new SocketException(socket_strerror($code), array(), $code);
             }
 
             $address = null;
             $port = 0;
             if (! @socket_getpeername($clientHandle, $address, $port)) {
                 $code = socket_last_error($clientHandle);
-                throw new SocketException(socket_strerror($code), $code);
+                throw new SocketException(socket_strerror($code), array(), $code);
             }
 
             $client = new ClientSocket(new Endpoint($address, $port), $clientHandle);
@@ -75,7 +75,7 @@ class ServerSocket extends Socket
     {
         if (! @socket_bind($this->handle, $this->endpoint->getAddress(), $this->endpoint->getPort())) {
             $code = socket_last_error($this->handle);
-            throw new SocketException(socket_strerror($code), $code);
+            throw new SocketException(socket_strerror($code), array(), $code);
         }
     }
 
@@ -88,7 +88,7 @@ class ServerSocket extends Socket
     {
         if (! @socket_listen($this->handle, 5)) {
             $code = socket_last_error($this->handle);
-            throw new SocketException(socket_strerror($code), $code);
+            throw new SocketException(socket_strerror($code), array(), $code);
         }
     }
 }

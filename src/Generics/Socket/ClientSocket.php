@@ -50,7 +50,7 @@ class ClientSocket extends Socket
     {
         if (! @socket_connect($this->handle, $this->endpoint->getAddress(), $this->endpoint->getPort())) {
             $code = socket_last_error($this->handle);
-            throw new SocketException(socket_strerror($code), $code);
+            throw new SocketException(socket_strerror($code), array(), $code);
         }
         $this->conntected = true;
     }
