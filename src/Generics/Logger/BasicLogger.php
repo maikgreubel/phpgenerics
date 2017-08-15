@@ -8,6 +8,25 @@ use Psr\Log\LogLevel;
 
 abstract class BasicLogger extends AbstractLogger
 {
+	/**
+	 * The level threshold where to log
+	 * 
+	 * @var string
+	 */
+	private $level;
+	
+	/**
+	 * Set the log level threshold
+	 * 
+	 * @param string $level
+	 * @return BasicLogger
+	 */
+	public function setLevel(string $level):BasicLogger
+	{
+		$this->level = $level;
+		return $this;
+	}
+	
     /**
      * Checks the given level
      *
@@ -35,7 +54,7 @@ abstract class BasicLogger extends AbstractLogger
      *
      * @return \Generics\Streams\MemoryStream The formatted message
      */
-    protected function getMessage($level, $message, array $context = array())
+    protected function getMessage($level, $message, array $context = array()) : MemoryStream
     {
         /**
          * This check implements the specification request.
@@ -70,6 +89,32 @@ abstract class BasicLogger extends AbstractLogger
      */
     public function log($level, $message, array $context = array())
     {
-        $this->logImpl($level, $message, $context);
+    	if( $this->levelHasReached($level) ) {
+    		$this->logImpl($level, $message, $context);
+    	}
+    }
+    
+    protected function levelHasReached($level):bool
+    {
+    	$result = true;
+    	
+    	$orderedLevels = array(
+    			LogLevel::EMERGENCY => 0,
+    			LogLevel::ALERT => 1,
+    			LogLevel::CRITICAL => 2,
+    			LogLevel::ERROR => 3,
+    			LogLevel::WARNING => 4,
+    			LogLevel::NOTICE => 5,
+    			LogLevel::INFO => 6,
+    			LogLevel::DEBUG => 7
+    	);
+    	
+    	if ( $this->level ) {
+    		$threshold = $orderedLevels[$this->level];
+    		$reached = $orderedLevels[$level];
+    		$result = $reached <= $threshold;
+    	}
+    	
+    	return $result;
     }
 }

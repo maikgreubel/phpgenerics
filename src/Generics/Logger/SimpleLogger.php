@@ -65,6 +65,10 @@ class SimpleLogger extends BasicLogger
      */
     protected function logImpl($level, $message, array $context = array())
     {
+    	if (!$this->levelHasReached($level)) {
+    		return;
+    	}
+    	
         if ($this->isRotationNeeded()) {
             unlink($this->file);
         }

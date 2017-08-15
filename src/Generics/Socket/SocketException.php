@@ -8,6 +8,7 @@
 namespace Generics\Socket;
 
 use Generics\GenericsException;
+use Exception;
 
 /**
  * Derived exception
@@ -31,5 +32,23 @@ class SocketException extends GenericsException
     public function __construct($message, $code = 0)
     {
         parent::__construct(trim($message), array(), $code, null);
+    }
+
+    /**
+     * Create a new SocketException
+     *
+     * @param string $message
+     *            The message to throw; May contain placeholder like {placeholder} and will be replaced by context
+     *            elements
+     * @param array $context
+     *            The context elements to replace in message
+     * @param number $code
+     *            Optional code
+     * @param Exception $previous
+     *            Optional previous exception
+     */
+    public function __construct($message, array $context = array(), $code = 0, Exception $previous = null)
+    {
+    	parent::__construct($message, $context, $code, $previous);
     }
 }

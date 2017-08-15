@@ -8,6 +8,7 @@
 namespace Generics\Logger;
 
 use Psr\Log\LogLevel;
+use Exception;
 
 /**
  * Implementation for logging exceptions
@@ -22,7 +23,7 @@ trait ExceptionLoggerTrait
      * {@inheritDoc}
      * @see \Generics\Logger\ExceptionLogger::logException()
      */
-    public function logException(\Exception $ex)
+    public function logException(Exception $ex)
     {
         $level = LogLevel::ALERT;
 
