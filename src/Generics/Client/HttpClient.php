@@ -473,4 +473,13 @@ class HttpClient extends ClientSocket implements HttpStream
     {
     	return true;
     }
+    
+    /**
+     * {@inheritDoc}
+     * @see \Generics\Resettable::reset()
+     */
+	public function reset()
+	{
+		$this->payload->reset();
+	}
 }

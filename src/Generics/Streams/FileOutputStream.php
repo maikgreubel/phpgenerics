@@ -11,6 +11,8 @@ use Generics\FileExistsException;
 use Generics\NoAccessException;
 use Generics\LockException;
 use Generics\Lockable;
+use Generics\ResetException;
+use Exception;
 
 /**
  * This class provides a file output stream.
@@ -37,9 +39,16 @@ class FileOutputStream implements OutputStream, Lockable
     /**
      * Whether resource is locked
      *
-     * @var boolean
+     * @var bool
      */
     private $locked;
+    
+    /**
+     * Whether to append
+     * 
+     * @var bool
+     */
+    private $append;
 
     /**
      * Create a new FileOutputStream
@@ -53,36 +62,42 @@ class FileOutputStream implements OutputStream, Lockable
      */
     public function __construct($file, $append = false)
     {
-        $this->locked = false;
-
-        $mode = "wb";
-
-        if (file_exists($file)) {
-            if (! $append) {
-                throw new FileExistsException("File $file already exists!");
-            }
-
-            if (! is_writable($file)) {
-                throw new NoAccessException("Cannot write to file $file");
-            }
-            $mode = "ab";
-        } else {
-            if (! is_writable(dirname($file))) {
-                throw new NoAccessException("Cannot write to file {file}", array(
-                    'file' => $file
-                ));
-            }
-        }
-
-        $this->handle = fopen($file, $mode);
-
-        if (! $this->ready()) {
-            throw new StreamException("Could not open {file} for writing", array(
-                'file' => $file
-            ));
-        }
-
-        $this->fileName = $file;
+    	$this->open($file, $append);
+    }
+    
+    private function open($file, $append)
+    {
+    	$this->locked = false;
+    	
+    	$mode = "wb";
+    	
+    	if (file_exists($file)) {
+    		if (! $append) {
+    			throw new FileExistsException("File $file already exists!");
+    		}
+    		
+    		if (! is_writable($file)) {
+    			throw new NoAccessException("Cannot write to file $file");
+    		}
+    		$mode = "ab";
+    	} else {
+    		if (! is_writable(dirname($file))) {
+    			throw new NoAccessException("Cannot write to file {file}", array(
+    					'file' => $file
+    			));
+    		}
+    	}
+    	
+    	$this->handle = fopen($file, $mode);
+    	
+    	if (! $this->ready()) {
+    		throw new StreamException("Could not open {file} for writing", array(
+    				'file' => $file
+    		));
+    	}
+    	
+    	$this->fileName = $file;
+    	$this->append = $append;
     }
 
     /**
@@ -103,7 +118,7 @@ class FileOutputStream implements OutputStream, Lockable
      * {@inheritDoc}
      * @see \Generics\Streams\Stream::ready()
      */
-    public function ready()
+    public function ready():bool
     {
         return is_resource($this->handle);
     }
@@ -152,7 +167,7 @@ class FileOutputStream implements OutputStream, Lockable
      * {@inheritDoc}
      * @see \Countable::count()
      */
-    public function count()
+    public function count():int
     {
         if (! $this->ready()) {
             throw new StreamException("Stream is not open!");
@@ -166,7 +181,7 @@ class FileOutputStream implements OutputStream, Lockable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString():string
     {
         return realpath($this->fileName);
     }
@@ -221,7 +236,7 @@ class FileOutputStream implements OutputStream, Lockable
      * {@inheritDoc}
      * @see \Generics\Lockable::isLocked()
      */
-    public function isLocked()
+    public function isLocked():bool
     {
     	return $this->locked;
     }
@@ -230,8 +245,24 @@ class FileOutputStream implements OutputStream, Lockable
      * {@inheritDoc}
      * @see \Generics\Streams\Stream::isOpen()
      */
-    public function isOpen()
+    public function isOpen():bool
     {
     	return is_resource($this->handle);
     }
+    
+    /**
+     * {@inheritdoc}
+     * @see \Generics\Resettable::reset()
+     */
+	public function reset()
+	{
+		try {
+			$this->close();
+			$this->open($this->fileName, $this->append);
+		}
+		catch(Exception $ex)
+		{
+			throw new ResetException($ex->getMessage(), array(), $ex->getCode(), $ex);
+		}
+	}
 }

@@ -8,6 +8,8 @@
 namespace Generics\Socket;
 
 use Generics\Streams\SocketStream;
+use Generics\ResetException;
+use Exception;
 
 /**
  * This abstract class provides basic socket functionality
@@ -40,12 +42,22 @@ abstract class Socket implements SocketStream
     public function __construct(Endpoint $endpoint)
     {
         $this->endpoint = $endpoint;
-        $this->handle = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-
-        if (! is_resource($this->handle)) {
-            $code = socket_last_error();
-            throw new SocketException(socket_strerror($code), array(), $code);
-        }
+        $this->open();
+    }
+    
+    /**
+     * Opens a socket
+     * 
+     * @throws SocketException
+     */
+    private function open()
+    {
+    	$this->handle = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+    	
+    	if (! is_resource($this->handle)) {
+    		$code = socket_last_error();
+    		throw new SocketException(socket_strerror($code), array(), $code);
+    	}
     }
 
     /**
@@ -211,5 +223,21 @@ abstract class Socket implements SocketStream
     public function isOpen()
     {
     	return is_resource($this->handle);
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see \Generics\Resettable::reset()
+     */
+    public function reset()
+    {
+    	try {
+	    	$this->close();
+	    	$this->open();
+    	}
+    	catch(Exception $ex)
+    	{
+    		throw new ResetException($ex->getMessage(), array(), $ex->getCode(), $ex);
+    	}
     }
 }

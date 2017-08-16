@@ -8,13 +8,14 @@
 namespace Generics\Streams;
 
 use \Countable;
+use Generics\Resettable;
 
 /**
  * This interface describes the implementation of a stream.
  *
  * @author Maik
  */
-interface Stream extends Countable
+interface Stream extends Countable, Resettable
 {
 
     /**

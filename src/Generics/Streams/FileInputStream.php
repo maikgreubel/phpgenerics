@@ -7,17 +7,16 @@
  */
 namespace Generics\Streams;
 
-use \Generics\FileNotFoundException;
-use \Generics\Resettable;
-use \Generics\Lockable;
-use \Generics\LockException;
+use Generics\FileNotFoundException;
+use Generics\LockException;
+use Generics\Lockable;
 
 /**
  * This class provides an input stream for files.
  *
  * @author Maik Greubel <greubel@nkey.de>
  */
-class FileInputStream implements InputStream, Resettable, Lockable
+class FileInputStream implements InputStream, Lockable
 {
 
     /**
@@ -37,7 +36,7 @@ class FileInputStream implements InputStream, Resettable, Lockable
     /**
      * Whether the access is locked
      *
-     * @var boolean
+     * @var bool
      */
     private $locked;
 
@@ -97,7 +96,7 @@ class FileInputStream implements InputStream, Resettable, Lockable
      * {@inheritDoc}
      * @see \Generics\Streams\Stream::ready()
      */
-    public function ready()
+    public function ready():bool
     {
         return is_resource($this->handle) && ! feof($this->handle);
     }
@@ -106,7 +105,7 @@ class FileInputStream implements InputStream, Resettable, Lockable
      * {@inheritDoc}
      * @see \Generics\Streams\InputStream::read()
      */
-    public function read($length = 1, $offset = null)
+    public function read($length = 1, $offset = null):string
     {
         if (! $this->ready()) {
             throw new StreamException("Stream is not ready!");
@@ -125,7 +124,7 @@ class FileInputStream implements InputStream, Resettable, Lockable
      * {@inheritDoc}
      * @see \Countable::count()
      */
-    public function count()
+    public function count():int
     {
         $stat = fstat($this->handle);
         return $stat['size'];
@@ -168,7 +167,7 @@ class FileInputStream implements InputStream, Resettable, Lockable
      * {@inheritDoc}
      * @see \Generics\Lockable::isLocked()
      */
-    public function isLocked()
+    public function isLocked():bool
     {
     	return $this->locked;
     }

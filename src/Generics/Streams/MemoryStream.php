@@ -7,7 +7,6 @@
  */
 namespace Generics\Streams;
 
-use Generics\Resettable;
 use Generics\Util\Interpolator;
 
 /**
@@ -15,7 +14,7 @@ use Generics\Util\Interpolator;
  *
  * @author Maik Greubel <greubel@nkey.de>
  */
-class MemoryStream implements InputOutputStream, Resettable
+class MemoryStream implements InputOutputStream
 {
     use Interpolator {
         interpolate as tinterpolate;

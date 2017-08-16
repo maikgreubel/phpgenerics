@@ -8,7 +8,9 @@
 namespace Generics\Logger;
 
 use Psr\Log\LogLevel;
+use ErrorException;
 use Exception;
+use RuntimeException;
 
 /**
  * Implementation for logging exceptions
@@ -27,9 +29,9 @@ trait ExceptionLoggerTrait
     {
         $level = LogLevel::ALERT;
 
-        if ($ex instanceof \ErrorException) {
+        if ($ex instanceof ErrorException) {
             $level = LogLevel::ERROR;
-        } elseif ($ex instanceof \RuntimeException) {
+        } elseif ($ex instanceof RuntimeException) {
             $level = LogLevel::EMERGENCY;
         }
 

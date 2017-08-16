@@ -34,5 +34,5 @@ interface Lockable
      * 
      * @return true in case of lock is enabled, false otherwise
      */
-    public function isLocked();
+    public function isLocked():bool;
 }

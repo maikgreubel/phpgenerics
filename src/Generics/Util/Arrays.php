@@ -7,6 +7,8 @@
  */
 namespace Generics\Util;
 
+use ArrayObject;
+
 /**
  * This class provides some array utility functions
  *
@@ -19,10 +21,10 @@ class Arrays
      * Create an empty array containing a specific number of elements
      *
      * @param int $numElements The number of elements in Array
-     * @return \ArrayObject
+     * @return array
      */
-    public static function createEmptyArray($numElements)
+    public static function createEmptyArray($numElements):ArrayObject
     {
-        return new \ArrayObject(array_fill(0, $numElements, null));
+        return new ArrayObject(array_fill(0, $numElements, null));
     }
 }
