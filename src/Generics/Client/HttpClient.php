@@ -92,7 +92,8 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\HttpStream::getHeaders()
      */
     public function getHeaders()
@@ -101,7 +102,8 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\HttpStream::setHeader()
      * @return HttpClient
      */
@@ -120,7 +122,8 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\HttpStream::appendPayload()
      */
     public function appendPayload(InputStream $payload)
@@ -131,7 +134,8 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
-     *{@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\HttpStream::getPayload()
      */
     public function getPayload()
@@ -150,12 +154,12 @@ class HttpClient extends ClientSocket implements HttpStream
         $this->setHeader('Accept', '');
         $this->setHeader('Accept-Language', '');
         $this->setHeader('User-Agent', '');
-
+        
         $savedProto = $this->protocol;
         $this->protocol = 'HTTP/1.0';
         $this->request('HEAD');
         $this->protocol = $savedProto;
-
+        
         return $this->headers;
     }
 
@@ -174,7 +178,8 @@ class HttpClient extends ClientSocket implements HttpStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\HttpStream::request()
      */
     public function request($requestType)
@@ -182,25 +187,25 @@ class HttpClient extends ClientSocket implements HttpStream
         if ($this->secure) {
             throw new HttpException("Secure connection using HTTPs is not supported yet!");
         }
-
+        
         if ($requestType == 'HEAD') {
             $this->setTimeout(1); // Don't wait too long on simple head
         }
-
+        
         $ms = $this->prepareRequest($requestType);
-
+        
         $ms = $this->appendPayloadToRequest($ms);
-
+        
         if (! $this->isConnected()) {
             $this->connect();
         }
-
+        
         while ($ms->ready()) {
             $this->write($ms->read(1024));
         }
-
+        
         $this->retrieveAndParseResponse($requestType);
-
+        
         if ($this->headers['Connection'] == 'close') {
             $this->disconnect();
         }
@@ -209,7 +214,8 @@ class HttpClient extends ClientSocket implements HttpStream
     /**
      * Check the connection availability
      *
-     * @param int $start Timestamp when read request attempt starts
+     * @param int $start
+     *            Timestamp when read request attempt starts
      * @throws HttpException
      * @return boolean
      */
@@ -220,10 +226,10 @@ class HttpClient extends ClientSocket implements HttpStream
                 $this->disconnect();
                 throw new HttpException("Connection timed out!");
             }
-
+            
             return false;
         }
-
+        
         return true;
     }
 
@@ -239,7 +245,7 @@ class HttpClient extends ClientSocket implements HttpStream
             // Try to read the whole payload at once
             $numBytes = intval($this->headers['Content-Length']);
         }
-
+        
         return $numBytes;
     }
 
@@ -281,9 +287,12 @@ class HttpClient extends ClientSocket implements HttpStream
      * All parameters by reference, which means the the values can be
      * modified during execution of this method.
      *
-     * @param boolean $delimiterFound Whether the delimiter for end of header section was found
-     * @param int $numBytes The number of bytes to read from remote
-     * @param string $tmp The current readen line
+     * @param boolean $delimiterFound
+     *            Whether the delimiter for end of header section was found
+     * @param int $numBytes
+     *            The number of bytes to read from remote
+     * @param string $tmp
+     *            The current readen line
      */
     private function handleHeader(&$delimiterFound, &$numBytes, &$tmp)
     {
@@ -293,7 +302,7 @@ class HttpClient extends ClientSocket implements HttpStream
             $tmp = "";
             return;
         }
-
+        
         if (substr($tmp, - 2, 2) == "\r\n") {
             $this->addParsedHeader($tmp);
             $tmp = "";
@@ -312,46 +321,46 @@ class HttpClient extends ClientSocket implements HttpStream
     {
         $this->payload = new MemoryStream();
         $this->headers = array();
-
+        
         $delimiterFound = false;
-
+        
         $tmp = "";
         $numBytes = 1;
         $start = time();
         while (true) {
-            if (!$this->checkConnection($start)) {
+            if (! $this->checkConnection($start)) {
                 continue;
             }
-
+            
             $c = $this->read($numBytes);
-
+            
             if ($c == null) {
                 break;
             }
-
+            
             $start = time(); // we have readen something => adjust timeout start point
             $tmp .= $c;
-
-            if (!$delimiterFound) {
+            
+            if (! $delimiterFound) {
                 $this->handleHeader($delimiterFound, $numBytes, $tmp);
             }
-
+            
             if ($delimiterFound) {
                 if ($requestType == 'HEAD') {
                     // Header readen, in type HEAD it is now time to leave
                     break;
                 }
-
+                
                 // delimiter already found, append to payload
                 $this->payload->write($tmp);
                 $tmp = "";
-
+                
                 if ($this->checkContentLengthExceeded()) {
                     break;
                 }
             }
         }
-
+        
         // Set pointer to start
         $this->payload->reset();
     }
@@ -367,13 +376,13 @@ class HttpClient extends ClientSocket implements HttpStream
     private function appendPayloadToRequest(MemoryStream $ms)
     {
         $this->payload->reset();
-
+        
         while ($this->payload->ready()) {
             $ms->write($this->payload->read(1024));
         }
-
+        
         $ms->reset();
-
+        
         return $ms;
     }
 
@@ -387,22 +396,22 @@ class HttpClient extends ClientSocket implements HttpStream
     private function prepareRequest($requestType)
     {
         $ms = new MemoryStream();
-
+        
         // First send the request type
         $ms->interpolate("{rqtype} {path} {proto}\r\n", array(
             'rqtype' => $requestType,
             'path' => $this->path,
             'proto' => $this->protocol
         ));
-
+        
         // Add the host part
         $ms->interpolate("Host: {host}\r\n", array(
             'host' => $this->getEndpoint()
-            ->getAddress()
+                ->getAddress()
         ));
-
+        
         $this->adjustHeaders($requestType);
-
+        
         // Add all existing headers
         foreach ($this->headers as $headerName => $headerValue) {
             if (isset($headerValue) && strlen($headerValue) > 0) {
@@ -412,9 +421,9 @@ class HttpClient extends ClientSocket implements HttpStream
                 ));
             }
         }
-
+        
         $ms->write("\r\n");
-
+        
         return $ms;
     }
 
@@ -438,19 +447,19 @@ class HttpClient extends ClientSocket implements HttpStream
      */
     private function adjustHeaders($requestType)
     {
-        if (!array_key_exists('Accept', $this->headers) && $requestType != 'HEAD') {
+        if (! array_key_exists('Accept', $this->headers) && $requestType != 'HEAD') {
             $this->setHeader('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8');
         }
-
-        if (!array_key_exists('Accept-Language', $this->headers) && $requestType != 'HEAD') {
+        
+        if (! array_key_exists('Accept-Language', $this->headers) && $requestType != 'HEAD') {
             $this->setHeader('Accept-Language', 'en-US;q=0.7,en;q=0.3');
         }
-
-        if (!array_key_exists('User-Agent', $this->headers) && $requestType != 'HEAD') {
+        
+        if (! array_key_exists('User-Agent', $this->headers) && $requestType != 'HEAD') {
             $this->setHeader('User-Agent', 'phpGenerics 1.0');
         }
-
-        if (!array_key_exists('Connection', $this->headers) || strlen($this->headers['Connection']) == 0) {
+        
+        if (! array_key_exists('Connection', $this->headers) || strlen($this->headers['Connection']) == 0) {
             $this->adjustConnectionHeader($requestType);
         }
     }
@@ -464,22 +473,24 @@ class HttpClient extends ClientSocket implements HttpStream
     {
         return $this->responseCode;
     }
-    
+
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\Stream::isOpen()
      */
     public function isOpen()
     {
-    	return true;
+        return true;
     }
-    
+
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Resettable::reset()
      */
-	public function reset()
-	{
-		$this->payload->reset();
-	}
+    public function reset()
+    {
+        $this->payload->reset();
+    }
 }

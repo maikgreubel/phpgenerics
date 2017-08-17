@@ -10,7 +10,7 @@ namespace Generics\Util;
  * This utility class helps to generate a random string
  *
  * @author Maik Greubel <greubel@nkey.de>
- *
+ *        
  */
 class RandomString
 {
@@ -40,29 +40,29 @@ class RandomString
      *            Type of allowed characters
      * @param boolean $repeatable
      *            Whether a character may be reused
-     *
+     *            
      * @return string The generated string
      */
     public static function generate($length = 8, $allowed = RandomString::ASCII, $repeatable = true)
     {
         $allowedChars = array();
-
+        
         $currentLocale = setlocale(LC_ALL, "0");
         if ($allowed == RandomString::ASCII) {
             setlocale(LC_ALL, "C");
         }
-
+        
         for ($i = 32; $i < 256; $i ++) {
             if (($allowed == RandomString::ASCII && ! ctype_alnum(chr($i))) || (! ctype_print(chr($i)))) {
                 continue;
             }
             $allowedChars[] = $i;
         }
-
+        
         self::resetLocaleTo($currentLocale);
-
+        
         $used = array();
-
+        
         $string = "";
         $i = $length;
         while ($i > 0) {
@@ -74,7 +74,7 @@ class RandomString
             $used[] = $i;
             $i --;
         }
-
+        
         return $string;
     }
 
@@ -87,9 +87,9 @@ class RandomString
     private static function resetLocaleTo($localeSaved)
     {
         $localeData = explode(';', $localeSaved);
-
+        
         foreach ($localeData as $identifier) {
-            if (!strchr($identifier, '=')) {
+            if (! strchr($identifier, '=')) {
                 continue;
             }
             $type = $value = null;
@@ -98,31 +98,31 @@ class RandomString
                 case 'LC_ALL':
                     setlocale(LC_ALL, $value);
                     break;
-
+                
                 case 'LC_COLLATE':
                     setlocale(LC_COLLATE, $value);
                     break;
-
+                
                 case 'LC_CTYPE':
                     setlocale(LC_CTYPE, $value);
                     break;
-
+                
                 case 'LC_MONETARY':
                     setlocale(LC_MONETARY, $value);
                     break;
-
+                
                 case 'LC_NUMERIC':
                     setlocale(LC_NUMERIC, $value);
                     break;
-
+                
                 case 'LC_TIME':
                     setlocale(LC_TIME, $value);
                     break;
-
+                
                 case 'LC_MESSAGES':
                     setlocale(LC_MESSAGES, $value);
                     break;
-
+                
                 default:
                     ;
                     break;

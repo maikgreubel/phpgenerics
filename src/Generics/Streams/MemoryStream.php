@@ -19,6 +19,7 @@ class MemoryStream implements InputOutputStream
     use Interpolator {
         interpolate as tinterpolate;
     }
+
     /**
      * The local memory buffer
      *
@@ -70,7 +71,8 @@ class MemoryStream implements InputOutputStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\Stream::close()
      */
     public function close()
@@ -82,7 +84,8 @@ class MemoryStream implements InputOutputStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\Stream::ready()
      */
     public function ready()
@@ -91,7 +94,8 @@ class MemoryStream implements InputOutputStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\OutputStream::write()
      */
     public function write($buffer)
@@ -104,7 +108,8 @@ class MemoryStream implements InputOutputStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\InputStream::read()
      */
     public function read($length = 1, $offset = null)
@@ -112,32 +117,33 @@ class MemoryStream implements InputOutputStream
         if ($this->closed) {
             throw new StreamException("Stream is not open");
         }
-
+        
         if ($offset !== null) {
             $this->current = intval($offset);
         }
-
+        
         if (strlen($this->memory) <= $this->current) {
             $this->ready = false;
             return "";
         }
-
+        
         if (strlen($this->memory) - $this->current < $length) {
             $length = strlen($this->memory) - $this->current;
         }
-
+        
         $out = substr($this->memory, $this->current, $length);
         $this->current += $length;
-
+        
         if ($this->current == strlen($this->memory)) {
             $this->ready = false;
         }
-
+        
         return $out;
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Countable::count()
      */
     public function count()
@@ -145,14 +151,15 @@ class MemoryStream implements InputOutputStream
         if ($this->closed) {
             throw new StreamException("Stream is not open");
         }
-        if (!isset($this->memory)) {
+        if (! isset($this->memory)) {
             return 0;
         }
         return strlen($this->memory);
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Resettable::reset()
      */
     public function reset()
@@ -178,7 +185,8 @@ class MemoryStream implements InputOutputStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\OutputStream::isWriteable()
      */
     public function isWriteable()
@@ -187,7 +195,8 @@ class MemoryStream implements InputOutputStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\OutputStream::flush()
      */
     public function flush()
@@ -195,17 +204,18 @@ class MemoryStream implements InputOutputStream
         if ($this->closed) {
             throw new StreamException("Stream is not open");
         }
-
+        
         unset($this->memory);
         $this->reset();
     }
-    
+
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\Stream::isOpen()
      */
     public function isOpen()
     {
-    	return true;
+        return true;
     }
 }

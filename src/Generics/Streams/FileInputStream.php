@@ -54,20 +54,21 @@ class FileInputStream implements InputStream, Lockable
                 'file' => $file
             ));
         }
-
+        
         $this->handle = fopen($file, "rb");
-
+        
         if (! $this->ready()) {
             throw new StreamException("Could not open {file} for reading", array(
                 'file' => $file
             ));
         }
-
+        
         $this->fileName = $file;
     }
 
     /**
-     * Cleanup (e.g. release lock)
+     * Cleanup (e.g.
+     * release lock)
      */
     public function __destruct()
     {
@@ -81,7 +82,8 @@ class FileInputStream implements InputStream, Lockable
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\Stream::close()
      */
     public function close()
@@ -93,45 +95,49 @@ class FileInputStream implements InputStream, Lockable
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\Stream::ready()
      */
-    public function ready():bool
+    public function ready(): bool
     {
         return is_resource($this->handle) && ! feof($this->handle);
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\InputStream::read()
      */
-    public function read($length = 1, $offset = null):string
+    public function read($length = 1, $offset = null): string
     {
         if (! $this->ready()) {
             throw new StreamException("Stream is not ready!");
         }
-
+        
         if ($offset !== null && intval($offset) > 0) {
             if (fseek($this->handle, $offset, SEEK_SET) != 0) {
                 throw new StreamException("Could not set offset!");
             }
         }
-
+        
         return fread($this->handle, $length);
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Countable::count()
      */
-    public function count():int
+    public function count(): int
     {
         $stat = fstat($this->handle);
         return $stat['size'];
     }
 
     /**
-     *{@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\InputStream::reset()
      */
     public function reset()
@@ -140,7 +146,8 @@ class FileInputStream implements InputStream, Lockable
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Lockable::lock()
      */
     public function lock()
@@ -152,24 +159,26 @@ class FileInputStream implements InputStream, Lockable
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Lockable::unlock()
      */
     public function unlock()
     {
-        if (!$this->locked || flock($this->handle, LOCK_UN) === false) {
+        if (! $this->locked || flock($this->handle, LOCK_UN) === false) {
             throw new LockException("Could not release lock");
         }
         $this->locked = false;
     }
-    
+
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Lockable::isLocked()
      */
-    public function isLocked():bool
+    public function isLocked(): bool
     {
-    	return $this->locked;
+        return $this->locked;
     }
 
     /**
@@ -181,13 +190,14 @@ class FileInputStream implements InputStream, Lockable
     {
         return realpath($this->fileName);
     }
-    
+
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\Stream::isOpen()
      */
     public function isOpen()
     {
-    	return is_resource($this->handle);
+        return is_resource($this->handle);
     }
 }

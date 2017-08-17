@@ -11,18 +11,18 @@ namespace Generics\Client;
  * This class provides session provider
  *
  * @author Maik Greubel <greubel@nkey.de>
- *
+ *        
  */
 class Session
 {
+
     private $sessionId;
 
     /**
      * Create a new session provider
      */
     public function __construct()
-    {
-    }
+    {}
 
     /**
      * Create session
@@ -60,10 +60,10 @@ class Session
      */
     public function get($key)
     {
-        if (!isset($_SESSION[$key])) {
+        if (! isset($_SESSION[$key])) {
             return null;
         }
-
+        
         return $_SESSION[$key];
     }
 }

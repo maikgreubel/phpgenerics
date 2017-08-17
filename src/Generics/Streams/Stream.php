@@ -30,10 +30,10 @@ interface Stream extends Countable, Resettable
      * @return boolean
      */
     public function ready();
-    
+
     /**
      * Retrieves open status of stream
-     * 
+     *
      * @return boolean
      */
     public function isOpen();

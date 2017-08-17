@@ -28,11 +28,11 @@ interface Lockable
      * @throws \Generics\LockException in case of unlock has failed
      */
     public function unlock();
-    
+
     /**
      * Return the current locking state
-     * 
+     *
      * @return true in case of lock is enabled, false otherwise
      */
-    public function isLocked():bool;
+    public function isLocked(): bool;
 }

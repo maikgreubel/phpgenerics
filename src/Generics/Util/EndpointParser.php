@@ -28,7 +28,7 @@ class EndpointParser
     public static function parseUrl($url)
     {
         $url = UrlParser::parseUrl($url);
-
+        
         return new Endpoint($url->getAddress(), $url->getPort());
     }
 }

@@ -11,7 +11,7 @@ namespace Generics\Socket;
  * This abstract class is the blueprint for implementing a service callback
  *
  * @author Maik <greubel@nkey.de>
- *
+ *        
  */
 abstract class ServiceCallback
 {

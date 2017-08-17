@@ -44,20 +44,20 @@ abstract class Socket implements SocketStream
         $this->endpoint = $endpoint;
         $this->open();
     }
-    
+
     /**
      * Opens a socket
-     * 
+     *
      * @throws SocketException
      */
     private function open()
     {
-    	$this->handle = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-    	
-    	if (! is_resource($this->handle)) {
-    		$code = socket_last_error();
-    		throw new SocketException(socket_strerror($code), array(), $code);
-    	}
+        $this->handle = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        
+        if (! is_resource($this->handle)) {
+            $code = socket_last_error();
+            throw new SocketException(socket_strerror($code), array(), $code);
+        }
     }
 
     /**
@@ -69,7 +69,8 @@ abstract class Socket implements SocketStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\Stream::close()
      */
     public function close()
@@ -81,7 +82,8 @@ abstract class Socket implements SocketStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\Stream::ready()
      */
     public function ready()
@@ -89,33 +91,34 @@ abstract class Socket implements SocketStream
         if (! is_resource($this->handle)) {
             return false;
         }
-
+        
         $read = array(
             $this->handle
         );
         $write = null;
         $except = null;
-
+        
         $num = @socket_select($read, $write, $except, 0);
-
+        
         if ($num === false) {
             $code = socket_last_error($this->handle);
             throw new SocketException(socket_strerror($code), array(), $code);
         }
-
+        
         if ($num < 1) {
             return false;
         }
-
+        
         if (! in_array($this->handle, $read)) {
             return false;
         }
-
+        
         return true;
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\OutputStream::isWriteable()
      */
     public function isWriteable()
@@ -123,33 +126,34 @@ abstract class Socket implements SocketStream
         if (! is_resource($this->handle)) {
             return false;
         }
-
+        
         $read = null;
         $write = array(
             $this->handle
         );
         $except = null;
-
+        
         $num = @socket_select($read, $write, $except, 0, 0);
-
+        
         if ($num === false) {
             $code = socket_last_error($this->handle);
             throw new SocketException(socket_strerror($code), array(), $code);
         }
-
+        
         if ($num < 1) {
             return false;
         }
-
+        
         if (! in_array($this->handle, $write)) {
             return false;
         }
-
+        
         return true;
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Countable::count()
      */
     public function count()
@@ -158,7 +162,8 @@ abstract class Socket implements SocketStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\InputStream::read()
      */
     public function read($length = 1, $offset = null)
@@ -168,18 +173,19 @@ abstract class Socket implements SocketStream
             $code = socket_last_error();
             if ($code != 0) {
                 if ($code != 10053) {
-                	throw new SocketException(socket_strerror($code), array(), $code);
+                    throw new SocketException(socket_strerror($code), array(), $code);
                 } else {
                     $this->handle = null;
                 }
             }
         }
-
+        
         return $buf;
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\OutputStream::write()
      */
     public function write($buffer)
@@ -188,7 +194,7 @@ abstract class Socket implements SocketStream
             $code = socket_last_error();
             throw new SocketException(socket_strerror($code), array(), $code);
         }
-
+        
         if ($written != strlen($buffer) + 1) {
             throw new SocketException("Could not write all {bytes} bytes to socket ({written} written)", array(
                 'bytes' => strlen($buffer),
@@ -208,36 +214,37 @@ abstract class Socket implements SocketStream
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\OutputStream::flush()
      */
     public function flush()
     {
         // There is no function to flush a socket. This is only possible for file descriptors.
     }
-    
+
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Streams\Stream::isOpen()
      */
     public function isOpen()
     {
-    	return is_resource($this->handle);
+        return is_resource($this->handle);
     }
-    
+
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Resettable::reset()
      */
     public function reset()
     {
-    	try {
-	    	$this->close();
-	    	$this->open();
-    	}
-    	catch(Exception $ex)
-    	{
-    		throw new ResetException($ex->getMessage(), array(), $ex->getCode(), $ex);
-    	}
+        try {
+            $this->close();
+            $this->open();
+        } catch (Exception $ex) {
+            throw new ResetException($ex->getMessage(), array(), $ex->getCode(), $ex);
+        }
     }
 }

@@ -19,22 +19,24 @@ use RuntimeException;
  */
 trait ExceptionLoggerTrait
 {
-	abstract protected function logImpl($level, $message, array $context = array());
+
+    abstract protected function logImpl($level, $message, array $context = array());
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Logger\ExceptionLogger::logException()
      */
     public function logException(Exception $ex)
     {
         $level = LogLevel::ALERT;
-
+        
         if ($ex instanceof ErrorException) {
             $level = LogLevel::ERROR;
         } elseif ($ex instanceof RuntimeException) {
             $level = LogLevel::EMERGENCY;
         }
-
+        
         $this->logImpl($level, "({code}): {message}\n{stackTrace}", array(
             'code' => $ex->getCode(),
             'message' => $ex->getMessage(),

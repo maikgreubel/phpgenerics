@@ -14,10 +14,12 @@ namespace Generics\Logger;
  */
 trait DumpLoggerTrait
 {
-	abstract public function debug($message, array $context = array());
+
+    abstract public function debug($message, array $context = array());
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Logger\DumpLogger::dump()
      */
     public function dump($o)

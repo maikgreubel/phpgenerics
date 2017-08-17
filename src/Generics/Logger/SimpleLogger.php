@@ -43,7 +43,7 @@ class SimpleLogger extends BasicLogger
     {
         $this->file = $logFilePath;
         $this->maxLogSize = intval($maxLogSize);
-
+        
         if ($this->maxLogSize < 1 || $this->maxLogSize > 50) {
             $this->maxLogSize = 2;
         }
@@ -65,16 +65,16 @@ class SimpleLogger extends BasicLogger
      */
     protected function logImpl($level, $message, array $context = array())
     {
-    	if (!$this->levelHasReached($level)) {
-    		return;
-    	}
-    	
+        if (! $this->levelHasReached($level)) {
+            return;
+        }
+        
         if ($this->isRotationNeeded()) {
             unlink($this->file);
         }
-
+        
         $ms = $this->getMessage($level, $message, $context);
-
+        
         $fos = new FileOutputStream($this->file, true);
         $fos->write($ms);
         $fos->flush();
@@ -89,19 +89,19 @@ class SimpleLogger extends BasicLogger
     private function isRotationNeeded()
     {
         clearstatcache();
-
+        
         if (! file_exists($this->file)) {
             return false;
         }
-
+        
         $result = false;
-
+        
         $attributes = stat($this->file);
-
+        
         if ($attributes == false || $attributes['size'] >= $this->maxLogSize * 1024 * 1024) {
             $result = true;
         }
-
+        
         return $result;
     }
 

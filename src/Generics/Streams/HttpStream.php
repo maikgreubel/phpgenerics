@@ -36,7 +36,7 @@ interface HttpStream extends InputOutputStream
      * Retrieve the payload (http body)
      *
      * @return InputOutputStream The payload as stream
-     *
+     *        
      * @throws \Generics\Streams\StreamException
      */
     public function getPayload();
@@ -46,7 +46,7 @@ interface HttpStream extends InputOutputStream
      *
      * @param InputStream $payload
      *            The payload to append
-     *
+     *            
      * @throws \Generics\Streams\StreamException
      */
     public function appendPayload(InputStream $payload);
@@ -56,7 +56,7 @@ interface HttpStream extends InputOutputStream
      *
      * @param string $requestType
      *            The type of request (GET, POST, etc.)
-     *
+     *            
      * @throws \Generics\Client\HttpException
      * @throws \Generics\Socket\SocketException
      */

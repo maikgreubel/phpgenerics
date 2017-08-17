@@ -21,7 +21,8 @@ trait LoggerTrait
     private $logger = null;
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Psr\Log\LoggerAwareInterface::setLogger()
      */
     public function setLogger(LoggerInterface $logger)
@@ -47,7 +48,7 @@ trait LoggerTrait
     public function getLog()
     {
         $this->initLogger();
-
+        
         return $this->logger;
     }
 }

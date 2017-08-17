@@ -19,6 +19,7 @@ use Exception;
  */
 class SocketException extends GenericsException
 {
+
     /**
      * Create a new SocketException
      *
@@ -34,6 +35,6 @@ class SocketException extends GenericsException
      */
     public function __construct($message, array $context = array(), $code = 0, Exception $previous = null)
     {
-    	parent::__construct($message, $context, $code, $previous);
+        parent::__construct($message, $context, $code, $previous);
     }
 }

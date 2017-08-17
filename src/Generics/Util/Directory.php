@@ -30,7 +30,7 @@ class Directory
      */
     public function __construct($path)
     {
-    	$this->path = $this->fixDirectorySeparator($path);
+        $this->path = $this->fixDirectorySeparator($path);
         if ($this->exists()) {
             $this->path = realpath($this->path);
         }
@@ -41,7 +41,7 @@ class Directory
      *
      * @param string $filter
      *            The filter for entries to skip
-     *
+     *            
      * @return boolean
      *
      * @throws DirectoryException
@@ -53,7 +53,7 @@ class Directory
                 'dir' => $this->path
             ));
         }
-
+        
         $iter = new \DirectoryIterator($this->path);
         while ($iter->valid()) {
             if (! $iter->isDot() && ($filter === null || ! preg_match("/$filter/", $iter->getFilename()))) {
@@ -61,7 +61,7 @@ class Directory
             }
             $iter->next();
         }
-
+        
         return true;
     }
 
@@ -70,7 +70,7 @@ class Directory
      *
      * @param boolean $recursive
      *            Whether to remove it if its not empty
-     *
+     *            
      * @throws DirectoryException
      */
     public function remove($recursive = false)
@@ -78,7 +78,7 @@ class Directory
         if (! $this->exists()) {
             return;
         }
-
+        
         if ($this->isEmpty()) {
             if (rmdir($this->path) === false) {
                 throw new DirectoryException("Could not remove directory {dir}", array(
@@ -87,27 +87,27 @@ class Directory
             }
             return;
         }
-
+        
         if (! $recursive) {
             throw new DirectoryException("Directory {dir} is not empty", array(
                 'dir' => $this->path
             ));
         }
-
+        
         $iter = new \DirectoryIterator($this->path);
         while ($iter->valid()) {
             if ($iter->isDot()) {
                 $iter->next();
                 continue;
             }
-
+            
             if ($iter->isDir()) {
                 $dir = new Directory($iter->getPathname());
                 $dir->remove(true);
             } else {
                 unlink($iter->getPathname());
             }
-
+            
             $iter->next();
         }
         rmdir($this->path);
@@ -118,7 +118,7 @@ class Directory
      *
      * @param boolean $recursive
      *            Create also sub directories
-     *
+     *            
      * @throws DirectoryException
      */
     public function create($recursive = false, $mode = 0755)
@@ -128,7 +128,7 @@ class Directory
                 'dir' => $this->path
             ));
         }
-
+        
         if (mkdir($this->path, $mode, $recursive) === false) {
             throw new DirectoryException("Could not create the directory {dir}", array(
                 'dir' => $this->path
@@ -148,13 +148,13 @@ class Directory
         if (! file_exists($this->path)) {
             return false;
         }
-
+        
         if (! is_dir($this->path)) {
             throw new DirectoryException("Entry {path} exists, but it is not a directory!", array(
                 'path' => $this->path
             ));
         }
-
+        
         return true;
     }
 
@@ -173,7 +173,7 @@ class Directory
      *
      * @param string $fileName
      *            The file name to check
-     *
+     *            
      * @throws DirectoryException
      *
      * @return boolean
@@ -183,25 +183,24 @@ class Directory
         if (! $this->exists()) {
             return false;
         }
-
+        
         $file = sprintf("%s/%s", $this->path, $fileName);
-
+        
         return file_exists($file);
     }
-    
+
     /**
      * Generate a platform specific path by replacing invalid directory separators
-     * 
-     * @param string $path 
-     * 				The path to check
-     * @return string
-     * 				The corrected path
+     *
+     * @param string $path
+     *            The path to check
+     * @return string The corrected path
      */
     private function fixDirectorySeparator($path)
     {
-    	$path = str_replace("\\", DIRECTORY_SEPARATOR , $path);
-    	$path = str_replace("/", DIRECTORY_SEPARATOR, $path);
-    	
-    	return $path;
+        $path = str_replace("\\", DIRECTORY_SEPARATOR, $path);
+        $path = str_replace("/", DIRECTORY_SEPARATOR, $path);
+        
+        return $path;
     }
 }

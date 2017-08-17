@@ -16,6 +16,7 @@ use Generics\Util\UrlParser;
  */
 class Url extends Endpoint
 {
+
     /**
      * Scheme part of url
      *
@@ -83,9 +84,7 @@ class Url extends Endpoint
      */
     public function getUrlString()
     {
-        if (($this->scheme == 'http' && $this->getPort() == 80) ||
-            ($this->scheme == 'ftp' && $this->getPort() == 21) ||
-            ($this->scheme == 'https' && $this->getPort() == 443)) {
+        if (($this->scheme == 'http' && $this->getPort() == 80) || ($this->scheme == 'ftp' && $this->getPort() == 21) || ($this->scheme == 'https' && $this->getPort() == 443)) {
             return sprintf("%s://%s%s", $this->scheme, $this->getAddress(), $this->path);
         }
         return sprintf("%s://%s:%d%s", $this->scheme, $this->getAddress(), $this->getPort(), $this->path);
@@ -102,12 +101,12 @@ class Url extends Endpoint
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Generics\Socket\Endpoint::__toString()
      */
     public function __toString()
     {
         return $this->getUrlString();
-
     }
 }

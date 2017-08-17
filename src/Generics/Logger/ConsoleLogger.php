@@ -12,15 +12,15 @@ use Psr\Log\LogLevel;
  */
 class ConsoleLogger extends BasicLogger
 {
+
     protected function logImpl($level, $message, array $context = array())
     {
         $channel = STDOUT;
-
-        if ($level === LogLevel::ALERT || $level === LogLevel::CRITICAL || $level === LogLevel::EMERGENCY ||
-            $level === LogLevel::ERROR || $level === LogLevel::WARNING) {
+        
+        if ($level === LogLevel::ALERT || $level === LogLevel::CRITICAL || $level === LogLevel::EMERGENCY || $level === LogLevel::ERROR || $level === LogLevel::WARNING) {
             $channel = STDERR;
         }
-
+        
         fwrite($channel, $this->getMessage($level, $message, $context)->read(4096));
     }
 }

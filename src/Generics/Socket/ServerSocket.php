@@ -20,7 +20,7 @@ class ServerSocket extends Socket
      *
      * @param Endpoint $endpoint
      *            The endpoint to use
-     *
+     *            
      * @throws SocketException In case of creation of socket has failed or socket options could not be set.
      */
     public function __construct(Endpoint $endpoint)
@@ -40,28 +40,28 @@ class ServerSocket extends Socket
     public function serve(ServiceCallback $callback)
     {
         $this->bind();
-
+        
         $this->listen();
-
+        
         $runOn = true;
-
+        
         while ($runOn) {
             $clientHandle = @socket_accept($this->handle);
-
+            
             if (! is_resource($clientHandle)) {
                 $code = socket_last_error($this->handle);
                 throw new SocketException(socket_strerror($code), array(), $code);
             }
-
+            
             $address = null;
             $port = 0;
             if (! @socket_getpeername($clientHandle, $address, $port)) {
                 $code = socket_last_error($clientHandle);
                 throw new SocketException(socket_strerror($code), array(), $code);
             }
-
+            
             $client = new ClientSocket(new Endpoint($address, $port), $clientHandle);
-
+            
             $runOn = boolval($callback->callback($client));
         }
     }
