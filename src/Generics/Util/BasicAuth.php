@@ -65,8 +65,6 @@ class BasicAuth
     /**
      * Perform authentication
      *
-     * @param string $user The name the user provided
-     * @param string $password The password the user provided
      * @param string $file
      * @throws GenericsException
      * @return boolean

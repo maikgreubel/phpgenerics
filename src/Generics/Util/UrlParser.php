@@ -29,10 +29,10 @@ class UrlParser
     {
         $parts = parse_url($url);
 
-        if (! isset($parts['host']) || strlen($parts['host']) == 0) {
+        if (! Arrays::hasElement($parts, 'host') ) {
             throw new InvalidUrlException('This URL does not contain a host part');
         }
-        if (! isset($parts['scheme']) || strlen($parts['scheme']) == 0) {
+        if (! Arrays::hasElement($parts, 'scheme') ) {
             throw new InvalidUrlException('This URL does not contain a scheme part');
         }
 

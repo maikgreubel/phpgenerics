@@ -27,4 +27,16 @@ class Arrays
     {
         return new ArrayObject(array_fill(0, $numElements, null));
     }
+    
+    /**
+     * Check whether a key exists in array and corresponding value is not empty
+     * 
+     * @param array $array
+     * @param mixed $element
+     * @return bool
+     */
+    public static function hasElement(array $array, $element):bool
+    {
+    	return isset($array[$element]) && strlen($array[$element]) > 0;
+    }
 }
