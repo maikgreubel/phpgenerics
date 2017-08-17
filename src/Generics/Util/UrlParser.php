@@ -29,11 +29,8 @@ class UrlParser
     {
         $parts = parse_url($url);
         
-        if (false === $parts || false === Arrays::hasElement($parts, 'host')) {
-            throw new InvalidUrlException('This URL does not contain a host part');
-        }
-        if (false === $parts || false === Arrays::hasElement($parts, 'scheme')) {
-            throw new InvalidUrlException('This URL does not contain a scheme part');
+        if (false === $parts || false === Arrays::hasElement($parts, 'host') || false === Arrays::hasElement($parts, 'scheme')) {
+            throw new InvalidUrlException('The URL {url} does not contain necessary parts', array('url' => $url));
         }
         
         $address = $parts['host'];
