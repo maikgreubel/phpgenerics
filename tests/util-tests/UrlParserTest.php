@@ -32,7 +32,7 @@ class UrlParserTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @expectedException \Generics\Socket\InvalidUrlException
-     * @expectedExceptionMessage This URL does not contain a host part
+     * @expectedExceptionMessage does not contain necessary parts
      */
     public function testInvalidHost()
     {
@@ -41,7 +41,7 @@ class UrlParserTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @expectedException \Generics\Socket\InvalidUrlException
-     * @expectedExceptionMessage This URL does not contain a scheme part
+     * @expectedExceptionMessage does not contain necessary parts
      */
     public function testInvalidScheme()
     {

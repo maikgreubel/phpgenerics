@@ -38,7 +38,7 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
 
         $http = new HttpClient($url);
         $http->setHeader('Connection', '');
-        $http->setTimeout(1);
+        $http->setTimeout(5);
 
         $headers = $http->retrieveHeaders();
 

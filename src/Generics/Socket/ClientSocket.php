@@ -62,6 +62,10 @@ class ClientSocket extends Socket
      */
     public function disconnect()
     {
+        if (! $this->conntected) {
+            throw new SocketException("Socket is not connected");
+        }
+        
         $this->close();
     }
 
@@ -81,10 +85,6 @@ class ClientSocket extends Socket
      */
     public function close()
     {
-        if (! $this->conntected) {
-            throw new SocketException("Socket is not connected");
-        }
-        
         parent::close();
         $this->conntected = false;
     }
