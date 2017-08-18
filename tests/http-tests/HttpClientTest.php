@@ -10,6 +10,9 @@ use Generics\Streams\MemoryStream;
 class HttpClientTest extends \PHPUnit\Framework\TestCase
 {
 
+    /**
+     * @test
+     */
     public function testSimpleRequest()
     {
         $url = new Url('httpbin.org', 80);
@@ -32,6 +35,9 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($response);
     }
 
+    /**
+     * @test
+     */
     public function testRetrieveHeaders()
     {
         $url = new Url('httpbin.org', 80);
@@ -53,6 +59,9 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($http->getHeaders());
     }
 
+    /**
+     * @test
+     */
     public function testTimeoutInvalid()
     {
         $url = new Url('httpbin.org', 80);
@@ -64,6 +73,9 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(200, $http->getResponseCode());
     }
 
+    /**
+     * @test
+     */
     public function testTheRest()
     {
         $url = new Url('httpbin.org', 80);
@@ -75,6 +87,9 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(200, $http->getResponseCode());
     }
 
+    /**
+     * @test
+     */
     public function testConnectionClose()
     {
         $url = new Url('httpbin.org', 80);
@@ -94,6 +109,7 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test
      * @expectedException \Generics\Client\HttpException
      */
     public function testDelay()
@@ -105,6 +121,9 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
         $http->request('GET');
     }
 
+    /**
+     * @test
+     */
     public function testSendPayload()
     {
         $url = new Url('httpbin.org', 80);
@@ -123,6 +142,7 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test
      * @expectedException \Generics\Client\HttpException
      */
     public function testSSLConnection()
@@ -130,5 +150,29 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
         $url = UrlParser::parseUrl('https://httpbin.org/');
         $http = new HttpClient($url);
         $http->request('GET');
+    }
+    
+    /**
+     * @test
+     */
+    public function testQueryString()
+    {
+        $url = UrlParser::parseUrl('http://httpbin.org/get?foo=bar');
+        $http = new HttpClient($url);
+        $http->request('GET');
+        
+        $this->assertEquals(200, $http->getResponseCode());
+        
+        $response = "";
+        
+        while ($http->getPayload()->ready()) {
+            $response = $http->getPayload()->read(
+                $http->getPayload()
+                ->count()
+                );
+        }
+        
+        $this->assertNotEmpty($response);
+        $this->assertContains('"foo": "bar"', $response);
     }
 }

@@ -69,6 +69,13 @@ class HttpClient extends ClientSocket implements HttpStream
      * @var int
      */
     private $timeout;
+    
+    /**
+     * The query string
+     * 
+     * @var string
+     */
+    private $queryString;
 
     /**
      * Create a new http client
@@ -84,6 +91,7 @@ class HttpClient extends ClientSocket implements HttpStream
     {
         parent::__construct($url);
         $this->path = $url->getPath();
+        $this->queryString = $url->getQueryString();
         $this->secure = $url->getScheme() == 'https';
         $this->protocol = $proto;
         $this->headers = array();
@@ -398,10 +406,11 @@ class HttpClient extends ClientSocket implements HttpStream
         $ms = new MemoryStream();
         
         // First send the request type
-        $ms->interpolate("{rqtype} {path} {proto}\r\n", array(
+        $ms->interpolate("{rqtype} {path}{query} {proto}\r\n", array(
             'rqtype' => $requestType,
             'path' => $this->path,
-            'proto' => $this->protocol
+            'proto' => $this->protocol,
+            'query' => (strlen($this->queryString) ? '?'.$this->queryString : '')
         ));
         
         // Add the host part
