@@ -98,7 +98,7 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
      */
     public function testDelay()
     {
-        $url = UrlParser::parseUrl("http://httpbin.org/delay/3");
+        $url = UrlParser::parseUrl("http://httpbin.org/delay/4");
         $http = new HttpClient($url);
         $http->setTimeout(2);
 

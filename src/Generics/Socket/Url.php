@@ -32,6 +32,11 @@ class Url extends Endpoint
     private $path;
 
     /**
+     * The query string
+     */
+    private $queryString;
+
+    /**
      * Create a new Url instance
      *
      * @param string $address
@@ -43,17 +48,19 @@ class Url extends Endpoint
      * @param string $scheme
      *            The scheme for the url
      */
-    public function __construct($address, $port = 80, $path = '/', $scheme = 'http')
+    public function __construct($address, $port = 80, $path = '/', $scheme = 'http', $queryString = '')
     {
         try {
             $parsed = UrlParser::parseUrl($address);
             parent::__construct($parsed->getAddress(), $parsed->getPort());
             $this->path = $parsed->getPath();
             $this->scheme = $parsed->getScheme();
+            $this->queryString = $parsed->getQueryString();
         } catch (InvalidUrlException $ex) {
             parent::__construct($address, $port);
             $this->path = $path;
             $this->scheme = $scheme;
+            $this->queryString = $queryString;
         }
     }
 
@@ -62,7 +69,7 @@ class Url extends Endpoint
      *
      * @return string
      */
-    public function getScheme()
+    public function getScheme(): string
     {
         return $this->scheme;
     }
@@ -72,7 +79,7 @@ class Url extends Endpoint
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -82,12 +89,17 @@ class Url extends Endpoint
      *
      * @return string
      */
-    public function getUrlString()
+    public function getUrlString(): string
     {
-        if (($this->scheme == 'http' && $this->getPort() == 80) || ($this->scheme == 'ftp' && $this->getPort() == 21) || ($this->scheme == 'https' && $this->getPort() == 443)) {
-            return sprintf("%s://%s%s", $this->scheme, $this->getAddress(), $this->path);
+        $query = "";
+        if (strlen($this->queryString) > 0) {
+            $query = sprintf("?%s", $this->queryString);
         }
-        return sprintf("%s://%s:%d%s", $this->scheme, $this->getAddress(), $this->getPort(), $this->path);
+        
+        if (($this->scheme == 'http' && $this->getPort() == 80) || ($this->scheme == 'ftp' && $this->getPort() == 21) || ($this->scheme == 'https' && $this->getPort() == 443)) {
+            return sprintf("%s://%s%s%s", $this->scheme, $this->getAddress(), $this->path, $query);
+        }
+        return sprintf("%s://%s:%d%s%s", $this->scheme, $this->getAddress(), $this->getPort(), $this->path, $query);
     }
 
     /**
@@ -95,9 +107,14 @@ class Url extends Endpoint
      *
      * @return string
      */
-    public function getFile()
+    public function getFile(): string
     {
         return basename($this->path);
+    }
+
+    public function getQueryString(): string
+    {
+        return $this->queryString;
     }
 
     /**
@@ -105,7 +122,7 @@ class Url extends Endpoint
      * {@inheritdoc}
      * @see \Generics\Socket\Endpoint::__toString()
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getUrlString();
     }

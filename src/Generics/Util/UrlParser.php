@@ -35,6 +35,7 @@ class UrlParser
         
         $address = $parts['host'];
         $scheme = $parts['scheme'];
+        $query = (isset($parts['query']) ? $parts['query'] : '');
         $port = 0;
         $path = "/";
         
@@ -50,7 +51,7 @@ class UrlParser
             $path = $parts['path'];
         }
         
-        return new Url($address, $port, $path, $scheme);
+        return new Url($address, $port, $path, $scheme, $query);
     }
 
     /**
