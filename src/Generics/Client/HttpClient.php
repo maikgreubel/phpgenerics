@@ -377,7 +377,7 @@ class HttpClient extends ClientSocket implements HttpStream
             $mayCompressed = $this->payload->read($this->payload->count());
             switch($this->headers['Content-Encoding']) {
                 case 'gzip': 
-                    $uncompressed = gzdecode($mayCompressed);
+                    $uncompressed = gzdecode(strstr($mayCompressed, "\x1f\x8b"));
                     $this->payload->flush();
                     $this->payload->write($uncompressed);
                     break;
