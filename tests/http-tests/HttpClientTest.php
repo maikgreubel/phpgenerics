@@ -175,4 +175,53 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($response);
         $this->assertContains('"foo": "bar"', $response);
     }
+    
+    /**
+     * @test
+     */
+    public function testGzip()
+    {
+        $url = UrlParser::parseUrl('http://httpbin.org/gzip');
+        $http = new HttpClient($url);
+        $http->request('GET');
+        
+        $this->assertEquals(200, $http->getResponseCode());
+        
+        $response = "";
+        
+        while ($http->getPayload()->ready()) {
+            $response = $http->getPayload()->read(
+                $http->getPayload()
+                ->count()
+                );
+        }
+        
+        $this->assertNotEmpty($response);
+        $this->assertJson($response);
+    }
+    
+    /**
+     * @test
+     */
+    public function testDeflate()
+    {
+        $url = UrlParser::parseUrl('http://httpbin.org/deflate');
+        $http = new HttpClient($url);
+        $http->request('GET');
+        
+        $this->assertEquals(200, $http->getResponseCode());
+        
+        $response = "";
+        
+        while ($http->getPayload()->ready()) {
+            $response = $http->getPayload()->read(
+                $http->getPayload()
+                ->count()
+                );
+        }
+        
+        $this->assertNotEmpty($response);
+        $this->assertJson($response);
+    }
+    
 }

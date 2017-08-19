@@ -206,6 +206,7 @@ class MemoryStream implements InputOutputStream
         }
         
         unset($this->memory);
+        $this->memory = "";
         $this->reset();
     }
 

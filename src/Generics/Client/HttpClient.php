@@ -12,6 +12,7 @@ use Generics\Streams\InputStream;
 use Generics\Streams\MemoryStream;
 use Generics\Socket\ClientSocket;
 use Generics\Socket\Url;
+use Generics\Util\Arrays;
 
 /**
  * This class implements a HttpStream as client
@@ -69,10 +70,10 @@ class HttpClient extends ClientSocket implements HttpStream
      * @var int
      */
     private $timeout;
-    
+
     /**
      * The query string
-     * 
+     *
      * @var string
      */
     private $queryString;
@@ -371,6 +372,27 @@ class HttpClient extends ClientSocket implements HttpStream
         
         // Set pointer to start
         $this->payload->reset();
+        
+        if(Arrays::hasElement($this->headers, 'Content-Encoding')) {
+            $mayCompressed = $this->payload->read($this->payload->count());
+            switch($this->headers['Content-Encoding']) {
+                case 'gzip': 
+                    $uncompressed = gzdecode($mayCompressed);
+                    $this->payload->flush();
+                    $this->payload->write($uncompressed);
+                    break;
+                    
+                case 'deflate':
+                    $uncompressed = gzuncompress($mayCompressed);
+                    $this->payload->flush();
+                    $this->payload->write($uncompressed);
+                    break;
+                    
+                default:
+                    // nothing
+                    break;
+            }
+        }
     }
 
     /**
@@ -410,7 +432,7 @@ class HttpClient extends ClientSocket implements HttpStream
             'rqtype' => $requestType,
             'path' => $this->path,
             'proto' => $this->protocol,
-            'query' => (strlen($this->queryString) ? '?'.$this->queryString : '')
+            'query' => (strlen($this->queryString) ? '?' . $this->queryString : '')
         ));
         
         // Add the host part
@@ -470,6 +492,17 @@ class HttpClient extends ClientSocket implements HttpStream
         
         if (! array_key_exists('Connection', $this->headers) || strlen($this->headers['Connection']) == 0) {
             $this->adjustConnectionHeader($requestType);
+        }
+        
+        if (! array_key_exists('Accept-Encoding', $this->headers)) {
+            $encoding = "";
+            if (function_exists('gzinflate')) {
+                $encoding = 'gzip, deflate';
+            }
+            else {
+                $encoding = 'identity';
+            }
+            $this->setHeader('Accept-Encoding', $encoding);
         }
     }
 
