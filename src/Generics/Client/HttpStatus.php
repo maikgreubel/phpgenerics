@@ -73,7 +73,7 @@ class HttpStatus
      *
      * @return string The status message
      */
-    public static function getStatus($code)
+    public static function getStatus($code): string
     {
         $prop = sprintf("Generics\\Client\\HttpStatus::STATUS_%d", $code);
         return constant($prop);
@@ -86,7 +86,7 @@ class HttpStatus
      *
      * @return HttpStatus
      */
-    public static function parseStatus($statusLine)
+    public static function parseStatus($statusLine): HttpStatus
     {
         list ($proto, $code) = sscanf($statusLine, "%s %d %s");
         return new HttpStatus($code, $proto);
@@ -98,7 +98,7 @@ class HttpStatus
      * @return string The status line according RFC
      * @see http://greenbytes.de/tech/webdav/draft-ietf-httpbis-p1-messaging-latest.html#rfc.section.3.1.2
      */
-    public function toStatusLine()
+    public function toStatusLine(): string
     {
         return sprintf("%s %d %s", $this->proto, $this->code, self::getStatus($this->code));
     }
@@ -111,7 +111,7 @@ class HttpStatus
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toStatusLine();
     }
@@ -121,7 +121,7 @@ class HttpStatus
      *
      * @return int
      */
-    public function getCode()
+    public function getCode(): int
     {
         return $this->code;
     }
@@ -131,7 +131,7 @@ class HttpStatus
      *
      * @return string
      */
-    public function getProtocol()
+    public function getProtocol(): string
     {
         return $this->proto;
     }

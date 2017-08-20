@@ -43,7 +43,7 @@ class RandomString
      *            
      * @return string The generated string
      */
-    public static function generate($length = 8, $allowed = RandomString::ASCII, $repeatable = true)
+    public static function generate($length = 8, $allowed = RandomString::ASCII, $repeatable = true): string
     {
         $allowedChars = array();
         

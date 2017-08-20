@@ -196,7 +196,7 @@ class FileOutputStream implements OutputStream, Lockable
      * {@inheritdoc}
      * @see \Generics\Streams\OutputStream::isWriteable()
      */
-    public function isWriteable()
+    public function isWriteable(): bool
     {
         return $this->ready();
     }

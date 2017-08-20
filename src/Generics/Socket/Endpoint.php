@@ -48,7 +48,7 @@ class Endpoint
      *
      * @return string The address
      */
-    public function getAddress()
+    public function getAddress(): string
     {
         return $this->address;
     }
@@ -58,7 +58,7 @@ class Endpoint
      *
      * @return int The port
      */
-    public function getPort()
+    public function getPort(): int
     {
         return $this->port;
     }
@@ -68,7 +68,7 @@ class Endpoint
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf("%s:%d", $this->address, $this->port);
     }

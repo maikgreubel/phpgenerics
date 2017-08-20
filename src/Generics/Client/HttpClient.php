@@ -13,6 +13,7 @@ use Generics\Streams\MemoryStream;
 use Generics\Socket\ClientSocket;
 use Generics\Socket\Url;
 use Generics\Util\Arrays;
+use Generics\Streams\InputOutputStream;
 
 /**
  * This class implements a HttpStream as client
@@ -105,7 +106,7 @@ class HttpClient extends ClientSocket implements HttpStream
      * {@inheritdoc}
      * @see \Generics\Streams\HttpStream::getHeaders()
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
@@ -119,15 +120,17 @@ class HttpClient extends ClientSocket implements HttpStream
     public function setHeader($headerName, $headerValue)
     {
         $this->headers[$headerName] = $headerValue;
-        return $this;
     }
 
     /**
      * Reset the headers
+     *
+     * @return HttpClient
      */
-    public function resetHeaders()
+    public function resetHeaders(): HttpClient
     {
         $this->headers = array();
+        return $this;
     }
 
     /**
@@ -147,7 +150,7 @@ class HttpClient extends ClientSocket implements HttpStream
      * {@inheritdoc}
      * @see \Generics\Streams\HttpStream::getPayload()
      */
-    public function getPayload()
+    public function getPayload(): InputOutputStream
     {
         return $this->payload;
     }
@@ -157,7 +160,7 @@ class HttpClient extends ClientSocket implements HttpStream
      *
      * @return array
      */
-    public function retrieveHeaders()
+    public function retrieveHeaders(): array
     {
         $this->setHeader('Connection', 'close');
         $this->setHeader('Accept', '');
@@ -176,14 +179,16 @@ class HttpClient extends ClientSocket implements HttpStream
      * Set connection timeout in seconds
      *
      * @param int $timeout
+     * @return HttpClient
      */
-    public function setTimeout($timeout)
+    public function setTimeout($timeout): HttpClient
     {
         $timeout = intval($timeout);
         if ($timeout < 1 || $timeout > 60) {
             $timeout = 5;
         }
         $this->timeout = $timeout;
+        return $this;
     }
 
     /**
@@ -226,9 +231,9 @@ class HttpClient extends ClientSocket implements HttpStream
      * @param int $start
      *            Timestamp when read request attempt starts
      * @throws HttpException
-     * @return boolean
+     * @return bool
      */
-    private function checkConnection($start)
+    private function checkConnection($start): bool
     {
         if (! $this->ready()) {
             if (time() - $start > $this->timeout) {
@@ -248,7 +253,7 @@ class HttpClient extends ClientSocket implements HttpStream
      * @param int $numBytes
      * @return int
      */
-    private function adjustNumbytes($numBytes)
+    private function adjustNumbytes($numBytes): int
     {
         if (isset($this->headers['Content-Length'])) {
             // Try to read the whole payload at once
@@ -278,9 +283,9 @@ class HttpClient extends ClientSocket implements HttpStream
      * Check whether the readen bytes amount has reached the
      * content length amount
      *
-     * @return boolean
+     * @return bool
      */
-    private function checkContentLengthExceeded()
+    private function checkContentLengthExceeded(): bool
     {
         if (isset($this->headers['Content-Length'])) {
             if ($this->payload->count() >= $this->headers['Content-Length']) {
@@ -373,21 +378,21 @@ class HttpClient extends ClientSocket implements HttpStream
         // Set pointer to start
         $this->payload->reset();
         
-        if(Arrays::hasElement($this->headers, 'Content-Encoding')) {
+        if (Arrays::hasElement($this->headers, 'Content-Encoding')) {
             $mayCompressed = $this->payload->read($this->payload->count());
-            switch($this->headers['Content-Encoding']) {
-                case 'gzip': 
+            switch ($this->headers['Content-Encoding']) {
+                case 'gzip':
                     $uncompressed = gzdecode(strstr($mayCompressed, "\x1f\x8b"));
                     $this->payload->flush();
                     $this->payload->write($uncompressed);
                     break;
-                    
+                
                 case 'deflate':
                     $uncompressed = gzuncompress($mayCompressed);
                     $this->payload->flush();
                     $this->payload->write($uncompressed);
                     break;
-                    
+                
                 default:
                     // nothing
                     break;
@@ -403,7 +408,7 @@ class HttpClient extends ClientSocket implements HttpStream
      * @throws \Generics\Streams\StreamException
      * @throws \Generics\ResetException
      */
-    private function appendPayloadToRequest(MemoryStream $ms)
+    private function appendPayloadToRequest(MemoryStream $ms): MemoryStream
     {
         $this->payload->reset();
         
@@ -423,7 +428,7 @@ class HttpClient extends ClientSocket implements HttpStream
      * @return \Generics\Streams\MemoryStream
      * @throws \Generics\Streams\StreamException
      */
-    private function prepareRequest($requestType)
+    private function prepareRequest($requestType): MemoryStream
     {
         $ms = new MemoryStream();
         
@@ -498,8 +503,7 @@ class HttpClient extends ClientSocket implements HttpStream
             $encoding = "";
             if (function_exists('gzinflate')) {
                 $encoding = 'gzip, deflate';
-            }
-            else {
+            } else {
                 $encoding = 'identity';
             }
             $this->setHeader('Accept-Encoding', $encoding);
@@ -511,7 +515,7 @@ class HttpClient extends ClientSocket implements HttpStream
      *
      * @return int
      */
-    public function getResponseCode()
+    public function getResponseCode(): int
     {
         return $this->responseCode;
     }
@@ -521,7 +525,7 @@ class HttpClient extends ClientSocket implements HttpStream
      * {@inheritdoc}
      * @see \Generics\Streams\Stream::isOpen()
      */
-    public function isOpen()
+    public function isOpen(): bool
     {
         return true;
     }

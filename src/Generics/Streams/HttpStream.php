@@ -20,7 +20,7 @@ interface HttpStream extends InputOutputStream
      *
      * @return array
      */
-    public function getHeaders();
+    public function getHeaders(): array;
 
     /**
      * Set a particular header to a corresponding value
@@ -39,7 +39,7 @@ interface HttpStream extends InputOutputStream
      *        
      * @throws \Generics\Streams\StreamException
      */
-    public function getPayload();
+    public function getPayload(): InputOutputStream;
 
     /**
      * Append the payload (http body)

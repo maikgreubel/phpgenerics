@@ -24,7 +24,7 @@ trait Interpolator
      *            
      * @return string The interpolated message
      */
-    private static function interpolate($message, array $context = array())
+    private static function interpolate($message, array $context = array()): string
     {
         $replace = array();
         

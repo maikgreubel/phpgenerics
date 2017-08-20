@@ -27,14 +27,14 @@ interface Stream extends Countable, Resettable
     /**
      * Checks whether stream is ready for action.
      *
-     * @return boolean
+     * @return bool
      */
-    public function ready();
+    public function ready(): bool;
 
     /**
      * Retrieves open status of stream
      *
-     * @return boolean
+     * @return bool
      */
-    public function isOpen();
+    public function isOpen(): bool;
 }

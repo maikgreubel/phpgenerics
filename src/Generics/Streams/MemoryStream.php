@@ -88,7 +88,7 @@ class MemoryStream implements InputOutputStream
      * {@inheritdoc}
      * @see \Generics\Streams\Stream::ready()
      */
-    public function ready()
+    public function ready(): bool
     {
         return $this->ready;
     }
@@ -112,7 +112,7 @@ class MemoryStream implements InputOutputStream
      * {@inheritdoc}
      * @see \Generics\Streams\InputStream::read()
      */
-    public function read($length = 1, $offset = null)
+    public function read($length = 1, $offset = null): string
     {
         if ($this->closed) {
             throw new StreamException("Stream is not open");
@@ -146,7 +146,7 @@ class MemoryStream implements InputOutputStream
      * {@inheritdoc}
      * @see \Countable::count()
      */
-    public function count()
+    public function count(): int
     {
         if ($this->closed) {
             throw new StreamException("Stream is not open");
@@ -189,7 +189,7 @@ class MemoryStream implements InputOutputStream
      * {@inheritdoc}
      * @see \Generics\Streams\OutputStream::isWriteable()
      */
-    public function isWriteable()
+    public function isWriteable(): bool
     {
         return true;
     }
@@ -215,7 +215,7 @@ class MemoryStream implements InputOutputStream
      * {@inheritdoc}
      * @see \Generics\Streams\Stream::isOpen()
      */
-    public function isOpen()
+    public function isOpen(): bool
     {
         return true;
     }

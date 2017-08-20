@@ -86,7 +86,7 @@ abstract class Socket implements SocketStream
      * {@inheritdoc}
      * @see \Generics\Streams\Stream::ready()
      */
-    public function ready()
+    public function ready(): bool
     {
         if (! is_resource($this->handle)) {
             return false;
@@ -121,7 +121,7 @@ abstract class Socket implements SocketStream
      * {@inheritdoc}
      * @see \Generics\Streams\OutputStream::isWriteable()
      */
-    public function isWriteable()
+    public function isWriteable():bool
     {
         if (! is_resource($this->handle)) {
             return false;
@@ -166,10 +166,10 @@ abstract class Socket implements SocketStream
      * {@inheritdoc}
      * @see \Generics\Streams\InputStream::read()
      */
-    public function read($length = 1, $offset = null)
+    public function read($length = 1, $offset = null): string
     {
         if (($buf = @socket_read($this->handle, $length)) === false) {
-            $buf = null;
+            $buf = "";
             $code = socket_last_error();
             if ($code != 0) {
                 if ($code != 10053) {
@@ -190,12 +190,12 @@ abstract class Socket implements SocketStream
      */
     public function write($buffer)
     {
-        if (($written = @socket_write($this->handle, "{$buffer}\0")) === false) {
+        if (($written = @socket_write($this->handle, "{$buffer}")) === false) {
             $code = socket_last_error();
             throw new SocketException(socket_strerror($code), array(), $code);
         }
         
-        if ($written != strlen($buffer) + 1) {
+        if ($written != strlen($buffer)) {
             throw new SocketException("Could not write all {bytes} bytes to socket ({written} written)", array(
                 'bytes' => strlen($buffer),
                 'written' => $written
@@ -228,7 +228,7 @@ abstract class Socket implements SocketStream
      * {@inheritdoc}
      * @see \Generics\Streams\Stream::isOpen()
      */
-    public function isOpen()
+    public function isOpen(): bool
     {
         return is_resource($this->handle);
     }

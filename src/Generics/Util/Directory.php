@@ -42,11 +42,11 @@ class Directory
      * @param string $filter
      *            The filter for entries to skip
      *            
-     * @return boolean
+     * @return bool
      *
      * @throws DirectoryException
      */
-    public function isEmpty($filter = null)
+    public function isEmpty($filter = null): bool
     {
         if (! $this->exists()) {
             throw new DirectoryException("Directory {dir} does not exist", array(
@@ -141,9 +141,9 @@ class Directory
      * Checks whether directory exists
      *
      * @throws DirectoryException
-     * @return boolean
+     * @return bool
      */
-    public function exists()
+    public function exists(): bool
     {
         if (! file_exists($this->path)) {
             return false;
@@ -163,7 +163,7 @@ class Directory
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -176,9 +176,9 @@ class Directory
      *            
      * @throws DirectoryException
      *
-     * @return boolean
+     * @return bool
      */
-    public function fileExists($fileName)
+    public function fileExists($fileName): bool
     {
         if (! $this->exists()) {
             return false;
@@ -196,7 +196,7 @@ class Directory
      *            The path to check
      * @return string The corrected path
      */
-    private function fixDirectorySeparator($path)
+    private function fixDirectorySeparator($path): string
     {
         $path = str_replace("\\", DIRECTORY_SEPARATOR, $path);
         $path = str_replace("/", DIRECTORY_SEPARATOR, $path);

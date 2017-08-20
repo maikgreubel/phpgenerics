@@ -25,7 +25,7 @@ class EndpointParser
      * @throws InvalidUrlException
      * @return \Generics\Socket\Endpoint
      */
-    public static function parseUrl($url)
+    public static function parseUrl($url): Endpoint
     {
         $url = UrlParser::parseUrl($url);
         

@@ -72,9 +72,9 @@ class ClientSocket extends Socket
     /**
      * Whether the client is connected
      *
-     * @return boolean
+     * @return bool
      */
-    public function isConnected()
+    public function isConnected():bool
     {
         return $this->conntected;
     }
@@ -94,7 +94,7 @@ class ClientSocket extends Socket
      * {@inheritdoc}
      * @see \Generics\Socket\Socket::isWriteable()
      */
-    public function isWriteable()
+    public function isWriteable():bool
     {
         if (! $this->isConnected()) {
             return false;

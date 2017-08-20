@@ -72,9 +72,9 @@ class BasicAuth
      *
      * @param string $file
      * @throws GenericsException
-     * @return boolean
+     * @return bool
      */
-    public function auth($file = '')
+    public function auth($file = ''): bool
     {
         if (php_sapi_name() == 'cli') {
             throw new GenericsException("CLI does not support basic auth!");

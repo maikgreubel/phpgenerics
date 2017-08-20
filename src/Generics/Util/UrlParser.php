@@ -25,7 +25,7 @@ class UrlParser
      * @throws InvalidUrlException
      * @return \Generics\Socket\Url
      */
-    public static function parseUrl($url)
+    public static function parseUrl($url): Url
     {
         $parts = parse_url($url);
         
@@ -64,7 +64,7 @@ class UrlParser
      * @throws InvalidUrlException
      * @return int
      */
-    public static function getPortByScheme($scheme)
+    public static function getPortByScheme($scheme): int
     {
         switch ($scheme) {
             case 'http':

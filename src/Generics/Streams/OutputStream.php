@@ -27,9 +27,9 @@ interface OutputStream extends Stream
     /**
      * Whether it is possible to write to stream
      *
-     * @return boolean
+     * @return bool
      */
-    public function isWriteable();
+    public function isWriteable():bool;
 
     /**
      * Flush the stream

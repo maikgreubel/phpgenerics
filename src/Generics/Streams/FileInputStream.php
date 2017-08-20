@@ -186,7 +186,7 @@ class FileInputStream implements InputStream, Lockable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return realpath($this->fileName);
     }
@@ -196,7 +196,7 @@ class FileInputStream implements InputStream, Lockable
      * {@inheritdoc}
      * @see \Generics\Streams\Stream::isOpen()
      */
-    public function isOpen()
+    public function isOpen(): bool
     {
         return is_resource($this->handle);
     }
