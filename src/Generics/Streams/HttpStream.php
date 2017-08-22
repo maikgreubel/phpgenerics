@@ -60,5 +60,5 @@ interface HttpStream extends InputOutputStream
      * @throws \Generics\Client\HttpException
      * @throws \Generics\Socket\SocketException
      */
-    public function request($requestType);
+    public function request(string $requestType);
 }

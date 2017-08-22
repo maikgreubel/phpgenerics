@@ -1,34 +1,16 @@
 <?php
-
-/**
- * This file is part of the PHP Generics package.
- *
- * @package Generics
- */
 namespace Generics\Client;
 
-use Generics\Socket\ClientSocket;
 use Generics\Socket\Url;
+use Generics\Socket\SecureClientSocket;
 use Generics\Streams\HttpStream;
 
-/**
- * This class implements a HttpStream as client
- *
- * @author Maik Greubel <greubel@nkey.de>
- */
-class HttpClient extends ClientSocket implements HttpStream
+class HttpsClient extends SecureClientSocket implements HttpStream
 {
     use HttpClientTrait;
     
     /**
-     * Whether to use https instead of http
-     *
-     * @var boolean
-     */
-    private $secure;
-
-    /**
-     * Create a new http client
+     * Create a new https client
      *
      * @param Url $url
      *            The url for http request
@@ -41,8 +23,6 @@ class HttpClient extends ClientSocket implements HttpStream
     {
         parent::__construct($url);
         
-        $this->secure = $url->getScheme() == 'https';
-
         $this->setTimeout($timeout);
         $this->setPath($url->getPath());
         $this->setProtocol($proto);
@@ -50,7 +30,7 @@ class HttpClient extends ClientSocket implements HttpStream
         $this->reset();
         $this->resetHeaders();
     }
-
+    
     /**
      *
      * {@inheritdoc}
@@ -58,10 +38,6 @@ class HttpClient extends ClientSocket implements HttpStream
      */
     public function request(string $requestType)
     {
-        if ($this->secure) {
-            throw new HttpException("Secure connection using HTTPs is not supported!");
-        }
-        
         $this->requestImpl($requestType);
     }
 }

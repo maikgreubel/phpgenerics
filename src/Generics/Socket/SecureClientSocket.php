@@ -1,27 +1,15 @@
 <?php
-
-/**
- * This file is part of the PHP Generics package.
- *
- * @package Generics
- */
 namespace Generics\Socket;
 
-/**
- * This class provides a basic client socket implementation
- *
- * @author Maik Greubel <greubel@nkey.de>
- */
-class ClientSocket extends Socket
+class SecureClientSocket extends SecureSocket
 {
-
     /**
      * Whether the socket is connected
      *
      * @var boolean
      */
     private $conntected;
-
+    
     /**
      * Create a new client socket
      *
@@ -40,7 +28,7 @@ class ClientSocket extends Socket
             parent::__construct($endpoint);
         }
     }
-
+    
     /**
      * Connect to remote endpoint
      *
@@ -48,13 +36,6 @@ class ClientSocket extends Socket
      */
     public function connect()
     {
-        if (!is_resource($this->handle)) {
-            throw new SocketException("Socket is not available");
-        }
-        if (! @socket_connect($this->handle, $this->endpoint->getAddress(), $this->endpoint->getPort())) {
-            $code = socket_last_error($this->handle);
-            throw new SocketException(socket_strerror($code), array(), $code);
-        }
         $this->conntected = true;
     }
 
@@ -71,7 +52,7 @@ class ClientSocket extends Socket
         
         $this->close();
     }
-
+    
     /**
      * Whether the client is connected
      *
@@ -81,7 +62,7 @@ class ClientSocket extends Socket
     {
         return $this->conntected;
     }
-
+    
     /**
      *
      * @see \Generics\Socket\ClientSocket::disconnect()
@@ -91,7 +72,7 @@ class ClientSocket extends Socket
         parent::close();
         $this->conntected = false;
     }
-
+    
     /**
      *
      * {@inheritdoc}

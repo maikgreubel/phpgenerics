@@ -37,6 +37,23 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
+     * @expectedException Generics\Socket\SocketException
+     * @expectedException Socket is not available
+     */
+    public function testRequestAfterClose()
+    {
+        $url = new Url('httpbin.org', 80);
+        
+        $http = new HttpClient($url);
+        $http->setTimeout(2);
+        
+        $http->close();
+        
+        $http->request('GET');
+    }
+    
+    /**
+     * @test
      */
     public function testRetrieveHeaders()
     {
