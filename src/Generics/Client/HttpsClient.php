@@ -1,10 +1,20 @@
 <?php
+/**
+ * This file is part of the PHP Generics package.
+ *
+ * @package Generics
+ */
 namespace Generics\Client;
 
 use Generics\Socket\Url;
 use Generics\Socket\SecureClientSocket;
 use Generics\Streams\HttpStream;
 
+/**
+ * This class provides a https client connection
+ *
+ * @author Maik Greubel <greubel@nkey.de>
+ */
 class HttpsClient extends SecureClientSocket implements HttpStream
 {
     use HttpClientTrait;

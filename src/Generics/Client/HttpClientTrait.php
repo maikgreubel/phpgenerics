@@ -1,10 +1,20 @@
 <?php
+/**
+ * This file is part of the PHP Generics package.
+ *
+ * @package Generics
+ */
 namespace Generics\Client;
 
 use Generics\Streams\InputOutputStream;
 use Generics\Streams\InputStream;
 use Generics\Streams\MemoryStream;
 
+/**
+ * This trait provides common http(s) client functionality
+ *
+ * @author Maik Greubel <greubel@nkey.de>
+ */
 trait HttpClientTrait
 {
     use HttpHeadersTrait;

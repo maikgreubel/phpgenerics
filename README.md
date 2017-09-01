@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/maikgreubel/phpgenerics.svg?branch=master)](https://travis-ci.org/maikgreubel/phpgenerics)
 [![Code Coverage](https://scrutinizer-ci.com/g/maikgreubel/phpgenerics/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/maikgreubel/phpgenerics/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maikgreubel/phpgenerics/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maikgreubel/phpgenerics/?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/55e2f9bec6d8f2001d000350/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55e2f9bec6d8f2001d000350)
+[![Requirements Status](https://requires.io/github/maikgreubel/phpgenerics/requirements.svg?branch=master)](https://requires.io/github/maikgreubel/phpgenerics/requirements/?branch=master)
 
 PHP Generics
 ==

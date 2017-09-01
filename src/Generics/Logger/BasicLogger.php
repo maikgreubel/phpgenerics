@@ -1,10 +1,20 @@
 <?php
+/**
+ * This file is part of the PHP Generics package.
+ *
+ * @package Generics
+ */
 namespace Generics\Logger;
 
 use Generics\Streams\MemoryStream;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 
+/**
+ * This abstract class provides a basic logger functionality
+ *
+ * @author Maik Greubel <greubel@nkey.de>
+ */
 abstract class BasicLogger extends AbstractLogger
 {
 

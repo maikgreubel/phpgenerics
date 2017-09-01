@@ -1,4 +1,9 @@
 <?php
+/**
+ * This file is part of the PHP Generics package.
+ *
+ * @package Generics
+ */
 namespace Generics\Socket;
 
 use Composer\CaBundle\CaBundle;
@@ -7,6 +12,11 @@ use Generics\Streams\SocketStream;
 use Countable;
 use Exception;
 
+/**
+ * This abstract class provides basic secure socket functionality
+ *
+ * @author Maik Greubel <greubel@nkey.de>
+ */
 abstract class SecureSocket implements SocketStream
 {
 
@@ -118,7 +128,7 @@ abstract class SecureSocket implements SocketStream
         
         foreach ($meta as $data) {
             if (strstr($data, 'Content-Length:')) {
-                return intval(trim(substr($data, $start, 15)));
+                return intval(trim(substr($data, 15)));
             }
         }
         throw new SocketException("Cannot count elements of stream client");

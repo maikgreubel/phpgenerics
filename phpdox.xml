@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE phpdox>
 <phpdox xmlns="http://xml.phpdox.net/config">
-	<bootstrap>
-		<require file="./vendor/autoload.php" />
-	</bootstrap>
+    <bootstrap>
+        <require file="./vendor/autoload.php" />
+    </bootstrap>
 
-	<project name="PHP Generics API Documentation" source="${basedir}/src"
-		workdir="${basedir}/build/api/xml">
-		<collector backend="parser" />
+    <project name="PHP Generics API Documentation" source="${basedir}/src"
+        workdir="${basedir}/build/api/xml">
+        <collector backend="parser">
+            <inheritance resolve="false" />
+        </collector>
 
-		<generator output="${basedir}/build/api">
-			<enrich base="${basedir}/build">
-				<source type="build"/>
-				<source type="checkstyle">
-					<file name="logs/checkstyle.xml" /> 
-				</source>
-				<source type="pmd">
-					<file name="logs/pmd.xml" />
-				</source>
-				<source type="phploc">
-					<file name="logs/phploc.xml" />
-				</source>
-				<source type="phpunit">
-					<coverage path="coverage/xml" />
-				</source>
-			</enrich>
+        <generator output="${basedir}/build/api">
+            <enrich base="${basedir}/build/logs">
+                <source type="build" />
+                <source type="git">
+                    <history enabled="true" limit="5" />
+                </source>
+                <source type="phpcs" />
+                <source type="pmd" />
+                <source type="phploc" />
+                <source type="phpunit">
+                    <coverage path="coverage/xml" />
+                </source>
+            </enrich>
 
-			<build engine="html" output="html" />
-		</generator>
-	</project>
+            <build engine="html" output="html" />
+
+            <build engine="xml" enabled="true" output="xml" />
+        </generator>
+    </project>
 </phpdox>

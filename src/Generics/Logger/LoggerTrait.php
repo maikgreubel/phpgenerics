@@ -10,6 +10,11 @@ namespace Generics\Logger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
+/**
+ * This trait provides common logger functionalitys
+ *
+ * @author Maik Greubel <greubel@nkey.de>
+ */
 trait LoggerTrait
 {
 

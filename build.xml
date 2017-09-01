@@ -57,11 +57,13 @@
 	<target name="clean" unless="clean.done" description="Cleanup build artifacts">
 		<delete dir="${basedir}/build/api" />
 		<delete dir="${basedir}/build/coverage" />
+        <delete dir="${basedir}/build/docs-xml" />
 		<delete dir="${basedir}/build/logs" />
 		<delete dir="${basedir}/build/pdepend" />
 		<delete dir="${basedir}/build/phpdox" />
 		<delete dir="${basedir}/coverage" />
 		<delete dir="${basedir}/API_Documentation" />
+		<delete dir="${basedir}/docs" />
 		<property name="clean.done" value="true" />
 	</target>
 
@@ -71,9 +73,11 @@
 		description="Prepare for build">
 		<mkdir dir="${basedir}/build/api" />
 		<mkdir dir="${basedir}/build/coverage" />
+        <mkdir dir="${basedir}/build/docs-xml" />
 		<mkdir dir="${basedir}/build/logs" />
 		<mkdir dir="${basedir}/build/pdepend" />
 		<mkdir dir="${basedir}/build/phpdox" />
+		<mkdir dir="${basedir}/docs" />
 		<property name="prepare.done" value="true" />
 	</target>
 
@@ -264,16 +268,16 @@
 				<arg value="--log-junit" />
 				<arg path="${basedir}/build/logs/junit.xml" />
 				<arg value="--coverage-html" />
-				<arg path="${basedir}/build/coverage/html" />
+				<arg path="${basedir}/build/logs/coverage/html" />
 				<arg value="--coverage-xml" />
-				<arg path="${basedir}/build/coverage/xml" />
+				<arg path="${basedir}/build/logs/coverage/xml" />
 			</args>
 		</call-php>
 	</target>
 
 	<!-- ========================================================================================================= -->
 
-	<target name="phpdox" depends="update-deps,phploc-ci,phpcs-ci,phpmd-ci"
+	<target name="phpdox" depends="update-deps,phploc-ci,phpcs-ci,phpmd-ci,phpunit"
 		description="Generate project documentation using phpDox">
 		<call-php>
 			<args>

@@ -1,4 +1,9 @@
 <?php
+/**
+ * This file is part of the PHP Generics package.
+ *
+ * @package Generics
+ */
 namespace Generics\Logger;
 
 /**

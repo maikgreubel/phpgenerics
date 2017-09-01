@@ -1,15 +1,26 @@
 <?php
+/**
+ * This file is part of the PHP Generics package.
+ *
+ * @package Generics
+ */
 namespace Generics\Socket;
 
+/**
+ * This class provides a secure socket client
+ *
+ * @author Maik Greubel <greubel@nkey.de>
+ */
 class SecureClientSocket extends SecureSocket
 {
+
     /**
      * Whether the socket is connected
      *
      * @var boolean
      */
     private $conntected;
-    
+
     /**
      * Create a new client socket
      *
@@ -28,7 +39,7 @@ class SecureClientSocket extends SecureSocket
             parent::__construct($endpoint);
         }
     }
-    
+
     /**
      * Connect to remote endpoint
      *
@@ -52,17 +63,17 @@ class SecureClientSocket extends SecureSocket
         
         $this->close();
     }
-    
+
     /**
      * Whether the client is connected
      *
      * @return bool
      */
-    public function isConnected():bool
+    public function isConnected(): bool
     {
         return $this->conntected;
     }
-    
+
     /**
      *
      * @see \Generics\Socket\ClientSocket::disconnect()
@@ -72,13 +83,13 @@ class SecureClientSocket extends SecureSocket
         parent::close();
         $this->conntected = false;
     }
-    
+
     /**
      *
      * {@inheritdoc}
      * @see \Generics\Socket\Socket::isWriteable()
      */
-    public function isWriteable():bool
+    public function isWriteable(): bool
     {
         if (! $this->isConnected()) {
             return false;

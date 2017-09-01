@@ -1,8 +1,18 @@
 <?php
+/**
+ * This file is part of the PHP Generics package.
+ *
+ * @package Generics
+ */
 namespace Generics\Client;
 
 use Generics\Util\Arrays;
 
+/**
+ * This trait provides common http(s) header functionality
+ *
+ * @author Maik Greubel <greubel@nkey.de>
+ */
 trait HttpHeadersTrait
 {
 
