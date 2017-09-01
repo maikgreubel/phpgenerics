@@ -91,7 +91,6 @@ trait HttpHeadersTrait
         }
         
         if (! array_key_exists('Accept-Encoding', $this->headers)) {
-            $encoding = "";
             if (function_exists('gzinflate')) {
                 $encoding = 'gzip, deflate';
             } else {

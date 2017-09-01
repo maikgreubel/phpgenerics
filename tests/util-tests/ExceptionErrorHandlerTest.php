@@ -103,12 +103,7 @@ class ExceptionErrorHandlerTest extends TestCase
     {
         $this->expectException(DeprecatedException::class);
         
-        if(substr(phpversion(), 0, 3) === '7.0') {
-            $b = new B();
-        }
-        else if(substr(phpversion(), 0, 3) === '7.1') {
-            C::bar();
-        }
+        C::bar();
     }
 
     /**

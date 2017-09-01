@@ -4,6 +4,7 @@ namespace Generics\Tests;
 use Generics\Client\Session;
 use PHPUnit\Framework\TestCase;
 use ArgumentCountError;
+use TypeError;
 
 class SessionsTest extends TestCase
 {
@@ -27,7 +28,12 @@ class SessionsTest extends TestCase
      */
     public function testNoSessionProvided()
     {
-        $this->expectException(ArgumentCountError::class);
+        if(substr(phpversion(), 0, 3) === '7.1') {
+            $this->expectException(ArgumentCountError::class);
+        }
+        else if(substr(phpversion(), 0, 3) === '7.0') {
+            $this->expectException(TypeError::class);
+        }
         $session = new Session();
     }
 }
