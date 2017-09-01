@@ -9,6 +9,8 @@ namespace Generics\Client;
 use Generics\Streams\InputOutputStream;
 use Generics\Streams\InputStream;
 use Generics\Streams\MemoryStream;
+use Generics\Socket\Endpoint;
+use Generics\Socket\SocketException;
 
 /**
  * This trait provides common http(s) client functionality
@@ -53,7 +55,7 @@ trait HttpClientTrait
      * @var int
      */
     private $timeout;
-    
+
     /**
      * Load headers from remote and return it
      *
@@ -109,7 +111,7 @@ trait HttpClientTrait
         }
         $this->timeout = $timeout;
     }
-    
+
     /**
      *
      * {@inheritdoc}
@@ -380,11 +382,67 @@ trait HttpClientTrait
 
     /**
      * Set the path on remote server
-     * 
+     *
      * @param string $path
      */
     private function setPath(string $path)
     {
         $this->path = $path;
     }
+
+    /**
+     *
+     * {@inheritdoc}
+     * @see \Generics\Streams\HttpStream::request()
+     */
+    abstract public function request(string $requestType);
+
+    /**
+     * Get the socket endpoint
+     *
+     * @return \Generics\Socket\Endpoint
+     */
+    abstract public function getEndpoint(): Endpoint;
+
+    /**
+     *
+     * {@inheritdoc}
+     * @see \Generics\Streams\InputStream::read()
+     */
+    abstract public function read($length = 1, $offset = null): string;
+
+    /**
+     * Whether the client is connected
+     *
+     * @return bool
+     */
+    abstract public function isConnected(): bool;
+    
+    /**
+     * Connect to remote endpoint
+     *
+     * @throws SocketException
+     */
+    abstract public function connect();
+    
+    /**
+     * Disconnects the socket
+     *
+     * @throws SocketException
+     */
+    abstract public function disconnect();
+    
+    /**
+     *
+     * {@inheritdoc}
+     * @see \Generics\Streams\OutputStream::write()
+     */
+    abstract public function write($buffer);
+    
+    /**
+     *
+     * {@inheritdoc}
+     * @see \Generics\Streams\Stream::ready()
+     */
+    abstract public function ready(): bool;
 }

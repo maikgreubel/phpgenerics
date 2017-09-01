@@ -60,7 +60,7 @@ abstract class SecureSocket implements SocketStream
      */
     public function read($length = 1, $offset = null): string
     {
-        return stream_get_contents($this->handle, $length, $offset == null ? - 1 : intval($offset));
+        return stream_get_contents($this->handle, $length, $offset === null ? - 1 : intval($offset));
     }
 
     /**
@@ -227,7 +227,7 @@ abstract class SecureSocket implements SocketStream
         $this->handle = stream_socket_client(sprintf('ssl://%s:%d', $this->endpoint->getAddress(), $this->endpoint->getPort()), //
 $error, $errorString, 2, STREAM_CLIENT_CONNECT, $this->streamContext);
         
-        if ($error) {
+        if ($error > 0) {
             throw new SocketException($errorString, array(), $error);
         }
     }
