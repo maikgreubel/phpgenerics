@@ -15,7 +15,7 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - phpunit --coverage-text --coverage-clover=coverage.clover
+  - php vendor/phpunit/phpunit/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
-  - php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+  - php vendor/scrutinizer/ocular/bin/ocular code-coverage:upload --format=php-clover coverage.clover
