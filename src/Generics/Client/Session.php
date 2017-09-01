@@ -17,12 +17,20 @@ class Session
 {
 
     private $sessionId;
+    
+    /**
+     * Session variable container
+     * @var array
+     */
+    private $sessionContainer;
 
     /**
      * Create a new session provider
      */
-    public function __construct()
-    {}
+    public function __construct(array &$container)
+    {
+        $this->sessionContainer = &$container;
+    }
 
     /**
      * Create session
@@ -49,7 +57,7 @@ class Session
      */
     public function put($key, $value)
     {
-        $_SESSION[$key] = $value;
+        $this->sessionContainer[$key] = $value;
     }
 
     /**
@@ -60,10 +68,10 @@ class Session
      */
     public function get($key)
     {
-        if (! isset($_SESSION[$key])) {
+        if (! isset($this->sessionContainer[$key])) {
             return null;
         }
         
-        return $_SESSION[$key];
+        return $this->sessionContainer[$key];
     }
 }

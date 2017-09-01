@@ -121,7 +121,7 @@ abstract class Socket implements SocketStream
      * {@inheritdoc}
      * @see \Generics\Streams\OutputStream::isWriteable()
      */
-    public function isWriteable():bool
+    public function isWriteable(): bool
     {
         if (! is_resource($this->handle)) {
             return false;
@@ -208,7 +208,7 @@ abstract class Socket implements SocketStream
      *
      * @return \Generics\Socket\Endpoint
      */
-    public function getEndpoint()
+    public function getEndpoint(): Endpoint
     {
         return $this->endpoint;
     }
