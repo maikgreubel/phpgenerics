@@ -219,4 +219,19 @@ class MemoryStream implements InputOutputStream
     {
         return true;
     }
+
+    /**
+     * Retrieve the whole memory string content
+     * 
+     * @return string
+     */
+    public function slurp(): string
+    {
+        $str = "";
+        while ($this->ready()) {
+            $str .= $this->read($this->count());
+        }
+        
+        return $str;
+    }
 }

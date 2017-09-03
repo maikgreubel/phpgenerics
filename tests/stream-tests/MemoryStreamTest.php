@@ -94,6 +94,19 @@ class MemoryStreamTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals($in, $in2);
     }
+    
+    public function testSlurp()
+    {
+        $fis = new FileInputStream($this->testFile);
+        
+        $in = $fis->read(1024);
+        
+        $ms = new MemoryStream($fis);
+        
+        $str = $ms->slurp();
+        
+        $this->assertEquals($in, $str);
+    }
 
     /**
      * @expectedException \Generics\Streams\StreamException

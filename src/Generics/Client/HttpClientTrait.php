@@ -229,10 +229,14 @@ trait HttpClientTrait
             }
         }
         
+        $size = $this->payload->count();
+        if($size == 0) {
+            return;
+        }
         // Set pointer to start
         $this->payload->reset();
         
-        $mayCompressed = $this->payload->read($this->payload->count());
+        $mayCompressed = $this->payload->read($size);
         switch ($this->getContentEncoding()) {
             case 'gzip':
                 $uncompressed = gzdecode(strstr($mayCompressed, "\x1f\x8b"));
