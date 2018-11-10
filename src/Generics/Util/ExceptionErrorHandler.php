@@ -21,7 +21,7 @@ use ErrorException;
  * This class provides a custom error handler for exception handling rather than internal error handling
  *
  * @author Maik Greubel <greubel@nkey.de>
- *        
+ *
  */
 class ExceptionErrorHandler
 {

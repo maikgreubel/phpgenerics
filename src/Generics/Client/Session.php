@@ -11,13 +11,13 @@ namespace Generics\Client;
  * This class provides session provider
  *
  * @author Maik Greubel <greubel@nkey.de>
- *        
+ *
  */
 class Session
 {
 
     private $sessionId;
-    
+
     /**
      * Session variable container
      * @var array
@@ -71,7 +71,7 @@ class Session
         if (! isset($this->sessionContainer[$key])) {
             return null;
         }
-        
+
         return $this->sessionContainer[$key];
     }
 }

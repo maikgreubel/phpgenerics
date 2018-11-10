@@ -1,5 +1,5 @@
 <?php
-set_include_path( get_include_path() . PATH_SEPARATOR . realpath('../../src') );
+set_include_path(get_include_path() . PATH_SEPARATOR . realpath('../../src'));
 
 require_once 'Generics/Socket/Socket.php';
 require_once 'Generics/Socket/ServerSocket.php';

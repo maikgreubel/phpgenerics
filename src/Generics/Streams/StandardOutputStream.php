@@ -19,14 +19,14 @@ class StandardOutputStream implements OutputStream
 
     /**
      * Interceptor
-     * 
+     *
      * @var StreamInterceptor
      */
     private $interceptor;
 
     /**
      * The standard out channel
-     * 
+     *
      * @var resource
      */
     private $stdout;

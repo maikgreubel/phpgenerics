@@ -3,6 +3,7 @@ language: php
 php:
   - 7.0
   - 7.1
+  - 7.2
 
 sudo: false
 
@@ -10,8 +11,8 @@ matrix:
   fast_finish: true
 
 before_script:
-  - wget http://getcomposer.org/composer.phar
-  - php composer.phar install --dev --no-interaction
+  - composer install --no-interaction
+  - ./vendor/bin/phpcs -n --standard=PSR2 src/ tests/ --ignore=ExceptionErrorHandlerTest
 
 script:
   - mkdir -p build/logs

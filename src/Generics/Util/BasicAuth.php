@@ -14,7 +14,7 @@ use Generics\Client\HttpStatus;
  * This class provides http basic auth provider
  *
  * @author Maik Greubel <greubel@nkey.de>
- *        
+ *
  */
 class BasicAuth
 {

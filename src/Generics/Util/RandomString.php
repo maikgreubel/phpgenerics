@@ -10,7 +10,7 @@ namespace Generics\Util;
  * This utility class helps to generate a random string
  *
  * @author Maik Greubel <greubel@nkey.de>
- *        
+ *
  */
 class RandomString
 {
@@ -40,7 +40,7 @@ class RandomString
      *            Type of allowed characters
      * @param boolean $repeatable
      *            Whether a character may be reused
-     *            
+     *
      * @return string The generated string
      */
     public static function generate($length = 8, $allowed = RandomString::ASCII, $repeatable = true): string
