@@ -222,7 +222,7 @@ class MemoryStream implements InputOutputStream
 
     /**
      * Retrieve the whole memory string content
-     * 
+     *
      * @return string
      */
     public function slurp(): string

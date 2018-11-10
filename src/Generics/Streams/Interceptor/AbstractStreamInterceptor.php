@@ -20,7 +20,8 @@ abstract class AbstractStreamInterceptor implements StreamInterceptor
      * @see \Generics\Streams\Interceptor\StreamInterceptor::onClose()
      */
     public function onClose()
-    {}
+    {
+    }
 
     /**
      *
@@ -28,5 +29,6 @@ abstract class AbstractStreamInterceptor implements StreamInterceptor
      * @see \Generics\Streams\Interceptor\StreamInterceptor::onCreate()
      */
     public function onCreate()
-    {}
+    {
+    }
 }

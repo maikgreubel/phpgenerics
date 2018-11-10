@@ -27,7 +27,7 @@ final class HttpClientFactory
      *
      * @param Url $url
      *            The url to create a http(s) client instance for
-     *            
+     *
      * @return HttpStream
      */
     public static function get(Url $url): HttpStream

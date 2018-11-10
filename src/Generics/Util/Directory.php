@@ -41,7 +41,7 @@ class Directory
      *
      * @param string $filter
      *            The filter for entries to skip
-     *            
+     *
      * @return bool
      *
      * @throws DirectoryException
@@ -70,7 +70,7 @@ class Directory
      *
      * @param boolean $recursive
      *            Whether to remove it if its not empty
-     *            
+     *
      * @throws DirectoryException
      */
     public function remove($recursive = false)
@@ -118,7 +118,7 @@ class Directory
      *
      * @param boolean $recursive
      *            Create also sub directories
-     *            
+     *
      * @throws DirectoryException
      */
     public function create($recursive = false, $mode = 0755)
@@ -173,7 +173,7 @@ class Directory
      *
      * @param string $fileName
      *            The file name to check
-     *            
+     *
      * @throws DirectoryException
      *
      * @return bool

@@ -230,7 +230,7 @@ trait HttpClientTrait
         }
         
         $size = $this->payload->count();
-        if($size == 0) {
+        if ($size == 0) {
             return;
         }
         // Set pointer to start

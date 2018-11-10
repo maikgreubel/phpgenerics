@@ -46,8 +46,8 @@ abstract class BasicLogger extends AbstractLogger
     private static function checkLevel($level)
     {
         if ($level != LogLevel::ALERT && $level != LogLevel::CRITICAL && $level != LogLevel::DEBUG && //
-$level != LogLevel::EMERGENCY && $level != LogLevel::ERROR && $level != LogLevel::INFO && //
-$level != LogLevel::NOTICE && $level != LogLevel::WARNING) {
+        $level != LogLevel::EMERGENCY && $level != LogLevel::ERROR && $level != LogLevel::INFO && //
+        $level != LogLevel::NOTICE && $level != LogLevel::WARNING) {
             throw new \Psr\Log\InvalidArgumentException("Invalid log level provided!");
         }
     }
@@ -61,7 +61,7 @@ $level != LogLevel::NOTICE && $level != LogLevel::WARNING) {
      *            The message to log
      * @param array $context
      *            The context of logging
-     *            
+     *
      * @return \Generics\Streams\MemoryStream The formatted message
      */
     protected function getMessage($level, $message, array $context = array()): MemoryStream
