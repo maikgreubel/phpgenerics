@@ -20,7 +20,7 @@ class ServerSocket extends Socket
      *
      * @param Endpoint $endpoint
      *            The endpoint to use
-     *            
+     *
      * @throws SocketException In case of creation of socket has failed or socket options could not be set.
      */
     public function __construct(Endpoint $endpoint)

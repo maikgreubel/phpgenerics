@@ -49,7 +49,7 @@ class CachedStreamInterceptor extends AbstractStreamInterceptor
 
     /**
      * Retrieve the cache buffer
-     * 
+     *
      * @return string
      */
     public function getCache(): string

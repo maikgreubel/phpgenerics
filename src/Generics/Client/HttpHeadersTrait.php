@@ -149,7 +149,7 @@ trait HttpHeadersTrait
 
     /**
      * Retrieve content type from headers
-     * 
+     *
      * @return string
      */
     private function getContentEncoding(): string

@@ -169,7 +169,7 @@ abstract class SecureSocket implements SocketStream
      */
     public function write($buffer)
     {
-        if(!$this->isWriteable()) {
+        if (!$this->isWriteable()) {
             throw new SocketException("Stream is not ready for writing");
         }
         $len = strlen($buffer);
@@ -224,8 +224,14 @@ abstract class SecureSocket implements SocketStream
     {
         $this->prepareStreamContext();
         
-        $this->handle = stream_socket_client(sprintf('ssl://%s:%d', $this->endpoint->getAddress(), $this->endpoint->getPort()), //
-$error, $errorString, 2, STREAM_CLIENT_CONNECT, $this->streamContext);
+        $this->handle = stream_socket_client(
+            sprintf('ssl://%s:%d', $this->endpoint->getAddress(), $this->endpoint->getPort()), //
+            $error,
+            $errorString,
+            2,
+            STREAM_CLIENT_CONNECT,
+            $this->streamContext
+        );
         
         if ($error > 0) {
             throw new SocketException($errorString, array(), $error);

@@ -13,7 +13,7 @@ use ArrayObject;
  * This class provides some array utility functions
  *
  * @author Maik Greubel <greubel@nkey.de>
- *        
+ *
  */
 class Arrays
 {
@@ -39,8 +39,9 @@ class Arrays
      */
     public static function hasElement($array, $element): bool
     {
-        if (! is_array($array))
+        if (! is_array($array)) {
             return false;
+        }
         
         return isset($array[$element]) && strlen($array[$element]) > 0;
     }

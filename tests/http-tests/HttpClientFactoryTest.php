@@ -9,10 +9,6 @@ use Generics\Client\HttpsClient;
 
 class HttpClientFactoryTest extends TestCase
 {
-
-    /**
-     * @test
-     */
     public function testHttpFactory()
     {
         $url = UrlParser::parseUrl("http://httpbin.org");
@@ -20,9 +16,6 @@ class HttpClientFactoryTest extends TestCase
         $this->assertInstanceOf(HttpClient::class, $client);
     }
 
-    /**
-     * @test
-     */
     public function testHttpsFactory()
     {
         $url = UrlParser::parseUrl("https://httpbin.org");
